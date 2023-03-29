@@ -9,10 +9,10 @@ inorder to reduce the time of establishing a new connection.
 ***/
 const connection = mysql.createPool({
     connectionLimit: 10,
-    host: "localhost",
-    database: "full_stack_todo",
-    user: "root",
-    password: "",
+    user: process.env.USER,
+    host: process.env.SQLHOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
 });
 
 export default connection;

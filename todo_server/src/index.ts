@@ -1,17 +1,23 @@
+import cors from 'cors';
+import * as dotenv from 'dotenv';
 import bodyparser from 'body-parser';
 import { readFile } from "fs/promises";
 import todoRoute from './routes/todo/todo-apis';
 import express, { NextFunction, Request, Response } from "express";
 
-const port = 5001;
+
+dotenv.config();
 const app = express();
+const port = process.env.PORT ?? 3001;
 
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: false }));
-
+app.use(cors());
+app.use(bodyparser.json()); // ** app.use(express.json()); **// @latest Express(since 4.16.0)!
+app.use(bodyparser.urlencoded({ extended: false })); // ** app.use(express.urlencoded()); **// @latest Express(since 4.16.0)!
 
 app.use('/todo', todoRoute);
 app.get('/', async function (req: Request, res: Response, next: NextFunction) {
+    console.log(`QUERY => ${JSON.stringify(req.query)}`);
+    console.log(`BODY => ${JSON.stringify(req.body)}`);
     res.send(await readFile('placeholder/placeholder.html', 'utf8'));
 });
 

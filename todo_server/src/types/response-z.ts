@@ -1,14 +1,15 @@
-import { NextFunction, Request, Response } from 'express';
 import { z } from "zod";
+import { NextFunction, Request, Response } from 'express';
 
 export const ResponseWrapperSchema = <T extends z.ZodTypeAny>(dataSchema?: T) => {
     return z.object({
         status: z.number().int().gt(99).lt(600),
         msg: z.string(),
-        error: z.object({}).passthrough(),
+        error: z.object({}).passthrough().nullish(),
         data: dataSchema ?? z.object({}).nullish().default({}),
     }).strict();
 };
+
 
 export type BuisnessCallback<T> = (req: Request, res: Response, next?: NextFunction) => Promise<T>;
 type WrapperProps<T> = {
@@ -25,7 +26,6 @@ export const wrapperFunction = <T>(props: WrapperProps<T>) =>
             const safeData = ResponseWrapperSchema(schema).safeParse({
                 status: 200,
                 msg: successMsg,
-                error: {},
                 data: data,
             });
             if (safeData.success) {
