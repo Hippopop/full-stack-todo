@@ -1,15 +1,22 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const todo_js_1 = require("../../database/todo.js");
-const response_z_js_1 = require("../../types/response-z.js");
-const todo_z_js_1 = require("../../types/todo-z.js");
-const todoRoute = (0, express_1.Router)();
-todoRoute.get('/all_todos', (0, response_z_js_1.wrapperFunction)({
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+import { Router } from "express";
+import { getAllTodos } from "../../database/todo.js";
+import { wrapperFunction } from "../../types/response-z.js";
+import { TODOSchema } from "../../types/todo-z.js";
+const todoRoute = Router();
+todoRoute.get('/all_todos', wrapperFunction({
     errorMsg: "Sorry! Couldn't get the TODOs.",
     successMsg: 'Request Successful! Got the TODOs.',
-    schema: todo_z_js_1.TODOSchema.array(),
-    buisnessLogic: async (req, res, next) => await (0, todo_js_1.getAllTodos)(),
+    schema: TODOSchema.array(),
+    buisnessLogic: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () { return yield getAllTodos(); }),
 }));
-exports.default = todoRoute;
+export default todoRoute;
 //# sourceMappingURL=todo-apis.js.map

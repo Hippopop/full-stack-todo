@@ -1,21 +1,26 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.wrapperFunction = exports.ResponseWrapperSchema = void 0;
-const zod_1 = require("zod");
-const ResponseWrapperSchema = (dataSchema) => {
-    return zod_1.z.object({
-        status: zod_1.z.number().int().gt(99).lt(600),
-        msg: zod_1.z.string(),
-        error: zod_1.z.object({}).passthrough().nullish(),
-        data: dataSchema ?? zod_1.z.object({}).nullish().default({}),
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+import { z } from "zod";
+export const ResponseWrapperSchema = (dataSchema) => {
+    return z.object({
+        status: z.number().int().gt(99).lt(600),
+        msg: z.string(),
+        error: z.object({}).passthrough().nullish(),
+        data: dataSchema !== null && dataSchema !== void 0 ? dataSchema : z.object({}).nullish().default({}),
     }).strict();
 };
-exports.ResponseWrapperSchema = ResponseWrapperSchema;
-const wrapperFunction = (props) => async (req, res, next) => {
+export const wrapperFunction = (props) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { schema, successMsg, errorMsg, buisnessLogic } = props;
     try {
-        const data = await buisnessLogic(req, res);
-        const safeData = (0, exports.ResponseWrapperSchema)(schema).safeParse({
+        const data = yield buisnessLogic(req, res);
+        const safeData = ResponseWrapperSchema(schema).safeParse({
             status: 200,
             msg: successMsg,
             data: data,
@@ -27,7 +32,7 @@ const wrapperFunction = (props) => async (req, res, next) => {
     }
     catch (error) {
         console.log(error);
-        const safeData = (0, exports.ResponseWrapperSchema)().safeParse({
+        const safeData = ResponseWrapperSchema().safeParse({
             status: 500,
             msg: errorMsg,
             error: error,
@@ -38,8 +43,7 @@ const wrapperFunction = (props) => async (req, res, next) => {
         }
         else { }
     }
-};
-exports.wrapperFunction = wrapperFunction;
+});
 // ** QUICK GENERIC EXAMPLE!
 // const makeGetEndpoint = <T>(schema: z.Schema<T>, callback: (req: Request<any, any, any, T>, res: Response) => void) => (req: Request, res: Response) => {
 //     /* Handling will happen here! */
