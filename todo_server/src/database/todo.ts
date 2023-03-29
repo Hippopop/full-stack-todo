@@ -1,7 +1,7 @@
-import connectionConfig from './mysql-config'
+import connectionConfig from './mysql-config.js'
 
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
-import { TODO, TODOSchema } from '../types/todo-z';
+import { TODO, TODOSchema } from '../types/todo-z.js';
 
 
 const getAllTodoQuery = "SELECT * FROM `todos`";

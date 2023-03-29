@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { getAllTodos } from "../../database/todo";
-import { wrapperFunction } from "../../types/response-z";
-import { TODOSchema } from "../../types/todo-z";
+import { getAllTodos } from "../../database/todo.js";
+import { wrapperFunction } from "../../types/response-z.js";
+import { TODOSchema } from "../../types/todo-z.js";
 
 const todoRoute = Router();
 
