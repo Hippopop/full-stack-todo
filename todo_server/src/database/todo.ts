@@ -1,7 +1,7 @@
-import connectionConfig from './mysql-config.js'
+import connectionConfig from './mysql-config'
 
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
-import { TODO, TODOSchema } from '../types/todo-z.js';
+import { TODO, TODOSchema } from '../types/todo-z';
 
 
 const getAllTodoQuery = "SELECT * FROM `todos`";
@@ -30,7 +30,7 @@ const updateTodo = async (todo: TODO): Promise<TODO> => {
 
 const getAllTodos = async (): Promise<TODO[]> => {
     let dataList: TODO[] = [];
-    // *** Here we manually created a connection. And released it manually after the query!
+    // *** Here we manually created a connection. And released it manually after the query!    
     const connection = await connectionConfig.getConnection();
     const [rows, fields] = await connection.query<RowDataPacket[]>(getAllTodoQuery);
     rows.forEach((element) => {
@@ -38,7 +38,7 @@ const getAllTodos = async (): Promise<TODO[]> => {
         if (parsedModel.success) {
             dataList.push(parsedModel.data);
         } else {
-            // TODO: Handle ERROR!
+            // TODO : Handle ERROR!
         }
     });
 

@@ -18,6 +18,7 @@ type WrapperProps<T> = {
     errorMsg: string,
     buisnessLogic: BuisnessCallback<T>,
 }
+
 export const wrapperFunction = <T>(props: WrapperProps<T>) =>
     async (req: Request, res: Response, next: NextFunction) => {
         const { schema, successMsg, errorMsg, buisnessLogic } = props;
