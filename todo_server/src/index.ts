@@ -16,8 +16,6 @@ app.use(bodyparser.urlencoded({ extended: false })); // ** app.use(express.urlen
 
 app.use('/todo', todoRoute);
 app.get('/', async function (req: Request, res: Response, next: NextFunction) {
-    console.log(`QUERY => ${JSON.stringify(req.query)}`);
-    console.log(`BODY => ${JSON.stringify(req.body)}`);
     res.send(await readFile('placeholder/placeholder.html', 'utf8'));
 });
 
