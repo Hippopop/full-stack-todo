@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
 
 import 'widgets/navbar.dart';
 
@@ -14,20 +15,21 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).extension<ColorsTheme>();
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: currentChild,
       extendBody: true,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/outside'),
-        child: const Icon(
-          Icons.add, 
-        ),
-      ),
+      body: currentChild,
+      backgroundColor: Colors.transparent,
       bottomNavigationBar: NavigationBarWidget(
         currentPath: childPath,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.push('/outside'),
+        backgroundColor: theme?.primaryColor,
+        elevation: 0,
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
