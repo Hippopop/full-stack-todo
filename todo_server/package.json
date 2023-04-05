@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "A simple todo recording server.",
   "scripts": {
-    "build": "rmdir dist | npx tsc",
+    "build": "npm i | rmdir dist | npx tsc",
     "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node src/index.ts\""
   },
   "author": "Mostafijul Islam",
