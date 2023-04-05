@@ -8,7 +8,7 @@ import express, { NextFunction, Request, Response } from "express";
 
 dotenv.config();
 const app = express();
-const port = 8080/* process.env.PORT ?? 3001 */;
+const port = process.env.PORT ?? 8080;
 
 app.use(cors());
 app.use(bodyparser.json()); // ** app.use(express.json()); **// @latest Express(since 4.16.0)!
