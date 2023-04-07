@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyparser.json()); // ** app.use(express.json()); **// @latest Express(since 4.16.0)!
 app.use(bodyparser.urlencoded({ extended: false })); // ** app.use(express.urlencoded()); **// @latest Express(since 4.16.0)!
 
-app.use('/todo', todoRoute);
+app.use('/todos', todoRoute);
 app.get('/', async function (req: Request, res: Response, next: NextFunction) {
     res.send(await readFile('placeholder/placeholder.html', 'utf8'));
 });

@@ -15,4 +15,5 @@ jobs:
         with:
           workingDir: todo_client
           targetBranch: client-host
+          webRenderer: canvaskit
           baseHref: /full-stack-todo/
