@@ -1,35 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-
-import '../../../system/themes/extensions/colors_theme.dart';
+import 'package:todo_client/src/domain/model/todo/todo.dart';
+import 'package:todo_client/src/features/homepage/controllers/todo_provider.dart';
+import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
 
 class AllTodoScreen extends StatelessWidget {
   const AllTodoScreen({super.key});
 
-  // final String profileAvatarString =
-  // 'https://img.freepik.com/free-psd/3d-illustration-person-tank-top_23-2149436202.jpg?size=626&ext=jpg&ga=GA1.1.517707850.1679506246&semt=ais';
-  // 'https://img.freepik.com/free-vector/3d-cartoon-young-woman-smiling-circle-frame-character-illustration-vector-design_40876-3100.jpg?size=626&ext=jpg&ga=GA1.1.517707850.1679506246&semt=ais';
-  // 'https://img.freepik.com/free-psd/3d-illustration-person-with-glasses_23-2149436185.jpg?size=626&ext=jpg&ga=GA1.1.517707850.1679506246&semt=ais';
-  // 'https://img.freepik.com/free-photo/fun-3d-illustration-black-referee-with-mask_183364-81233.jpg?size=626&ext=jpg&ga=GA1.1.517707850.1679506246&semt=ais';
-  // 'https://img.freepik.com/free-vector/portrait-beautiful-girl-with-tiara-her-head_1196-849.jpg?size=626&ext=jpg&ga=GA1.1.517707850.1679506246&semt=ais';
+  final titleTextStyles = const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
+
   @override
   Widget build(BuildContext context) {
     final colorTheme = Theme.of(context).extension<ColorsTheme>();
     return ColoredBox(
       color: colorTheme?.backgroundColor ?? Colors.white70,
       child: MouseRegion(
-        onHover: (PointerHoverEvent event) {
-          // print(event.toString());//Local offset
-          // print(event.distanceMin);//0.0
-          // print(event.distanceMax);//0.0
-          // print(event.distance);//0.0
-          // print(event.delta);//distanceMoved
-          // print(event.localDelta);//DistanceMoved based on the whole screen
-          // print(event.orientation);//0.0
-          // print(event.original);//GlobalOffset ig.
-          // print(event.)
-        },
+        onHover: (PointerHoverEvent event) {},
         child: SafeArea(
           child: Column(
             children: [
@@ -38,115 +29,181 @@ class AllTodoScreen extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   margin: const EdgeInsets.only(
-                      left: 32, right: 32, top: 16, bottom: 40),
+                      left: 16, right: 16, top: 0, bottom: 40),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: colorTheme?.white,
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: MenuTheme(
-                    data: MenuThemeData(
-                      style: MenuStyle(
-                        elevation: MaterialStateProperty.resolveWith(
-                          (states) {
-                            print(states.toString());
-                            if (states.contains(MaterialState.focused))
-                              return 8;
-                          },
+                  constraints: const BoxConstraints(
+                    maxWidth: 980,
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Completed',
+                              style: titleTextStyles,
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'View More',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          height: 75,
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color:
-                                  colorTheme?.backgroundColor.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Row(
-                              children: const [
-                                Spacer(),
-                                DropdownMenu(
-                                  selectedTrailingIcon:
-                                      Icon(Icons.check_circle_outline),
-                                  enableFilter: false,
-                                  initialSelection: 'All',
-                                  hintText: 'Filter',
-                                  menuStyle: MenuStyle(),
-                                  leadingIcon: Icon(
-                                    Icons.search,
-                                  ),
-
-                                  // inputDecorationTheme: InputDecorationTheme(
-                                  // border: OutlineInputBorder(),
-                                  // ),
-                                  dropdownMenuEntries: [
-                                    DropdownMenuEntry(
-                                      value: 'All',
-                                      label: 'All',
-                                    ),
-                                    DropdownMenuEntry(
-                                      value: 'Completed',
-                                      label: 'Completed',
-                                    ),
-                                    DropdownMenuEntry(
-                                      value: 'Left',
-                                      label: 'Left',
-                                    ),
-                                  ],
-                                ),
-                                /* MenuBar(
-                                  children: [
-                                    Icon(Icons.abc),
-                                    Icon(Icons.access_alarm),
-                                    Icon(Icons.abc),
-                                    Icon(Icons.access_alarm),
-                                  ],
-                                  style: MenuStyle(),
-                                ), */
-                                MenuAnchor(menuChildren: [
-                                  Icon(Icons.abc),
-                                  Icon(Icons.access_alarm),
-                                  Icon(Icons.abc),
-                                  Icon(Icons.access_alarm),
-                                ]),
-                                /* DropdownButtonHideUnderline(
-                                  child: DropdownButton(
-                                    items: ["All", "Selected", "Done"]
-                                        .map(
-                                          (e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(
-                                              e,
-                                            ),
-                                          ),
-                                        )
-                                        .toList(),
-                                    value: 'All',
-                                    selectedItemBuilder: (context) =>
-                                        List.generate(
-                                      3,
-                                      (index) => Container(color: Colors.white),
-                                    ),
-                                    onChanged: (value) {},
-                                  ),
-                                ), */
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      const Expanded(child: TODOListView())
+                    ],
                   ),
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class TODOListView extends ConsumerWidget {
+  const TODOListView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final todos = ref.watch(todosProvider);
+    return ListView.separated(
+      itemBuilder: (context, index) => TODOCardWidget(
+        todo: todos[index],
+      ),
+      separatorBuilder: (_, __) => const SizedBox(height: 2),
+      itemCount: todos.length,
+    );
+  }
+}
+
+class TODOCardWidget extends ConsumerWidget {
+  const TODOCardWidget({
+    super.key,
+    required this.todo,
+  });
+  final Todo todo;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ColorsTheme? colorTheme = Theme.of(context).extension();
+    return Card(
+      color: colorTheme?.backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: SizedBox(
+        height: 150,
+        child: Row(
+          children: [
+            ColoredBox(
+              color: colorTheme?.extraColor ?? Colors.black,
+              child: const SizedBox(
+                width: 12,
+                height: double.infinity,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 6,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  todo.title,
+                                  style: TextStyle(
+                                    color: colorTheme?.extraTextColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  todo.description ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: colorTheme?.extraTextColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 24),
+                          IconButton(
+                            onPressed: () {
+                              ref.read(todosProvider.notifier).toggle(todo.id);
+                            },
+                            icon: Icon(
+                              Icons.check_circle_outline,
+                              color: (todo.state == 'completed')
+                                  ? colorTheme?.primaryColor
+                                  : Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      thickness: 0.5,
+                      color: colorTheme?.extraTextColor.withOpacity(0.5),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Today   11:25 PM',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: colorTheme?.extraTextColor,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 24),
+                          IconButton(
+                            onPressed: () => ref
+                                .read(todosProvider.notifier)
+                                .removeTodo(todo.id),
+                            icon: Icon(
+                              Icons.delete,
+                              color: colorTheme?.secoderyAccent,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

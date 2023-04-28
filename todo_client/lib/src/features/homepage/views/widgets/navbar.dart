@@ -23,10 +23,10 @@ class NavigationBarWidget extends ConsumerWidget {
       shape: const CircularNotchedRectangle(),
       child: BottomNavigationBar(
         showUnselectedLabels: false,
-        backgroundColor: colorTheme?.white,
-        selectedItemColor: colorTheme?.primaryColor,
+        backgroundColor: colorTheme?.primaryColor,
+        selectedItemColor: colorTheme?.white,
         currentIndex: navbarManager.index(currentPath),
-        unselectedItemColor: colorTheme?.extraTextColor,
+        unselectedItemColor: colorTheme?.white.withOpacity(0.5),
         onTap: (value) => context.go(navbarManager.path(value)),
         selectedLabelStyle: TextStyle(
           fontSize: 14,

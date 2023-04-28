@@ -11,8 +11,6 @@ class NavbarManager {
   ];
 
   int index(String path) => pathList.indexOf(path);
-
   String path(int index) => pathList[index];
-
   const NavbarManager();
 }
