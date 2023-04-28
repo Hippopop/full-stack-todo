@@ -38,15 +38,28 @@ final goRouterProvider = Provider<GoRouter>(
         GoRoute(
           path: '/outside',
           parentNavigatorKey: rootNavigatorKey,
-          builder: (context, state) => Scaffold(
-            body: Column(
-              children: [
-                Text('Outside Shell'),
-              ],
-            ),
-          ),
+          builder: (context, state) => const OutsideScreen(),
         ),
       ],
     );
   },
 );
+
+class OutsideScreen extends StatelessWidget {
+  const OutsideScreen({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          Text('Outside Shell'),
+        ],
+      ),
+    );
+  }
+}
