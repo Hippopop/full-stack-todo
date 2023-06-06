@@ -1,5 +1,0 @@
-.env
-.env.prod
-.env.feat
-node_modules
-package-lock.json
