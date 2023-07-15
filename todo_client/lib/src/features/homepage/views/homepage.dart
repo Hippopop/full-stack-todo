@@ -24,7 +24,10 @@ class HomePage extends StatelessWidget {
         currentPath: childPath,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/outside'),
+        heroTag: const ValueKey("#ADD_BUTTON"),
+        onPressed: () {
+          context.push('/outside');
+        },
         backgroundColor: theme?.primaryColor,
         elevation: 0,
         child: const Icon(Icons.add),

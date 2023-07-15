@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:todo_client/src/domain/model/todo/todo.dart';
-import 'package:todo_client/src/features/homepage/controllers/todo_provider.dart';
+import 'package:todo_client/src/features/homepage/controllers/todo_controller.dart';
+import 'package:todo_client/src/features/homepage/views/add_todo.dart';
 import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
+
+import 'widgets/single_todo_widget.dart';
 
 class AllTodoScreen extends StatelessWidget {
   const AllTodoScreen({super.key});
@@ -24,7 +26,7 @@ class AllTodoScreen extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              TODOScreenAppBar(colorTheme: colorTheme),
+              TodoScreenAppBar(colorTheme: colorTheme),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -50,7 +52,12 @@ class AllTodoScreen extends StatelessWidget {
                               style: titleTextStyles,
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showSearch(
+                                  context: context,
+                                  delegate: TodoSearch(),
+                                );
+                              },
                               child: const Text(
                                 'View More',
                                 style: TextStyle(
@@ -61,7 +68,9 @@ class AllTodoScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Expanded(child: TODOListView())
+                      const Expanded(
+                        child: TODOListView(),
+                      ),
                     ],
                   ),
                 ),
@@ -81,129 +90,15 @@ class TODOListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final todos = ref.watch(todosProvider);
-    return ListView.separated(
-      itemBuilder: (context, index) => TODOCardWidget(
-        todo: todos[index],
-      ),
-      separatorBuilder: (_, __) => const SizedBox(height: 2),
-      itemCount: todos.length,
-    );
-  }
-}
-
-class TODOCardWidget extends ConsumerWidget {
-  const TODOCardWidget({
-    super.key,
-    required this.todo,
-  });
-  final Todo todo;
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ColorsTheme? colorTheme = Theme.of(context).extension();
-    return Card(
-      color: colorTheme?.backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: SizedBox(
-        height: 150,
-        child: Row(
-          children: [
-            ColoredBox(
-              color: colorTheme?.extraColor ?? Colors.black,
-              child: const SizedBox(
-                width: 12,
-                height: double.infinity,
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  todo.title,
-                                  style: TextStyle(
-                                    color: colorTheme?.extraTextColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  todo.description ?? '',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: colorTheme?.extraTextColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 24),
-                          IconButton(
-                            onPressed: () {
-                              ref.read(todosProvider.notifier).toggle(todo.id);
-                            },
-                            icon: Icon(
-                              Icons.check_circle_outline,
-                              color: (todo.state == 'completed')
-                                  ? colorTheme?.primaryColor
-                                  : Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      thickness: 0.5,
-                      color: colorTheme?.extraTextColor.withOpacity(0.5),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Today   11:25 PM',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: colorTheme?.extraTextColor,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 24),
-                          IconButton(
-                            onPressed: () => ref
-                                .read(todosProvider.notifier)
-                                .removeTodo(todo.id),
-                            icon: Icon(
-                              Icons.delete,
-                              color: colorTheme?.secoderyAccent,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+    final todos = ref.watch(todosController);
+    return todos.when(
+      loading: () => const AstronautPlaceholder(),
+      error: (error, trace) => Container(),
+      data: (todos) => ListView.separated(
+        itemCount: todos.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 2),
+        itemBuilder: (context, index) => TODOCardWidget(
+          todo: todos[index],
         ),
       ),
     );
@@ -220,7 +115,7 @@ class AstronautPlaceholder extends StatelessWidget {
     return Transform.rotate(
       angle: 20,
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(0),
         child: ConstrainedBox(
           constraints: const BoxConstraints(
             maxWidth: 640,
@@ -236,8 +131,8 @@ class AstronautPlaceholder extends StatelessWidget {
   }
 }
 
-class TODOScreenAppBar extends StatelessWidget {
-  const TODOScreenAppBar({
+class TodoScreenAppBar extends StatelessWidget {
+  const TodoScreenAppBar({
     super.key,
     required this.colorTheme,
   });
