@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -92,8 +94,17 @@ class TODOListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final todos = ref.watch(todosController);
     return todos.when(
-      loading: () => const AstronautPlaceholder(),
-      error: (error, trace) => Container(),
+      loading: () => const Center(
+        child: CircleAvatar(),
+      ),
+      error: (error, trace) {
+        log("#Error", error: error, stackTrace: trace);
+        return Container(
+          child: Text(
+            error.toString(),
+          ),
+        );
+      },
       data: (todos) => ListView.separated(
         itemCount: todos.length,
         separatorBuilder: (_, __) => const SizedBox(height: 2),

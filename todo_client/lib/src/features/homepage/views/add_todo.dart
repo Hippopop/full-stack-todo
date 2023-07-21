@@ -1,14 +1,16 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_client/src/features/homepage/controllers/homepage_controllers.dart';
+import 'package:todo_client/src/repository/repository.dart';
 
-class AddTodoCard extends StatelessWidget {
+class AddTodoCard extends ConsumerWidget {
   const AddTodoCard({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Center(
       child: Material(
         clipBehavior: Clip.antiAlias,
@@ -24,19 +26,38 @@ class AddTodoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text('Outside Shell'),
-                TextButton(
-                  onPressed: () {
-                    // context.pop();
-                    showSearch(
-                      context: context,
-                      delegate: TodoSearch(),
-                    );
-                  },
-                  child: const Text(
-                    "Back",
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        showSearch(
+                          context: context,
+                          delegate: TodoSearch(),
+                        );
+                      },
+                      child: const Text(
+                        "Back",
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        const todo = Todo(
+                          id: 0,
+                          priority: "low",
+                          state: "active",
+                          title: "Maybe 3rd Ever TODO from APP!",
+                          description: "Now with description. Fun Huhh!"
+                        );
+                        ref.read(todosController.notifier).addTodo(todo);
+                      },
+                      child: const Text(
+                        "Create new TODO",
+                      ),
+                    ),
+                  ],
                 ),
-                OpenContainer(
+                /* OpenContainer(
                   transitionType: ContainerTransitionType.fadeThrough,
                   openBuilder: (context, action) => TextButton(
                     onPressed: action,
@@ -50,7 +71,7 @@ class AddTodoCard extends StatelessWidget {
                       "Open Container!",
                     ),
                   ),
-                ),
+                ), */
               ],
             ),
           ),

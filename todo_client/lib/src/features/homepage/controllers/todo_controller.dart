@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/data/todo_provider/todo_provider.dart';
 import 'package:todo_client/src/data/todo_provider/todo_repository_impl.dart';
 import 'package:todo_client/src/repository/repository.dart';
+import 'package:todo_client/src/utilities/scaffold_utilities.dart';
 
 /* class TodosNotifier extends Notifier<List<Todo>> {
   
@@ -134,11 +135,31 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
     ]; */
   }
 
-  void addTodo(Todo todo) {
-    // state = [...state, todo];
+  void addTodo(Todo todo) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final RequestHandler handler = ref.watch(requestHandlerProvider);
+      final TodoProvider provider = ref.watch(todoProvider(handler));
+      final res = await provider.addTodo(newTodo: todo);
+      if (res.isSuccess) {
+        showToastSuccess("TODO Successfully Added!");
+      }
+      return getAllTodos();
+    });
   }
 
-  void removeTodo(int todoId) {
+  void removeTodo(int todoId) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final RequestHandler handler = ref.watch(requestHandlerProvider);
+      final TodoProvider provider = ref.watch(todoProvider(handler));
+      final res = await provider.deleteSingleTodo(id: todoId);
+      if (res.isSuccess) {
+        showToastSuccess("TODO Successfully Removed!");
+      }
+      return getAllTodos();
+    });
+
     /* state = [
       for (final todo in state)
         if (todo.id != todoId) todo,

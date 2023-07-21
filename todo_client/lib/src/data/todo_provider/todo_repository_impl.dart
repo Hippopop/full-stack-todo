@@ -6,9 +6,12 @@ class TodoProvider extends TodoRepository {
 
   @override
   Future<ResponseWrapper<Map, Todo>> addTodo({required Todo newTodo}) async {
-    final raw = await requestHandler.get(APIConfig.addTodo);
+    final raw = await requestHandler.post(
+      APIConfig.addTodo,
+      newTodo.toJson(),
+    );
     final data = ResponseWrapper<Map<String, dynamic>, Todo>.fromMap(raw.data);
-    data.purseResponse((rawData) => Todo.fromJson(rawData!));
+    await data.purseResponse((rawData) => Todo.fromJson(rawData!));
     return data;
   }
 
@@ -22,13 +25,13 @@ class TodoProvider extends TodoRepository {
   }
 
   @override
-  Future<ResponseWrapper<Map<String, int>, int>> deleteSingleTodo(
+  Future<ResponseWrapper<Map<String, dynamic>, int>> deleteSingleTodo(
       {required int id}) async {
-    final raw = await requestHandler.post(
+    final raw = await requestHandler.delete(
       APIConfig.deleteTodo,
       {"delete": id},
     );
-    final data = ResponseWrapper<Map<String, int>, int>.fromMap(raw.data);
+    final data = ResponseWrapper<Map<String, dynamic>, int>.fromMap(raw.data);
     await data.purseResponse<int>((rawData) => rawData?['deleted'] ?? -1);
     return data;
   }
