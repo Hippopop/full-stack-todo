@@ -16,6 +16,8 @@ dependencies:
   # Route handling!
   go_router: ^6.5.0
   # Utilities!
+  intl: ^0.18.0
+  envied: ^0.3.0+3
   animations: ^2.0.7
   collection: ^1.17.0
   json_annotation: ^4.8.0
@@ -32,9 +34,9 @@ dev_dependencies:
   # custom_lint: ^0.3.4
   # riverpod_lint: ^1.1.5
   freezed: ^2.3.2
-  build_runner: ^2.3.3
+  build_runner: ^2.4.6
   json_serializable: ^6.6.1
-  intl: ^0.18.0
+  envied_generator: ^0.3.0+3
 
 flutter:
   uses-material-design: true

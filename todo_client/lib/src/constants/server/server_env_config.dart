@@ -1,4 +1,4 @@
-part './api_config.dart';
+/* part './api_config.dart';
 
 /* BaseURL Key */
 const _baseUrlKey = 'BASE_URL';
@@ -14,14 +14,8 @@ const _deleteTodoKey = 'DELETE_TODO';
 String _getEnvString(String key) {
   final hasData = bool.hasEnvironment(key);
   if (hasData) return String.fromEnvironment(key);
-  return <String, String>{
-    "ADD_TODO": "/todos/add",
-    "ALL_TODO": "/todos/all",
-    "UPDATE_TODO": "/todos/update",
-    "DELETE_TODO": "/todos/delete",
-    "BASE_URL": "https://full-stack-todo-vxb8.onrender.com"
-  }[key]!;
-  /* throw Exception(
-    'CONFIG_DATA DOES NOT EXIST! (#KEY => $key, #CHECK => $hasData)',
-  ); */
+  throw Exception(
+    'CONFIG_DATA DOES NOT EXIST! (#KEY => $key)',
+  );
 }
+ */

@@ -66,9 +66,8 @@ class ResponseWrapper<T, C> {
   }
 
   factory ResponseWrapper.fromMap(
-    dynamic rawData, {
-    RawToDataPurse? syncdataPurse,
-  }) {
+    dynamic rawData,
+  ) {
     final map = Map<String, dynamic>.from(rawData as Map);
     return ResponseWrapper<T, C>(
       status: map['status'] as int,

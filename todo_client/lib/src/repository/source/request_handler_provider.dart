@@ -2,7 +2,7 @@ import 'dart:developer' show log;
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_client/src/constants/server/server_env_config.dart';
+import 'package:todo_client/src/constants/server/api/api_config.dart';
 import 'package:todo_client/src/repository/source/response_wrapper.dart';
 import 'package:todo_client/src/utilities/scaffold_utilities.dart';
 
@@ -11,10 +11,14 @@ final requestHandlerProvider = Provider<RequestHandler>((ref) {
 });
 
 class RequestHandler {
-  final Dio _dio = Dio();
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: APIConfig.baseURl,
+    ),
+  );
 
   Dio get dio => _dio;
-  String get mainUrl => const String.fromEnvironment("BASE_URL");
+  String get mainUrl => APIConfig.baseURl;
 
   Future<Response> post(
     String url,
@@ -195,15 +199,17 @@ class RequestException implements Exception {
     required this.error,
     required this.trace,
   }) {
-    log(
-      """\x1B[35m/*
-    method: "$method"
-    url: "$url
-    statusCode: ${statusCode ?? ''}
+    final details = """\x1B[35m/*
+    method: ($method)
+    url: ($url)
+    statusCode: ${statusCode ?? 0}
     errorMsg: "${msg ?? ''}"
     data: ${data ?? ''}
     res: ${res ?? ''}
-  */\x1B[0m""",
+  */\x1B[0m""";
+
+    log(
+      details,
       name: "#RequestException",
       time: DateTime.now(),
       error: error,

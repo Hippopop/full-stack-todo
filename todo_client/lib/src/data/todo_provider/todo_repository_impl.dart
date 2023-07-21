@@ -1,4 +1,4 @@
-import 'package:todo_client/src/constants/server/server_env_config.dart';
+import 'package:todo_client/src/constants/server/api/api_config.dart';
 import 'package:todo_client/src/repository/repository.dart';
 
 class TodoProvider extends TodoRepository {
@@ -13,7 +13,8 @@ class TodoProvider extends TodoRepository {
   }
 
   @override
-  Future<ResponseWrapper<List<int>, List<int>>> deleteMultipleTodo({
+  Future<ResponseWrapper<Map<String, List<int>>, List<int>>>
+      deleteMultipleTodo({
     required List<int> idList,
   }) {
     // TODO: implement deleteMultipleTodo
@@ -21,9 +22,15 @@ class TodoProvider extends TodoRepository {
   }
 
   @override
-  Future<ResponseWrapper<int, int>> deleteSingleTodo({required int id}) {
-    // TODO: implement deleteSingleTodo
-    throw UnimplementedError();
+  Future<ResponseWrapper<Map<String, int>, int>> deleteSingleTodo(
+      {required int id}) async {
+    final raw = await requestHandler.post(
+      APIConfig.deleteTodo,
+      {"delete": id},
+    );
+    final data = ResponseWrapper<Map<String, int>, int>.fromMap(raw.data);
+    await data.purseResponse<int>((rawData) => rawData?['deleted'] ?? -1);
+    return data;
   }
 
   @override
