@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_client/src/utilities/scaffold_utilities.dart';
 
 import 'system/routes/router.dart';
 import 'system/themes/extensions/theme_extensions.dart';
@@ -12,6 +13,8 @@ class MyApp extends ConsumerWidget {
     final goRouter = ref.watch(goRouterProvider);
     return MaterialApp.router(
       routerConfig: goRouter,
+      debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: ScaffoldUtilities.instance.key,
       theme: ThemeData(
         extensions: {
           ColorsTheme(
@@ -27,7 +30,6 @@ class MyApp extends ConsumerWidget {
           ),
         },
       ),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

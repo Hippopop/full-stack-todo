@@ -6,14 +6,15 @@ import { TODO, TODOSchema } from "../types/todo-z";
 const getAllTodoQuery = "SELECT * FROM `todos`";
 const deleteTodoQuery = "DELETE FROM `todos` WHERE `todos`.`id` IN (?)";
 const insertTodoQuery =
-  "INSERT INTO `todos`(`id`, `title`, `description`, `state`, `priority`) VALUES (?,?,?,?,?)";
+  // "INSERT INTO `todos`(`id`, `title`, `description`, `state`, `priority`) VALUES (?,?,?,?,?)";
+  "INSERT INTO `todos`(`title`, `description`, `state`, `priority`) VALUES (?,?,?,?)";
 const updateTodoQuery =
   "UPDATE `todos` SET `title` = ?, `description` = ?,`state` = ?, `priority` = ? WHERE `todos`.`id` = ?";
 
 const insertTodo = async (todo: TODO): Promise<TODO> => {
   const [headers] = await connectionConfig.query<ResultSetHeader>(
     insertTodoQuery,
-    [todo.id, todo.title, todo.description, todo.state, todo.priority]
+    [todo.title, todo.description, todo.state, todo.priority]
   );
   return { id: headers.insertId, ...todo };
 };

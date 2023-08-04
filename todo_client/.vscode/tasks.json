@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Server",
+            "detail": "Run the server before starting the app.",
+            "type": "shell",
+            "command": "./tools/server.ps1",
+            "isBackground": true,
+            "problemMatcher": "$tsc",
+            "presentation": {
+                "panel": "new",
+                "echo": true,
+                "close": true,
+                "focus": false,
+                "clear": false,
+                "reveal": "always",
+                "showReuseMessage": false,
+            }
+        }
+    ]
+}

@@ -4,7 +4,7 @@ import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
 
 class FilterTodoScreen extends StatelessWidget {
   const FilterTodoScreen({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return ColoredBox(

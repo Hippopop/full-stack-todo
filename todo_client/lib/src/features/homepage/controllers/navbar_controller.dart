@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final navigationProvider = Provider<NavbarManager>((ref) {
+final  navigationProvider = Provider<NavbarManager>((ref) {
   return const NavbarManager();
 });
 
