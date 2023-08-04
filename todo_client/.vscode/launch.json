@@ -7,9 +7,10 @@
             "flutterMode": "debug",
             "name": "todo_client",
             "program": "lib/main.dart",
+            "preLaunchTask": "Server",
             "args": [
                 "--dart-define-from-file",
-                "private/api_config.json",
+                "server/api_config.json",
             ],
         },
         {
@@ -19,7 +20,7 @@
             "name": "todo_client (profile mode)",
             "args": [
                 "--dart-define-from-file",
-                "private/api_config.json"
+                "server/api_config.json"
             ],
         },
         {
@@ -29,7 +30,7 @@
             "name": "todo_client (release mode)",
             "args": [
                 "--dart-define-from-file",
-                "private/api_config.json"
+                "server/api_config.json"
             ],
         }
     ]

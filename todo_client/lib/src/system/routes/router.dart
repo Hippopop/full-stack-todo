@@ -7,7 +7,6 @@ import 'package:todo_client/src/features/homepage/views/add_todo.dart';
 import 'package:todo_client/src/features/homepage/views/filter_screen.dart';
 import 'package:todo_client/src/features/homepage/views/homepage.dart';
 import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
-import 'package:todo_client/src/repository/repository.dart';
 
 import 'transitions/animated_dialogue_route.dart';
 
@@ -15,7 +14,6 @@ final goRouterProvider = Provider<GoRouter>(
   (ref) {
     final navProvider = ref.watch(navigationProvider);
 
-    final req = ref.watch(requestHandlerProvider); 
     final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#root');
     final shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#shell');
 
@@ -47,6 +45,10 @@ final goRouterProvider = Provider<GoRouter>(
           path: '/outside',
           parentNavigatorKey: rootNavigatorKey,
           pageBuilder: (context, state) => const AnimatedDialogueBuilder(
+            /* anchorPoint: Offset(
+              double.tryParse(state.queryParams['x'] ?? "0.0") ?? 0.00,
+              double.tryParse(state.queryParams['x'] ?? "0.00") ?? 0.00,
+            ), */
             child: AddTodoCard(),
           ),
         ),

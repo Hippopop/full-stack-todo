@@ -47,8 +47,15 @@ class TodoProvider extends TodoRepository {
   }
 
   @override
-  Future<ResponseWrapper<Map, Todo>> updateTodo({required Todo newTodo}) {
-    // TODO: implement updateTodo
-    throw UnimplementedError();
+  Future<ResponseWrapper<Map, Todo>> updateTodo({required Todo newTodo}) async {
+    final raw = await requestHandler.put(
+      APIConfig.updateTodo,
+      newTodo.toJson(),
+    );
+    final data = ResponseWrapper<Map, Todo>.fromMap(raw.data);
+    await data.purseResponse<Todo>(
+      (rawData) => Todo.fromJson(rawData as Map<String, dynamic>),
+    );
+    return data;
   }
 }

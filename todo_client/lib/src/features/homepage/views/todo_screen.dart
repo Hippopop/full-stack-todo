@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:todo_client/src/features/homepage/controllers/todo_controller.dart';
-import 'package:todo_client/src/features/homepage/views/add_todo.dart';
 import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
 
 import 'widgets/single_todo_widget.dart';
@@ -55,10 +54,7 @@ class AllTodoScreen extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                                showSearch(
-                                  context: context,
-                                  delegate: TodoSearch(),
-                                );
+                                
                               },
                               child: const Text(
                                 'View More',
@@ -99,10 +95,8 @@ class TODOListView extends ConsumerWidget {
       ),
       error: (error, trace) {
         log("#Error", error: error, stackTrace: trace);
-        return Container(
-          child: Text(
-            error.toString(),
-          ),
+        return Text(
+          error.toString(),
         );
       },
       data: (todos) => ListView.separated(

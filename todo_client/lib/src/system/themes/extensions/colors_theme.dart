@@ -10,6 +10,7 @@ class ColorsTheme extends ThemeExtension<ColorsTheme> {
   final Color secoderyAccent;
   final Color extraTextColor;
   final Color backgroundColor;
+
   ColorsTheme({
     required this.black,
     required this.white,
