@@ -1,5 +1,6 @@
 .env
-.env.prod
-.env.feat
+dev.env
+feat.env
+prod.env
 node_modules
 package-lock.json

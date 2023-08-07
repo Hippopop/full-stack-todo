@@ -2,12 +2,16 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Server",
+            "label": "RUN_SERVER",
             "detail": "Run the server before starting the app.",
             "type": "shell",
             "command": "./tools/server.ps1",
             "isBackground": true,
             "problemMatcher": "$tsc",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiRed",
+            },
             "presentation": {
                 "panel": "new",
                 "echo": true,

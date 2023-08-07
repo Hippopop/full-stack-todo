@@ -37,7 +37,7 @@ class RequestHandler {
         options: options,
       );
       return response;
-    } on DioError catch (error, stracktrace) {
+    } on DioException catch (error, stracktrace) {
       throw RequestException(
         method: "/POST",
         url: baseUrl ?? mainUrl + url,
@@ -75,7 +75,7 @@ class RequestHandler {
         queryParameters: queryParams,
       );
       return response;
-    } on DioError catch (error, stracktrace) {
+    } on DioException catch (error, stracktrace) {
       throw RequestException(
         method: "/GET",
         url: baseUrl ?? mainUrl + url,
@@ -114,7 +114,7 @@ class RequestHandler {
         options: options,
       );
       return response;
-    } on DioError catch (error, stracktrace) {
+    } on DioException catch (error, stracktrace) {
       throw RequestException(
         method: "/PUT",
         url: baseUrl ?? mainUrl + url,
@@ -155,7 +155,7 @@ class RequestHandler {
         options: options,
       );
       return response;
-    } on DioError catch (error, stracktrace) {
+    } on DioException catch (error, stracktrace) {
       throw RequestException(
         method: "/DELETE",
         url: baseUrl ?? mainUrl + url,
