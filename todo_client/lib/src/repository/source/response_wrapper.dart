@@ -21,8 +21,8 @@ class ResponseWrapper<T, C> {
   /* Actual data pursing : Start*/
 
   late final C? data;
-  bool get isError => error != null && data != null;
-  bool get isSuccess => data != null && error != null;
+  bool get isError => error != null && data == null;
+  bool get isSuccess => data != null && error == null;
 
   FutureOr<void> purseResponse<Z extends C>(
     RawToDataPurse<Z, T> purserFunction,
@@ -75,7 +75,7 @@ class ResponseWrapper<T, C> {
       rawResponse: map['data'] != null ? map['data'] as T : null,
       error: map['error'] != null
           ? List<RequestError>.from(
-              (map['error'] as List<int>).map<RequestError?>(
+              (map['error'] as List).map<RequestError?>(
                 (x) => RequestError.fromMap(x as Map<String, dynamic>),
               ),
             )
@@ -113,7 +113,7 @@ class ResponseWrapper<T, C> {
 }
 
 class RequestError {
-  List<String> codes;
+  List<int> codes;
   String description;
   RequestError({
     required this.codes,
@@ -121,7 +121,7 @@ class RequestError {
   });
 
   RequestError copyWith({
-    List<String>? codes,
+    List<int>? codes,
     String? description,
   }) {
     return RequestError(
@@ -139,7 +139,7 @@ class RequestError {
 
   factory RequestError.fromMap(Map<String, dynamic> map) {
     return RequestError(
-      codes: List<String>.from((map['codes'] as List<String>)),
+      codes: List<int>.from(List<int>.from(map['codes'])),
       description: map['description'] as String,
     );
   }

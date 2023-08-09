@@ -2,7 +2,7 @@ import 'package:envied/envied.dart';
 
 part 'api_config.g.dart';
 
-@Envied(path: '.env', obfuscate: true)
+@Envied(path: './.env', obfuscate: true)
 abstract class APIConfig {
   @EnviedField(varName: 'BASE_URL')
   static final String baseURl = _APIConfig.baseURl;

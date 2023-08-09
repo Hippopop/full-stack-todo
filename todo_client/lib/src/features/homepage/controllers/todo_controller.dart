@@ -6,6 +6,10 @@ import 'package:todo_client/src/utilities/scaffold_utilities.dart';
 import 'package:todo_client/src/data/todo_provider/todo_provider.dart';
 import 'package:todo_client/src/data/todo_provider/todo_repository_impl.dart';
 
+final todosController = AsyncNotifierProvider<TodosNotifier, List<Todo>>(() {
+  return TodosNotifier();
+});
+
 class TodosNotifier extends AsyncNotifier<List<Todo>> {
   RequestHandler get handler => ref.watch(requestHandlerProvider);
   TodoProvider get provider => ref.watch(todoProvider(handler));
@@ -13,13 +17,18 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
   Future<List<Todo>> getAllTodos() async {
     try {
       final response = await provider.getAllTodo();
-      return response.data ?? [];
+      if (response.isSuccess) {
+        return response.data!;
+      } else {
+        showToastError(response.msg);
+        throw response.msg;
+      }
     } catch (e, s) {
       log("#GET_ALL_TODO", error: e, stackTrace: s);
       if (e is RequestException) {
         e.handleError(defaultMessage: "Unexpected error occured!");
       }
-      return [];
+      rethrow;
     }
   }
 
@@ -67,7 +76,3 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
     });
   }
 }
-
-final todosController = AsyncNotifierProvider<TodosNotifier, List<Todo>>(() {
-  return TodosNotifier();
-});

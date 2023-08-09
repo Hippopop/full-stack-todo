@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 // ignore: non_constant_identifier_names
 final _SCAFFOLD_KEY = GlobalKey<ScaffoldMessengerState>();
 
@@ -15,11 +14,19 @@ class ScaffoldUtilities {
     _SCAFFOLD_KEY.currentState?.showSnackBar(
       SnackBar(
         elevation: 0,
-        behavior: SnackBarBehavior.fixed,
+        behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         duration: Duration(seconds: secDuration ?? 3),
         padding: EdgeInsets.zero,
-        content: widget,
+        content: Align(
+          alignment: Alignment.bottomCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 940,
+            ),
+            child: widget,
+          ),
+        ),
       ),
     );
   }
