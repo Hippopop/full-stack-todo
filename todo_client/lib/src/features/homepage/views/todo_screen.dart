@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:todo_client/src/features/homepage/controllers/todo_controller.dart';
@@ -22,59 +21,54 @@ class AllTodoScreen extends StatelessWidget {
     final colorTheme = Theme.of(context).extension<ColorsTheme>();
     return ColoredBox(
       color: colorTheme?.backgroundColor ?? Colors.white70,
-      child: MouseRegion(
-        onHover: (PointerHoverEvent event) {},
-        child: SafeArea(
-          child: Column(
-            children: [
-              TodoScreenAppBar(colorTheme: colorTheme),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(
-                      left: 16, right: 16, top: 0, bottom: 40),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: colorTheme?.white,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  constraints: const BoxConstraints(
-                    maxWidth: 980,
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Completed',
-                              style: titleTextStyles,
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                
-                              },
-                              child: const Text(
-                                'View More',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            TodoScreenAppBar(colorTheme: colorTheme),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(
+                    left: 16, right: 16, top: 0, bottom: 40),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: colorTheme?.white,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                constraints: const BoxConstraints(
+                  maxWidth: 980,
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Completed',
+                            style: titleTextStyles,
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'View More',
+                              style: TextStyle(
+                                fontSize: 16,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      const Expanded(
-                        child: TODOListView(),
-                      ),
-                    ],
-                  ),
+                    ),
+                    const Expanded(
+                      child: TODOListView(),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -91,7 +85,7 @@ class TODOListView extends ConsumerWidget {
     final todos = ref.watch(todosController);
     return todos.when(
       loading: () => const Center(
-        child: CircleAvatar(),
+        child: LottieLoader(),
       ),
       error: (error, trace) {
         log("#Error", error: error, stackTrace: trace);
@@ -99,13 +93,15 @@ class TODOListView extends ConsumerWidget {
           error.toString(),
         );
       },
-      data: (todos) => ListView.separated(
-        itemCount: todos.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 2),
-        itemBuilder: (context, index) => TODOCardWidget(
-          todo: todos[index],
-        ),
-      ),
+      data: (todos) => todos.isEmpty
+          ? const AstronautPlaceholder()
+          : ListView.separated(
+              itemCount: todos.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 2),
+              itemBuilder: (context, index) => TODOCardWidget(
+                todo: todos[index],
+              ),
+            ),
     );
   }
 }
@@ -127,6 +123,32 @@ class AstronautPlaceholder extends StatelessWidget {
           ),
           child: Lottie.asset(
             'assets/lottie/astronaut.json',
+            addRepaintBoundary: true,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LottieLoader extends StatelessWidget {
+  const LottieLoader({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(0),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 500,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Lottie.asset(
+            'assets/lottie/loader.json',
             addRepaintBoundary: true,
             fit: BoxFit.contain,
           ),

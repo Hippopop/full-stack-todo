@@ -26,7 +26,7 @@ final goRouterProvider = Provider<GoRouter>(
           navigatorKey: shellNavigatorKey,
           builder: (context, state, child) => HomePage(
             currentChild: child,
-            childPath: state.subloc,
+            childPath: state.matchedLocation,
           ),
           routes: [
             GoRoute(

@@ -199,14 +199,17 @@ class RequestException implements Exception {
     required this.error,
     required this.trace,
   }) {
-    final details = """\x1B[35m/*
-    method: ($method)
-    url: ($url)
-    statusCode: ${statusCode ?? 0}
-    errorMsg: "${msg ?? ''}"
-    data: ${data ?? ''}
-    res: ${res ?? ''}
-  */\x1B[0m""";
+    final details = 
+"""
+\x1B[35m/*
+method: ($method)
+url: ($url)
+statusCode: ${statusCode ?? 0}
+errorMsg: "${msg ?? ''}"
+data: ${data ?? ''}
+res: ${res ?? ''}
+*/\x1B[0m
+""";
 
     log(
       details,
@@ -217,13 +220,27 @@ class RequestException implements Exception {
     );
   }
 
-  handleError({required String defaultMessage}) {
+  handleError({required String defaultMessage}) async {
     try {
-      final pursedData = ResponseWrapper.fromMap(res?.data);
+      final pursedData = ResponseWrapper<dynamic, dynamic>.fromMap(
+        Map<String, dynamic>.from(res?.data),
+      );
+
+      await pursedData.purseResponse(
+        (rawData) => res?.data['data'],
+      );
+
       if (pursedData.isSuccess) {
-        showToastError(pursedData.msg);
+        /* Means Purser caused the error! */
+        showToastError(defaultMessage);
+      } else {
+        /* Means Server didn't sent any data! */
+        showToastError(
+          pursedData.error?.firstOrNull?.description ?? defaultMessage,
+        );
       }
     } catch (e) {
+      showToastError(defaultMessage);
       log(
         '# Response is not a [Map<String, dynamic>]! instead ${res?.data.runtimeType}',
         error: e,
