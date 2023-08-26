@@ -1,14 +1,27 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { deleteTodo, getAllTodos, insertTodo, updateTodo } from "../../database/todo";
-import { TODO, TODOSchema } from "../../types/todo-z";
+import {
+  deleteTodo,
+  getAllTodos,
+  insertTodo,
+  updateTodo,
+} from "../../database/todo";
+import { TODOSchema } from "../../types/todo/todo-z";
 import { wrapperFunction } from "../request-handler";
 import z from "zod";
+import {
+  success,
+  successfullyChanged,
+  successfullyCreated,
+  successfullyDeleted,
+} from "../../Errors/error_codes";
 
 const todoRoute = Router();
 
 todoRoute.get(
   "/all",
   wrapperFunction({
+    authenticate: true,
+    successCode: success,
     errorMsg: "Sorry! Couldn't get the TODOs.",
     successMsg: "Request Successful! Got the TODOs.",
     schema: TODOSchema.array(),
@@ -20,6 +33,7 @@ todoRoute.get(
 todoRoute.post(
   "/add",
   wrapperFunction({
+    successCode: successfullyCreated,
     errorMsg: "Sorry! Couldn't add the TODO.",
     successMsg: "Request Successful! Added the TODO.",
     schema: TODOSchema,
@@ -45,6 +59,7 @@ Example:
 todoRoute.delete(
   "/delete",
   wrapperFunction({
+    successCode: successfullyDeleted,
     errorMsg: "Sorry! Couldn't Delete.",
     successMsg: "Request Successful! Deleted the TODO(s).",
     schema: z.object({
@@ -71,11 +86,12 @@ todoRoute.delete(
 todoRoute.put(
   "/update",
   wrapperFunction({
+    successCode: successfullyChanged,
     errorMsg: "Sorry! Couldn't update the TODO.",
     successMsg: "Request Successful! Updated the TODO.",
     schema: TODOSchema,
     buisnessLogic: async (req: Request, res: Response, next?: NextFunction) => {
-      const todo = TODOSchema.required({id: true}).safeParse(req.body);
+      const todo = TODOSchema.required({ id: true }).safeParse(req.body);
       if (todo.success) {
         return await updateTodo(todo.data);
       } else {

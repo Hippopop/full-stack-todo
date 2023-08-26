@@ -1,0 +1,84 @@
+import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
+import connectionConfig from "./mysql-config";
+
+import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { AuthSchema, AuthType } from "../types/auth/auth-z";
+import { Login } from "../routes/auth/models/login";
+import { get } from "http";
+
+const tableName = "authentication";
+const findAuth = `SELECT * FROM ${tableName} WHERE email = ?`;
+const getToken = `SELECT token FROM ${tableName} WHERE (email = ? OR uuid = ?)`;
+const registerAuth = `INSERT INTO ${tableName}(uuid, email, password) VALUES (?,?,?)`;
+const updateTokenQuery = `UPDATE ${tableName} SET token = ? WHERE (uuid = ? OR email = ?)`;
+
+const register = async (data: Login): Promise<AuthType> => {
+  const uuid = uuidv4();
+  const salt = await bcrypt.genSalt();
+  const hash = await bcrypt.hash(data.password, salt);
+
+  const [headers] = await connectionConfig.query<ResultSetHeader>(
+    registerAuth,
+    [uuid, data.email, hash]
+  );
+
+  const auth = AuthSchema.safeParse({
+    uuid: uuid,
+    token: [],
+    password: hash,
+    email: data.email,
+    key: headers.insertId,
+  });
+  if (auth.success) {
+    return auth.data;
+  } else {
+    throw auth.error;
+  }
+};
+
+const getAuthData = async (email: string): Promise<AuthType | undefined> => {
+  const [rows, _] = await connectionConfig.query<RowDataPacket[]>(findAuth, [
+    email,
+  ]);
+
+  if (rows.length === 0 || !rows.at(0)) return undefined;
+
+  const element = rows.at(0);
+  const tokenContainingEmptyString = (element!.token as string).split(",");
+  const token = tokenContainingEmptyString.filter((token) => token.length > 0);
+
+  const purifiedData = AuthSchema.safeParse({ ...element, token });
+  if (purifiedData.success) {
+    return purifiedData.data;
+  } else {
+    throw purifiedData.error;
+  }
+};
+
+async function passwordMatches(input: string, hash: string): Promise<boolean> {
+  return await bcrypt.compare(input, hash);
+}
+
+async function updateToken(uniqueData: string, token: string[]) {
+  const [headers, _] = await connectionConfig.query<ResultSetHeader>(
+    updateTokenQuery,
+    [token.join(","), uniqueData, uniqueData]
+  );
+}
+
+async function getRefreshToken(
+  uniqueData: string
+): Promise<string[] | undefined> {
+  const [rows, _] = await connectionConfig.query<RowDataPacket[]>(getToken, [
+    uniqueData,
+    uniqueData,
+  ]);
+  if (rows.length === 0 || !rows.at(0)) return undefined;
+  const element = rows.at(0);
+  console.log(`Found the token: ${element}`);
+  const tokenContainingEmptyString = (element!.token as string).split(",");
+  const token = tokenContainingEmptyString.filter((token) => token.length > 0);
+}
+
+export { getAuthData, register, passwordMatches, getRefreshToken, updateToken };

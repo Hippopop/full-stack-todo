@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
+import 'package:todo_client/src/repository/source/response_error.dart';
 
 typedef RawToDataPurse<Z, T> = FutureOr<Z> Function(T? rawData);
 
@@ -40,6 +41,25 @@ class ResponseWrapper<T, C> {
     }
   }
 
+  factory ResponseWrapper.fromMap(dynamic rawData, [bool print = false]) {
+    if (print) {
+      log(rawData.toString());
+    }
+    final map = Map<String, dynamic>.from(rawData as Map);
+    return ResponseWrapper<T, C>(
+      status: map['status'] as int,
+      msg: map['msg'] as String,
+      rawResponse: map['data'] != null ? map['data'] as T : null,
+      error: map['error'] != null
+          ? List<RequestError>.from(
+              (map['error'] as List).map<RequestError?>(
+                (x) => RequestError.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+    );
+  }
+
   /* Actual data pursing : End*/
 
   ResponseWrapper<T, C> copyWith({
@@ -63,24 +83,6 @@ class ResponseWrapper<T, C> {
       'rawResponse': rawResponse,
       'error': error?.map((x) => x.toMap()).toList(),
     };
-  }
-
-  factory ResponseWrapper.fromMap(
-    dynamic rawData,
-  ) {
-    final map = Map<String, dynamic>.from(rawData as Map);
-    return ResponseWrapper<T, C>(
-      status: map['status'] as int,
-      msg: map['msg'] as String,
-      rawResponse: map['data'] != null ? map['data'] as T : null,
-      error: map['error'] != null
-          ? List<RequestError>.from(
-              (map['error'] as List).map<RequestError?>(
-                (x) => RequestError.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
-    );
   }
 
   String toJson() => json.encode(toMap());
@@ -110,55 +112,4 @@ class ResponseWrapper<T, C> {
         rawResponse.hashCode ^
         error.hashCode;
   }
-}
-
-class RequestError {
-  List<int> codes;
-  String description;
-  RequestError({
-    required this.codes,
-    required this.description,
-  });
-
-  RequestError copyWith({
-    List<int>? codes,
-    String? description,
-  }) {
-    return RequestError(
-      codes: codes ?? this.codes,
-      description: description ?? this.description,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'codes': codes,
-      'description': description,
-    };
-  }
-
-  factory RequestError.fromMap(Map<String, dynamic> map) {
-    return RequestError(
-      codes: List<int>.from(List<int>.from(map['codes'])),
-      description: map['description'] as String,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory RequestError.fromJson(String source) =>
-      RequestError.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() => 'RequestError(codes: $codes, description: $description)';
-
-  @override
-  bool operator ==(covariant RequestError other) {
-    if (identical(this, other)) return true;
-
-    return listEquals(other.codes, codes) && other.description == description;
-  }
-
-  @override
-  int get hashCode => codes.hashCode ^ description.hashCode;
 }

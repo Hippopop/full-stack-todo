@@ -1,15 +1,14 @@
 import connectionConfig from "./mysql-config";
 
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { TODO, TODOSchema } from "../types/todo-z";
+import { TODO, TODOSchema } from "../types/todo/todo-z";
 
-const getAllTodoQuery = "SELECT * FROM `todos`";
-const deleteTodoQuery = "DELETE FROM `todos` WHERE `todos`.`id` IN (?)";
-const insertTodoQuery =
-  // "INSERT INTO `todos`(`id`, `title`, `description`, `state`, `priority`) VALUES (?,?,?,?,?)";
-  "INSERT INTO `todos`(`title`, `description`, `state`, `priority`) VALUES (?,?,?,?)";
-const updateTodoQuery =
-  "UPDATE `todos` SET `title` = ?, `description` = ?,`state` = ?, `priority` = ? WHERE `todos`.`id` = ?";
+const tableName = "todos";
+const getAllTodoQuery = `SELECT * FROM ${tableName}`;
+const deleteTodoQuery = `DELETE FROM ${tableName} WHERE ${tableName}.id IN (?)`;
+const insertTodoQuery = `INSERT INTO ${tableName}(title, description, state, priority) VALUES (?,?,?,?)`;
+const updateTodoQuery = `UPDATE ${tableName} SET title = ?, description = ?, state = ?, priority = ? WHERE ${tableName}.id = ?`;
+
 
 const insertTodo = async (todo: TODO): Promise<TODO> => {
   const [headers] = await connectionConfig.query<ResultSetHeader>(
@@ -47,6 +46,7 @@ const getAllTodos = async (): Promise<TODO[]> => {
     connection.release();
     return purifiedData.data;
   } else {
+    connection.release();
     throw purifiedData.error;
   }
 };

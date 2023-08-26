@@ -12,7 +12,8 @@ migrate_working_dir/
 
 #User Defined! 
 .env
-cache.env
+dev.env
+prod.env
 
 # IntelliJ related
 *.iml

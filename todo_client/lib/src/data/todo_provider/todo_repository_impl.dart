@@ -39,7 +39,7 @@ class TodoProvider extends TodoRepository {
   @override
   Future<ResponseWrapper<List, List<Todo>>> getAllTodo() async {
     final raw = await requestHandler.get(APIConfig.allTodo);
-    final data = ResponseWrapper<List, List<Todo>>.fromMap(raw.data);
+    final data = ResponseWrapper<List, List<Todo>>.fromMap(raw.data, true);
     await data.purseResponse<List<Todo>>(
       (rawData) => rawData!.map((e) => Todo.fromJson(e)).toList(),
     );
