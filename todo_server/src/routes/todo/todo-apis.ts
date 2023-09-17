@@ -20,12 +20,12 @@ const todoRoute = Router();
 todoRoute.get(
   "/all",
   wrapperFunction({
-    authenticate: true,
+    // authenticate: true,
     successCode: success,
     errorMsg: "Sorry! Couldn't get the TODOs.",
     successMsg: "Request Successful! Got the TODOs.",
     schema: TODOSchema.array(),
-    buisnessLogic: async (req: Request, res: Response, next?: NextFunction) =>
+    businessLogic: async (req: Request, res: Response, next?: NextFunction) =>
       await getAllTodos(),
   })
 );
@@ -37,7 +37,7 @@ todoRoute.post(
     errorMsg: "Sorry! Couldn't add the TODO.",
     successMsg: "Request Successful! Added the TODO.",
     schema: TODOSchema,
-    buisnessLogic: async (req: Request, res: Response, next?: NextFunction) => {
+    businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
       const todo = TODOSchema.safeParse(req.body);
       if (todo.success) {
         return await insertTodo(todo.data);
@@ -65,7 +65,7 @@ todoRoute.delete(
     schema: z.object({
       deleted: z.number().or(z.array(z.number())),
     }),
-    buisnessLogic: async (req: Request, res: Response, next?: NextFunction) => {
+    businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
       // *** This here will accept one single [TODO], or multiple [TODO]s to delete at once.
       const expectedSchema = z.object({
         delete: z.number().or(z.array(z.number())),
@@ -90,7 +90,7 @@ todoRoute.put(
     errorMsg: "Sorry! Couldn't update the TODO.",
     successMsg: "Request Successful! Updated the TODO.",
     schema: TODOSchema,
-    buisnessLogic: async (req: Request, res: Response, next?: NextFunction) => {
+    businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
       const todo = TODOSchema.required({ id: true }).safeParse(req.body);
       if (todo.success) {
         return await updateTodo(todo.data);

@@ -13,7 +13,7 @@ export const ResponseWrapperSchema = <T extends z.ZodTypeAny>(dataSchema?: T) =>
     })
     .strict();
 
-export type BuisnessCallback<T> = (
+export type BusinessCallback<T> = (
   req: Request,
   res: Response,
   next?: NextFunction,
@@ -23,8 +23,8 @@ export type BuisnessCallback<T> = (
 export type WrapperProps<T> = {
   authenticate?: boolean;
   successCode: number;
-  schema: z.Schema<T>;
+  schema?: z.Schema<T>;
   successMsg: string;
   errorMsg: string;
-  buisnessLogic: BuisnessCallback<T>;
+  businessLogic: BusinessCallback<T>;
 };

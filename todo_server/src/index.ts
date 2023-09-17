@@ -1,6 +1,6 @@
 import cors from "cors";
 import * as dotenv from "dotenv";
-import bodyparser from "body-parser";
+import bodyParser from "body-parser";
 import authRoute from "./routes/auth/auth";
 import todoRoute from "./routes/todo/todo-apis";
 
@@ -13,8 +13,8 @@ const app = express();
 const port = process.env.PORT ?? 8080;
 
 app.use(cors());
-app.use(bodyparser.json()); // ** app.use(express.json()); **// @latest Express(since 4.16.0)!
-app.use(bodyparser.urlencoded({ extended: false })); // ** app.use(express.urlencoded()); **// @latest Express(since 4.16.0)!
+app.use(bodyParser.json()); // ** app.use(express.json()); **// @latest Express(since 4.16.0)!
+app.use(bodyParser.urlencoded({ extended: false })); // ** app.use(express.urlencoded()); **// @latest Express(since 4.16.0)!
 
 /* API Routes! */
 app.use("/auth", authRoute);

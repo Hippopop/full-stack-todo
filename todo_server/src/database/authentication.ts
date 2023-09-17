@@ -1,11 +1,10 @@
 import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuIdv4 } from "uuid";
 import connectionConfig from "./mysql-config";
 
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { AuthSchema, AuthType } from "../types/auth/auth-z";
-import { Login } from "../routes/auth/models/login";
-import { get } from "http";
+import { Login } from "../types/user/login-z";
 
 const tableName = "authentication";
 const findAuth = `SELECT * FROM ${tableName} WHERE email = ?`;
@@ -14,7 +13,7 @@ const registerAuth = `INSERT INTO ${tableName}(uuid, email, password) VALUES (?,
 const updateTokenQuery = `UPDATE ${tableName} SET token = ? WHERE (uuid = ? OR email = ?)`;
 
 const register = async (data: Login): Promise<AuthType> => {
-  const uuid = uuidv4();
+  const uuid = uuIdv4();
   const salt = await bcrypt.genSalt();
   const hash = await bcrypt.hash(data.password, salt);
 

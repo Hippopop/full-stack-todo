@@ -3,5 +3,10 @@
     "editor.tokenColorCustomizations": {
         "comments": "",
         "textMateRules": []
-    }
+    },
+    "cSpell.words": [
+        "birthdate",
+        "datetime",
+        "Todos"
+    ]
 }

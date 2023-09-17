@@ -78,6 +78,6 @@ export default {
   generateRefreshToken,
   // varifyAccessToken,
   // varifyRefreshToken,
-  varifyAccessTokenWithData,
+  verifyAccessTokenWithData: varifyAccessTokenWithData,
   varifyRefreshTokenWithData,
 };

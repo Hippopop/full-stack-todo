@@ -56,10 +56,10 @@ export const wrapperFunction =
       schema,
       successMsg,
       errorMsg,
-      buisnessLogic,
+      businessLogic: businessLogic,
     } = wrapperProps;
     try {
-      // *** Calls the actual buisness logic!
+      // *** Calls the actual business logic!
       var userData: User | undefined;
       if (authenticate) {
         const { authorization } = req.headers;
@@ -69,7 +69,7 @@ export const wrapperFunction =
             "Attempting Unauthorized Access!"
           );
         const token = authorization.split(" ")[1];
-        const authData = tokenizer.varifyAccessTokenWithData(
+        const authData = tokenizer.verifyAccessTokenWithData(
           token!,
           UserSchema
         );
@@ -77,10 +77,10 @@ export const wrapperFunction =
           userData = authData;
         } else throw new ResponseError(unauthorized, "Invalid access token!");
       }
-      const data = await buisnessLogic(req, res);
+      const data = await businessLogic(req, res);
       if (res.headersSent) {
         console.log(
-          `Response was alredy sent from (BuisnessLogic) call. \n REQ: ${req}`
+          `Response was already sent from (BusinessLogic) call. \n REQ: ${req}`
         );
         return;
       }
@@ -110,7 +110,7 @@ export const wrapperFunction =
     }
   };
 
-// It has a lots of unnecessery double checks and overuse of [zod]!
+// It has a lots of unnecessary double checks and overuse of [zod]!
 async function handleErrors(error: any, errorMsg: string, res: Response) {
   if (error instanceof ResponseError) {
     console.log("Found an ResponseError");

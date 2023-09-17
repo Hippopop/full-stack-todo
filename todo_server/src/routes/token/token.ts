@@ -16,7 +16,7 @@ tokenRoute.post(
     schema: AuthTokenSchema.required(),
     successMsg: "Auth Token successfully refreshed!",
     errorMsg: "Sorry! Provided refresh token wasn't valid. Please login again.",
-    buisnessLogic: async (req: Request, res: Response, next?: NextFunction) => {
+    businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
       const { refreshToken } = req.body;
       if (!refreshToken) throw badRequest;
       const uuid = tokenizer.varifyRefreshTokenWithData(

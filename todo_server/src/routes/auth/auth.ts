@@ -7,11 +7,18 @@ import {
   register,
   updateToken,
 } from "../../database/authentication";
-import { LoginSchema } from "./models/login";
+import { LoginSchema } from "../../types/user/login-z";
 import { userNotFoundError, wrongCredentialError } from "./errors/auth_errors";
-import { createUser, getUserData } from "../../database/user";
+import {
+  createUser,
+  getUserData,
+  getUserProfilePic,
+} from "../../database/user";
 import tokenizer from "../../utils/token/jwt_token";
 import { success, successfullyCreated } from "../../Errors/error_codes";
+import multerConfig from "../../utils/file_management/multer_config";
+import { RegisterUserSchema } from "../../types/user/register-z";
+import z from "zod";
 
 const authRoute = Router();
 
@@ -22,7 +29,7 @@ authRoute.post(
     successMsg: "Logged in successfully!",
     errorMsg: "Login Failed!",
     schema: AuthResModel,
-    buisnessLogic: async (req: Request, res: Response, next?: NextFunction) => {
+    businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
       const loginData = LoginSchema.safeParse(req.body);
       if (loginData.success) {
         const authData = await getAuthData(loginData.data.email);
@@ -55,18 +62,21 @@ authRoute.post(
 
 authRoute.post(
   "/register",
+  multerConfig.single("image"),
   wrapperFunction({
     successCode: successfullyCreated,
     schema: AuthResModel,
     successMsg: "Registration Successfully Completed!",
     errorMsg: "Sorry! Couldn't register with the given data.",
-    buisnessLogic: async (req: Request, res: Response, next?: NextFunction) => {
-      const data = LoginSchema.safeParse(req.body);
+    businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
+      const data = RegisterUserSchema.safeParse(req.body);
       if (data.success) {
         const authData = await register(data.data);
         const userData = await createUser({
           uid: 0,
           ...authData,
+          ...data.data,
+          photo: req.file?.path,
         });
         const accessToken = tokenizer.generateToken(userData);
         const refreshToken = tokenizer.generateRefreshToken(authData.uuid);
@@ -80,6 +90,29 @@ authRoute.post(
         };
       } else {
         throw data.error;
+      }
+    },
+  })
+);
+
+authRoute.get(
+  "/user_image",
+  wrapperFunction<void>({
+    successCode: 200,
+    successMsg: "Image fetched successfully!",
+    errorMsg: "Image not found!",
+    businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
+      const { user } = req.query;
+      if (user) {
+        const image = await getUserProfilePic(user.toString());
+        if (image) {
+          res.writeHead(200, { "Content-Type": "image/jpeg" });
+          res.end(image);
+        } else {
+          throw userNotFoundError;
+        }
+      } else {
+        throw userNotFoundError;
       }
     },
   })
