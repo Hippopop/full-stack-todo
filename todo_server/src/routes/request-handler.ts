@@ -20,17 +20,17 @@ import tokenizer from "../utils/token/jwt_token";
 
 /* 
 This is the wrapper function for handling all the requests. It takes the [schema] to assure the structure of 
-the returned data, [successMsg], [errorMsg], and the actual [buisnessLogic] as input.  
-This function will call the buisness logic and try to get the  data from it. If the data is successfully fetched,
+the returned data, [successMsg], [errorMsg], and the actual [businessLogic] as input.  
+This function will call the business logic and try to get the  data from it. If the data is successfully fetched,
 it will parse the data with the [schema]  and return the response. In case of *error*, it will take the error and 
-turn it into a readable format and again parse it with the actual [responseSchema] and return the response.chema]. 
+turn it into a readable format and again parse it with the actual [responseSchema] and return the response.schema]. 
 
 The response will be in the form of a [JSON] object with the following format: 
 * On success -> 
   {
     status: 200,
     msg: "Success Message",
-    data: "Data" // The data returned from the buisness logic with the given structure(*schema).
+    data: "Data" // The data returned from the business logic with the given structure(*schema).
   } 
 * On error -> 
   {
@@ -38,15 +38,14 @@ The response will be in the form of a [JSON] object with the following format:
     status: 400, // [400] for known logical errors. And [500] for unexpected errors.
     error: [
       {
-        code: [string], // A short indicaion for the point of error.
+        code: [string], // A short indication for the point of error.
         description: [string], // The description of the error.
       }
     ],
   }
 */
 
-// I feel like I messed up, because I didn't had the knowledge about how the [NextFunction] system works!
-// Bcz now for [Auth] and [Multimedia] support, I might need to use that system. 😅
+// Over that rant! 🙂 Cz that system, even works with mine.
 export const wrapperFunction =
   <T>(wrapperProps: WrapperProps<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {

@@ -12,7 +12,7 @@ const getToken = `SELECT token FROM ${tableName} WHERE (email = ? OR uuid = ?)`;
 const registerAuth = `INSERT INTO ${tableName}(uuid, email, password) VALUES (?,?,?)`;
 const updateTokenQuery = `UPDATE ${tableName} SET token = ? WHERE (uuid = ? OR email = ?)`;
 
-const register = async (data: Login): Promise<AuthType> => {
+export const register = async (data: Login): Promise<AuthType> => {
   const uuid = uuIdv4();
   const salt = await bcrypt.genSalt();
   const hash = await bcrypt.hash(data.password, salt);
@@ -36,7 +36,9 @@ const register = async (data: Login): Promise<AuthType> => {
   }
 };
 
-const getAuthData = async (email: string): Promise<AuthType | undefined> => {
+export const getAuthData = async (
+  email: string
+): Promise<AuthType | undefined> => {
   const [rows, _] = await connectionConfig.query<RowDataPacket[]>(findAuth, [
     email,
   ]);
@@ -55,18 +57,24 @@ const getAuthData = async (email: string): Promise<AuthType | undefined> => {
   }
 };
 
-async function passwordMatches(input: string, hash: string): Promise<boolean> {
+export const passwordMatches = async function (
+  input: string,
+  hash: string
+): Promise<boolean> {
   return await bcrypt.compare(input, hash);
-}
+};
 
-async function updateToken(uniqueData: string, token: string[]) {
+export const updateToken = async function (
+  uniqueData: string,
+  token: string[]
+) {
   const [headers, _] = await connectionConfig.query<ResultSetHeader>(
     updateTokenQuery,
     [token.join(","), uniqueData, uniqueData]
   );
-}
+};
 
-async function getRefreshToken(
+export const getRefreshToken = async function (
   uniqueData: string
 ): Promise<string[] | undefined> {
   const [rows, _] = await connectionConfig.query<RowDataPacket[]>(getToken, [
@@ -78,6 +86,12 @@ async function getRefreshToken(
   console.log(`Found the token: ${element}`);
   const tokenContainingEmptyString = (element!.token as string).split(",");
   const token = tokenContainingEmptyString.filter((token) => token.length > 0);
-}
+};
 
-export { getAuthData, register, passwordMatches, getRefreshToken, updateToken };
+export default {
+  getAuthData,
+  register,
+  passwordMatches,
+  getRefreshToken,
+  updateToken,
+};

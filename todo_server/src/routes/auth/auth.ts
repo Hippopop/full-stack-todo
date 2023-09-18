@@ -1,24 +1,16 @@
+import fs from "fs/promises";
+import auth from "../../database/authentication";
 import { NextFunction, Request, Response, Router } from "express";
 import { wrapperFunction } from "../request-handler";
 import { AuthResModel } from "./models/auth_response";
-import {
-  getAuthData,
-  passwordMatches,
-  register,
-  updateToken,
-} from "../../database/authentication";
 import { LoginSchema } from "../../types/user/login-z";
 import { userNotFoundError, wrongCredentialError } from "./errors/auth_errors";
-import {
-  createUser,
-  getUserData,
-  getUserProfilePic,
-} from "../../database/user";
+import { createUser, getUserData } from "../../database/user";
 import tokenizer from "../../utils/token/jwt_token";
 import { success, successfullyCreated } from "../../Errors/error_codes";
 import multerConfig from "../../utils/file_management/multer_config";
-import { RegisterUserSchema } from "../../types/user/register-z";
-import z from "zod";
+import { RegisterUserSchema } from "./models/register";
+import { insertImage, getProfileImage } from "../../database/images";
 
 const authRoute = Router();
 
@@ -32,9 +24,9 @@ authRoute.post(
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
       const loginData = LoginSchema.safeParse(req.body);
       if (loginData.success) {
-        const authData = await getAuthData(loginData.data.email);
+        const authData = await auth.getAuthData(loginData.data.email);
         if (authData) {
-          const passMatched = await passwordMatches(
+          const passMatched = await auth.passwordMatches(
             loginData.data.password,
             authData.password
           );
@@ -42,7 +34,7 @@ authRoute.post(
           const userData = await getUserData(authData.email);
           const accessToken = tokenizer.generateToken(userData!);
           const refreshToken = tokenizer.generateRefreshToken(authData.uuid);
-          await updateToken(authData.uuid, [refreshToken]);
+          await auth.updateToken(authData.uuid, [refreshToken]);
           return {
             token: {
               token: accessToken,
@@ -71,16 +63,30 @@ authRoute.post(
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
       const data = RegisterUserSchema.safeParse(req.body);
       if (data.success) {
-        const authData = await register(data.data);
+        const authData = await auth.register(data.data);
+        let imagePath: string | undefined;
+        if (req.file) {
+          const image = await insertImage({
+            type: "profile",
+            uuid: authData.uuid,
+            extension: req.file.mimetype.split("/")[1] ?? "unknown",
+            name: req.file.filename,
+            imageFile: await fs.readFile(req.file.path),
+          });
+          imagePath = `auth/user_image?type=profile&uuid=${authData.uuid}&name=${image.name}`;
+        }
         const userData = await createUser({
           uid: 0,
           ...authData,
           ...data.data,
-          photo: req.file?.path,
+          photo: imagePath,
         });
         const accessToken = tokenizer.generateToken(userData);
         const refreshToken = tokenizer.generateRefreshToken(authData.uuid);
-        await updateToken(authData.uuid, [refreshToken, ...authData.token]);
+        await auth.updateToken(authData.uuid, [
+          refreshToken,
+          ...authData.token,
+        ]);
         return {
           token: {
             token: accessToken,
@@ -99,15 +105,18 @@ authRoute.get(
   "/user_image",
   wrapperFunction<void>({
     successCode: 200,
-    successMsg: "Image fetched successfully!",
     errorMsg: "Image not found!",
+    successMsg: "Image fetched successfully!",
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
-      const { user } = req.query;
-      if (user) {
-        const image = await getUserProfilePic(user.toString());
+      if (req.query.type && req.query.uuid && req.query.name) {
+        const image = await getProfileImage(
+          req.query.type as string,
+          req.query.uuid as string,
+          req.query.name as string
+        );
         if (image) {
           res.writeHead(200, { "Content-Type": "image/jpeg" });
-          res.end(image);
+          res.end(image.imageFile);
         } else {
           throw userNotFoundError;
         }

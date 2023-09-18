@@ -9,11 +9,9 @@ const findUserImageQuery = `SELECT photo FROM ${tableName} WHERE (email = ? OR u
 const createUserQuery = `INSERT INTO ${tableName}(uuid, email, phone, name, photo, birthdate) VALUES (?,?,?,?,?,?)`;
 
 const createUser = async (data: User): Promise<User> => {
-  let buf = filesystem.readFileSync(data.photo ?? "");
-  console.log(data.photo);
   const [headers] = await connectionConfig.query<ResultSetHeader>(
     createUserQuery,
-    [data.uuid, data.email, data.phone, data.name, buf, data.birthdate]
+    [data.uuid, data.email, data.phone, data.name, data.photo, data.birthdate]
   );
 
   return { ...data, uid: headers.insertId };
@@ -32,6 +30,7 @@ const getUserData = async (uniqueData: string): Promise<User | undefined> => {
 
   if (rows.length === 0 || !rows.at(0)) return undefined;
   const element = rows.at(0);
+  console.log(element);
   const purifiedData = UserSchema.safeParse(element);
   if (purifiedData.success) {
     return purifiedData.data;
@@ -40,7 +39,7 @@ const getUserData = async (uniqueData: string): Promise<User | undefined> => {
   }
 };
 
-const getUserProfilePic = async (
+/* const getUserProfilePic = async (
   uniqueData: string
 ): Promise<Buffer | undefined> => {
   console.log("#Calling Image Function.");
@@ -58,18 +57,6 @@ const getUserProfilePic = async (
   if (rows.length === 0 || !rows.at(0)) return undefined;
   const element = rows.at(0);
   return element!.photo;
-  // return element;
-  // const purifiedData = UserSchema.safeParse(element);
-  // if (purifiedData.success) {
-  //   return purifiedData.data;
-  // }
+}; */
 
-  /* const purifiedData = UserSchema.safeParse(element);
-  if (purifiedData.success) {
-    return purifiedData.data;
-  } else {
-    throw purifiedData.error;
-  } */
-};
-
-export { createUser, getUserData, getUserProfilePic };
+export { createUser, getUserData, /* getUserProfilePic */ };
