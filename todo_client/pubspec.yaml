@@ -19,27 +19,33 @@ dependencies:
   intl: ^0.18.0
   envied: ^0.3.0+3
   animations: ^2.0.7
-  collection: ^1.17.0
+  collection: ^1.18.0
   json_annotation: ^4.8.0
   freezed_annotation: ^2.2.0
   # Helpers!
   lottie: ^2.3.1
+  # rive: ^0.11.14
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^2.0.0
 
-  # custom_lint: ^0.3.4
-  # riverpod_lint: ^1.1.5
-  freezed: ^2.3.2
+  freezed: ^2.4.2
   build_runner: ^2.4.6
   json_serializable: ^6.6.1
   envied_generator: ^0.3.0+3
+  custom_lint: ^0.5.3
+  riverpod_lint: ^2.0.4
+
+dependency_overrides:
+  analyzer: ^6.0.0 # Conflicted between (Envied) & (Freezed)!
+  collection: ^1.18.0 # Conflicted with (flutter_test)!
+  
 
 flutter:
   uses-material-design: true
   assets:
+    - assets/rive/
     - assets/lottie/
     - assets/images/

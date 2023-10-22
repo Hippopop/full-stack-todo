@@ -4,6 +4,12 @@ part 'api_config.g.dart';
 
 @Envied(path: './.env', obfuscate: true)
 abstract class APIConfig {
+  @EnviedField(varName: 'LOGIN')
+  static final String login = _APIConfig.login;
+  @EnviedField(varName: 'REGISTER')
+  static final String register = _APIConfig.register;
+  @EnviedField(varName: 'REFRESH')
+  static final String refresh = _APIConfig.refresh;
   @EnviedField(varName: 'BASE_URL')
   static final String baseURl = _APIConfig.baseURl;
   @EnviedField(varName: "ADD_TODO")

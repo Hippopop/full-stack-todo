@@ -1,7 +1,4 @@
-import 'package:todo_client/src/repository/source/request_handler_provider.dart';
-import 'package:todo_client/src/repository/source/response_wrapper.dart';
-
-import 'models/models.dart';
+import 'package:todo_client/src/repository/repository.dart';
 export 'models/models.dart';
 
 abstract class TodoRepository {
@@ -14,8 +11,10 @@ abstract class TodoRepository {
   Future<ResponseWrapper<List, List<Todo>>> getAllTodo();
   Future<ResponseWrapper<Map, Todo>> addTodo({required Todo newTodo});
   Future<ResponseWrapper<Map, Todo>> updateTodo({required Todo newTodo});
-  Future<ResponseWrapper<Map<String, dynamic>, int>> deleteSingleTodo({required int id});
-  Future<ResponseWrapper<Map<String, List<dynamic>>, List<int>>> deleteMultipleTodo({
+  Future<ResponseWrapper<Map<String, dynamic>, int>> deleteSingleTodo(
+      {required int id});
+  Future<ResponseWrapper<Map<String, List<dynamic>>, List<int>>>
+      deleteMultipleTodo({
     required List<int> idList,
   });
 }

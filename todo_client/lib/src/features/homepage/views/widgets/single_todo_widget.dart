@@ -12,9 +12,9 @@ class TODOCardWidget extends ConsumerWidget {
   final Todo todo;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ColorsTheme? colorTheme = Theme.of(context).extension();
+    final ColorTheme? colorTheme = Theme.of(context).extension();
     return Card(
-      color: colorTheme?.backgroundColor,
+      color: colorTheme?.background,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -24,7 +24,7 @@ class TODOCardWidget extends ConsumerWidget {
         child: Row(
           children: [
             ColoredBox(
-              color: colorTheme?.extraColor ?? Colors.black,
+              color: colorTheme?.extra ?? Colors.black,
               child: const SizedBox(
                 width: 12,
                 height: double.infinity,
@@ -47,7 +47,7 @@ class TODOCardWidget extends ConsumerWidget {
                                 Text(
                                   todo.title,
                                   style: TextStyle(
-                                    color: colorTheme?.extraTextColor,
+                                    color: colorTheme?.extraText,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -58,7 +58,7 @@ class TODOCardWidget extends ConsumerWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: colorTheme?.extraTextColor,
+                                    color: colorTheme?.extraText,
                                   ),
                                 ),
                               ],
@@ -74,7 +74,7 @@ class TODOCardWidget extends ConsumerWidget {
                             icon: Icon(
                               Icons.check_circle_outline,
                               color: (todo.state == 'completed')
-                                  ? colorTheme?.primaryColor
+                                  ? colorTheme?.primary
                                   : Colors.grey,
                             ),
                           ),
@@ -83,7 +83,7 @@ class TODOCardWidget extends ConsumerWidget {
                     ),
                     Divider(
                       thickness: 0.5,
-                      color: colorTheme?.extraTextColor.withOpacity(0.5),
+                      color: colorTheme?.extraText.withOpacity(0.5),
                     ),
                     Expanded(
                       flex: 4,
@@ -96,7 +96,7 @@ class TODOCardWidget extends ConsumerWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 16,
-                                color: colorTheme?.extraTextColor,
+                                color: colorTheme?.extraText,
                               ),
                             ),
                           ),
@@ -107,7 +107,7 @@ class TODOCardWidget extends ConsumerWidget {
                                 .removeTodo(todo.id),
                             icon: Icon(
                               Icons.delete,
-                              color: colorTheme?.secoderyAccent,
+                              color: colorTheme?.secondaryAccent,
                             ),
                           ),
                         ],

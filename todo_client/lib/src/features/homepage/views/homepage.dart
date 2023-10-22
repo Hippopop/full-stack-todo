@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<ColorsTheme>();
+    final theme = Theme.of(context).extension<ColorTheme>();
     return Scaffold(
       extendBody: true,
       body: currentChild,
@@ -26,9 +26,9 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         heroTag: const ValueKey("#ADD_BUTTON"),
         onPressed: () {
-          context.push('/outside');
+          context.push('/add_todo');
         },
-        backgroundColor: theme?.primaryColor,
+        backgroundColor: theme?.primary,
         elevation: 0,
         child: const Icon(Icons.add),
       ),

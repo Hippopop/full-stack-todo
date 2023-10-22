@@ -8,6 +8,7 @@ import 'package:todo_client/src/utilities/scaffold_utilities.dart';
 
 class AddTodoCard extends ConsumerStatefulWidget {
   const AddTodoCard({super.key});
+  static const route = '/add_todo';
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AddTodoCardState();

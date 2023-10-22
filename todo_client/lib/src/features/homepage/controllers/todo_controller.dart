@@ -11,12 +11,12 @@ final todosController = AsyncNotifierProvider<TodosNotifier, List<Todo>>(() {
 });
 
 class TodosNotifier extends AsyncNotifier<List<Todo>> {
-  RequestHandler get handler => ref.watch(requestHandlerProvider);
-  TodoProvider get provider => ref.watch(todoProvider(handler));
+  RequestHandler get _handler => ref.watch(requestHandlerProvider);
+  TodoProvider get _provider => ref.watch(todoProvider(_handler));
 
   Future<List<Todo>> getAllTodos() async {
     try {
-      final response = await provider.getAllTodo();
+      final response = await _provider.getAllTodo();
       if (response.isSuccess) {
         return response.data!;
       } else {
@@ -26,7 +26,7 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
     } catch (e, s) {
       log("#GET_ALL_TODO", error: e, stackTrace: s);
       if (e is RequestException) {
-        e.handleError(defaultMessage: "Unexpected error occured!");
+        e.handleError(defaultMessage: "Unexpected error occurred!");
       }
       rethrow;
     }
@@ -40,7 +40,7 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
   Future<void> addTodo(Todo todo) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final res = await provider.addTodo(newTodo: todo);
+      final res = await _provider.addTodo(newTodo: todo);
       if (res.isSuccess) {
         showToastSuccess("TODO Successfully Added!");
       }
@@ -51,7 +51,7 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
   Future<void> removeTodo(int todoId) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final res = await provider.deleteSingleTodo(id: todoId);
+      final res = await _provider.deleteSingleTodo(id: todoId);
       if (res.isSuccess) {
         showToastSuccess("TODO Successfully Removed!");
       }
@@ -64,7 +64,7 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
         state.asData?.value.where((item) => item.id == todoId).first;
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final res = await provider.updateTodo(
+      final res = await _provider.updateTodo(
         newTodo: currentState!.copyWith(
           state: currentState.state == "active" ? "completed" : "active",
         ),

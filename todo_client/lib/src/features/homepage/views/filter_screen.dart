@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
+import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
 
 class FilterTodoScreen extends StatelessWidget {
   const FilterTodoScreen({super.key});
@@ -22,7 +22,7 @@ class FilterTodoScreen extends StatelessWidget {
           ),
           Text(
             'UNDER DEVELOPMENT',
-            style: context.theme.textTheme.headlineMedium,
+            style: context.text.headlineMedium,
           ),
         ],
       ),

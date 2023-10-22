@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_client/src/features/auth/views/auth_screen.dart';
 
 import 'package:todo_client/src/features/homepage/controllers/navbar_controller.dart';
 import 'package:todo_client/src/features/homepage/views/add_todo.dart';
@@ -14,13 +17,17 @@ final goRouterProvider = Provider<GoRouter>(
   (ref) {
     final navProvider = ref.watch(navigationProvider);
 
+
     final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#root');
     final shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#shell');
 
     return GoRouter(
       debugLogDiagnostics: true,
-      initialLocation: '/allTodo',
+      initialLocation: AuthScreen.route,
       navigatorKey: rootNavigatorKey,
+      redirect: (context, state) {
+        log("Current Path : ${state.fullPath}");
+      },
       routes: [
         ShellRoute(
           navigatorKey: shellNavigatorKey,
@@ -42,14 +49,17 @@ final goRouterProvider = Provider<GoRouter>(
           ],
         ),
         GoRoute(
-          path: '/outside',
+          path: AddTodoCard.route,
           parentNavigatorKey: rootNavigatorKey,
           pageBuilder: (context, state) => const AnimatedDialogueBuilder(
-            /* anchorPoint: Offset(
-              double.tryParse(state.queryParams['x'] ?? "0.0") ?? 0.00,
-              double.tryParse(state.queryParams['x'] ?? "0.00") ?? 0.00,
-            ), */
             child: AddTodoCard(),
+          ),
+        ),
+        GoRoute(
+          path: AuthScreen.route,
+          parentNavigatorKey: rootNavigatorKey,
+          pageBuilder: (context, state) => const AnimatedDialogueBuilder(
+            child: AuthScreen(),
           ),
         ),
       ],

@@ -1,67 +1,71 @@
 import 'package:flutter/material.dart';
 
-class ColorsTheme extends ThemeExtension<ColorsTheme> {
-  final Color white;
-  final Color black;
-  final Color extraColor;
-  final Color mainAccent;
-  final Color primaryColor;
-  final Color primaryAccent;
-  final Color secoderyAccent;
-  final Color extraTextColor;
-  final Color backgroundColor;
+extension ColorExtension on BuildContext {
+  ColorTheme? get color => Theme.of(this).extension<ColorTheme>();
+}
 
-  ColorsTheme({
-    required this.black,
-    required this.white,
-    required this.extraColor,
+class ColorTheme extends ThemeExtension<ColorTheme> {
+  final Color theme;
+  final Color opposite;
+  final Color extra;
+  final Color mainAccent;
+  final Color primary;
+  final Color primaryAccent;
+  final Color secondaryAccent;
+  final Color extraText;
+  final Color background;
+
+  ColorTheme({
+    required this.opposite,
+    required this.theme,
+    required this.extra,
     required this.mainAccent,
-    required this.primaryColor,
+    required this.primary,
     required this.primaryAccent,
-    required this.secoderyAccent,
-    required this.extraTextColor,
-    required this.backgroundColor,
+    required this.secondaryAccent,
+    required this.extraText,
+    required this.background,
   });
 
   @override
-  ColorsTheme copyWith({
-    Color? black,
-    Color? white,
-    Color? mainAccent,
+  ColorTheme copyWith({
+    Color? oppositeColor,
+    Color? themeColor,
+    Color? mainAccentColor,
     Color? extraColor,
     Color? primaryColor,
-    Color? primaryAccent,
-    Color? secoderyAccent,
+    Color? primaryAccentColor,
+    Color? secondaryAccentColor,
     Color? extraTextColor,
     Color? backgroundColor,
   }) {
-    return ColorsTheme(
-      white: white ?? this.white,
-      black: black ?? this.black,
-      mainAccent: mainAccent ?? this.mainAccent,
-      extraColor: extraColor ?? this.extraColor,
-      primaryColor: primaryColor ?? this.primaryColor,
-      primaryAccent: primaryAccent ?? this.primaryAccent,
-      secoderyAccent: secoderyAccent ?? this.secoderyAccent,
-      extraTextColor: extraTextColor ?? this.extraTextColor,
-      backgroundColor: backgroundColor ?? this.backgroundColor,
+    return ColorTheme(
+      theme: oppositeColor ?? opposite,
+      opposite: themeColor ?? theme,
+      mainAccent: mainAccentColor ?? mainAccent,
+      extra: extraColor ?? extra,
+      primary: primaryColor ?? primary,
+      primaryAccent: primaryAccentColor ?? primaryAccent,
+      secondaryAccent: secondaryAccentColor ?? secondaryAccent,
+      extraText: extraTextColor ?? extraText,
+      background: backgroundColor ?? background,
     );
   }
 
   @override
-  ThemeExtension<ColorsTheme> lerp(
-      covariant ThemeExtension<ColorsTheme>? other, double t) {
-    if (other is! ColorsTheme) return this;
-    return ColorsTheme(
-      white: Color.lerp(white, other.white, t)!,
-      black: Color.lerp(black, other.black, t)!,
+  ThemeExtension<ColorTheme> lerp(
+      covariant ThemeExtension<ColorTheme>? other, double t) {
+    if (other is! ColorTheme) return this;
+    return ColorTheme(
+      theme: Color.lerp(theme, other.theme, t)!,
+      opposite: Color.lerp(opposite, other.opposite, t)!,
       mainAccent: Color.lerp(mainAccent, other.mainAccent, t)!,
-      extraColor: Color.lerp(extraColor, other.extraColor, t)!,
-      primaryColor: Color.lerp(primaryColor, other.primaryColor, t)!,
+      extra: Color.lerp(extra, other.extra, t)!,
+      primary: Color.lerp(primary, other.primary, t)!,
       primaryAccent: Color.lerp(primaryAccent, other.primaryAccent, t)!,
-      secoderyAccent: Color.lerp(secoderyAccent, other.secoderyAccent, t)!,
-      extraTextColor: Color.lerp(extraTextColor, other.extraTextColor, t)!,
-      backgroundColor: Color.lerp(backgroundColor, other.backgroundColor, t)!,
+      secondaryAccent: Color.lerp(secondaryAccent, other.secondaryAccent, t)!,
+      extraText: Color.lerp(extraText, other.extraText, t)!,
+      background: Color.lerp(background, other.background, t)!,
     );
   }
 }
