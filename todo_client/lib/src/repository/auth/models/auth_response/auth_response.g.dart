@@ -6,8 +6,8 @@ part of 'auth_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AuthResponse _$$_AuthResponseFromJson(Map<String, dynamic> json) =>
-    _$_AuthResponse(
+_$AuthResponseImpl _$$AuthResponseImplFromJson(Map<String, dynamic> json) =>
+    _$AuthResponseImpl(
       uid: json['uid'] as int,
       uuid: json['uuid'] as String,
       email: json['email'] as String,
@@ -17,7 +17,7 @@ _$_AuthResponse _$$_AuthResponseFromJson(Map<String, dynamic> json) =>
       birthdate: json['birthdate'] as String?,
     );
 
-Map<String, dynamic> _$$_AuthResponseToJson(_$_AuthResponse instance) =>
+Map<String, dynamic> _$$AuthResponseImplToJson(_$AuthResponseImpl instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'uuid': instance.uuid,

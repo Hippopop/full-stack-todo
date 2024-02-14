@@ -5,79 +5,79 @@ const accessTokenTime = "2h";
 const refreshTokenTime = "2h";
 
 function generateToken(data: string | object): string {
-  const tokenSecret = process.env.ACCESSTOKEN as string;
+  const tokenSecret = process.env.ACCESS_TOKEN as string;
   return tokenizer.sign(data, tokenSecret, {
     expiresIn: accessTokenTime,
   });
 }
 
-function generateRefreshToken(data: string | object): string {
-  const tokenSecret = process.env.REFRESHTOKEN as string;
+function generateRefreshToken(data: string): string {
+  const tokenSecret = process.env.REFRESH_TOKEN as string;
   return tokenizer.sign(data, tokenSecret, {
     // expiresIn: refreshTokenTime,
     //** You can set the [expiresIn] only for [Object] types!
-  });
+  },);
 }
 
-/* function varifyAccessToken(token: string): boolean {
-  var varified = false;
-  const tokenSecret = process.env.ACCESSTOKEN as string;
+/* function verifyAccessToken(token: string): boolean {
+  var verified = false;
+  const tokenSecret = process.env.ACCESS_TOKEN as string;
   tokenizer.verify(token, tokenSecret, (err, data) => {
-    if (err) varified = false;
-    if (data) varified = true;
+    if (err) verified = false;
+    if (data) verified = true;
   });
-  return varified;
+  return verified;
 } */
 
-function varifyRefreshTokenWithData<T>(
+function verifyRefreshTokenWithData<T>(
   token: string,
   schema: z.Schema<T>
 ): T | undefined {
-  var varified: T | undefined;
-  const tokenSecret = process.env.REFRESHTOKEN as string;
+  var verified: T | undefined;
+  const tokenSecret = process.env.REFRESH_TOKEN as string;
   tokenizer.verify(token, tokenSecret, (err, data) => {
     if (data) {
       const purifiedData = schema.safeParse(data);
       if (purifiedData.success) {
-        varified = purifiedData.data;
+        verified = purifiedData.data;
       }
     }
   });
-  return varified;
+  return verified;
 }
 
-function varifyAccessTokenWithData<T>(
+function verifyAccessTokenWithData<T>(
   token: string,
   schema: z.Schema<T>
 ): T | undefined {
-  var varified: T | undefined;
-  const tokenSecret = process.env.ACCESSTOKEN as string;
+  var verified: T | undefined;
+  const tokenSecret = process.env.ACCESS_TOKEN as string;
   tokenizer.verify(token, tokenSecret, (err, data) => {
     if (data) {
       const purifiedData = schema.safeParse(data);
       if (purifiedData.success) {
-        varified = purifiedData.data;
+        verified = purifiedData.data;
       }
+    } else {
+      console.log(`Token isn't valid : ${err}`);
     }
   });
-  return varified;
+  return verified;
 }
 
-/* function varifyRefreshToken(token: string): boolean {
-  var varified = false;
-  const tokenSecret = process.env.REFRESHTOKEN as string;
+/* function verifyRefreshToken(token: string): boolean {
+  var verified = false;
+  const tokenSecret = process.env.REFRESH_TOKEN as string;
   tokenizer.verify(token, tokenSecret, (err, data) => {
-    if (err) varified = false;
-    if (data) varified = true;
+    if (err) verified = false;
+    if (data) verified = true;
   });
-  return varified;
+  return verified;
 } */
 
 export default {
   generateToken,
   generateRefreshToken,
-  // varifyAccessToken,
-  // varifyRefreshToken,
-  verifyAccessTokenWithData: varifyAccessTokenWithData,
-  varifyRefreshTokenWithData,
+  verifyAccessTokenWithData,
+  verifyRefreshTokenWithData,
 };

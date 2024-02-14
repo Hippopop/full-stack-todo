@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/repository/todo_repository/models/models.dart';
 import 'package:todo_client/src/features/homepage/controllers/homepage_controllers.dart';
-import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
+import 'package:todo_client/src/system/themes/extensions/extension_themes.dart';
 
 class TODOCardWidget extends ConsumerWidget {
   const TODOCardWidget({
@@ -14,7 +14,7 @@ class TODOCardWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ColorTheme? colorTheme = Theme.of(context).extension();
     return Card(
-      color: colorTheme?.background,
+      color: colorTheme?.mainBackground,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -47,7 +47,7 @@ class TODOCardWidget extends ConsumerWidget {
                                 Text(
                                   todo.title,
                                   style: TextStyle(
-                                    color: colorTheme?.extraText,
+                                    color: colorTheme?.primaryText,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -58,7 +58,7 @@ class TODOCardWidget extends ConsumerWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: colorTheme?.extraText,
+                                    color: colorTheme?.primaryText,
                                   ),
                                 ),
                               ],
@@ -83,7 +83,7 @@ class TODOCardWidget extends ConsumerWidget {
                     ),
                     Divider(
                       thickness: 0.5,
-                      color: colorTheme?.extraText.withOpacity(0.5),
+                      color: colorTheme?.primaryText.withOpacity(0.5),
                     ),
                     Expanded(
                       flex: 4,
@@ -96,7 +96,7 @@ class TODOCardWidget extends ConsumerWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 16,
-                                color: colorTheme?.extraText,
+                                color: colorTheme?.primaryText,
                               ),
                             ),
                           ),

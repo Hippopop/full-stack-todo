@@ -104,10 +104,11 @@ class _$UserTokenCopyWithImpl<$Res, $Val extends UserToken>
 }
 
 /// @nodoc
-abstract class _$$_UserTokenCopyWith<$Res> implements $UserTokenCopyWith<$Res> {
-  factory _$$_UserTokenCopyWith(
-          _$_UserToken value, $Res Function(_$_UserToken) then) =
-      __$$_UserTokenCopyWithImpl<$Res>;
+abstract class _$$UserTokenImplCopyWith<$Res>
+    implements $UserTokenCopyWith<$Res> {
+  factory _$$UserTokenImplCopyWith(
+          _$UserTokenImpl value, $Res Function(_$UserTokenImpl) then) =
+      __$$UserTokenImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -121,11 +122,11 @@ abstract class _$$_UserTokenCopyWith<$Res> implements $UserTokenCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_UserTokenCopyWithImpl<$Res>
-    extends _$UserTokenCopyWithImpl<$Res, _$_UserToken>
-    implements _$$_UserTokenCopyWith<$Res> {
-  __$$_UserTokenCopyWithImpl(
-      _$_UserToken _value, $Res Function(_$_UserToken) _then)
+class __$$UserTokenImplCopyWithImpl<$Res>
+    extends _$UserTokenCopyWithImpl<$Res, _$UserTokenImpl>
+    implements _$$UserTokenImplCopyWith<$Res> {
+  __$$UserTokenImplCopyWithImpl(
+      _$UserTokenImpl _value, $Res Function(_$UserTokenImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -139,7 +140,7 @@ class __$$_UserTokenCopyWithImpl<$Res>
     Object? photo = freezed,
     Object? birthdate = freezed,
   }) {
-    return _then(_$_UserToken(
+    return _then(_$UserTokenImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -174,8 +175,8 @@ class __$$_UserTokenCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UserToken with DiagnosticableTreeMixin implements _UserToken {
-  const _$_UserToken(
+class _$UserTokenImpl with DiagnosticableTreeMixin implements _UserToken {
+  const _$UserTokenImpl(
       {required this.uid,
       required this.uuid,
       required this.email,
@@ -184,8 +185,8 @@ class _$_UserToken with DiagnosticableTreeMixin implements _UserToken {
       this.photo,
       this.birthdate});
 
-  factory _$_UserToken.fromJson(Map<String, dynamic> json) =>
-      _$$_UserTokenFromJson(json);
+  factory _$UserTokenImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserTokenImplFromJson(json);
 
   @override
   final int uid;
@@ -222,10 +223,10 @@ class _$_UserToken with DiagnosticableTreeMixin implements _UserToken {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserToken &&
+            other is _$UserTokenImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.email, email) || other.email == email) &&
@@ -244,12 +245,12 @@ class _$_UserToken with DiagnosticableTreeMixin implements _UserToken {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserTokenCopyWith<_$_UserToken> get copyWith =>
-      __$$_UserTokenCopyWithImpl<_$_UserToken>(this, _$identity);
+  _$$UserTokenImplCopyWith<_$UserTokenImpl> get copyWith =>
+      __$$UserTokenImplCopyWithImpl<_$UserTokenImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserTokenToJson(
+    return _$$UserTokenImplToJson(
       this,
     );
   }
@@ -263,10 +264,10 @@ abstract class _UserToken implements UserToken {
       final String? name,
       final String? phone,
       final String? photo,
-      final String? birthdate}) = _$_UserToken;
+      final String? birthdate}) = _$UserTokenImpl;
 
   factory _UserToken.fromJson(Map<String, dynamic> json) =
-      _$_UserToken.fromJson;
+      _$UserTokenImpl.fromJson;
 
   @override
   int get uid;
@@ -284,6 +285,6 @@ abstract class _UserToken implements UserToken {
   String? get birthdate;
   @override
   @JsonKey(ignore: true)
-  _$$_UserTokenCopyWith<_$_UserToken> get copyWith =>
+  _$$UserTokenImplCopyWith<_$UserTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

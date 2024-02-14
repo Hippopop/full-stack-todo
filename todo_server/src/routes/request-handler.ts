@@ -48,66 +48,73 @@ The response will be in the form of a [JSON] object with the following format:
 // Over that rant! 🙂 Cz that system, even works with mine.
 export const wrapperFunction =
   <T>(wrapperProps: WrapperProps<T>) =>
-  async (req: Request, res: Response, next: NextFunction) => {
-    const {
-      authenticate,
-      successCode,
-      schema,
-      successMsg,
-      errorMsg,
-      businessLogic: businessLogic,
-    } = wrapperProps;
-    try {
-      // *** Calls the actual business logic!
-      var userData: User | undefined;
-      if (authenticate) {
-        const { authorization } = req.headers;
-        if (!authorization)
-          throw new ResponseError(
-            badRequest,
-            "Attempting Unauthorized Access!"
+    async (req: Request, res: Response, next: NextFunction) => {
+      const {
+        authenticate,
+        successCode,
+        schema,
+        successMsg,
+        errorMsg,
+        businessLogic: businessLogic,
+      } = wrapperProps;
+      try {
+
+        // *** Step: 0. If this request needed authorization, this is where it's checked!
+        var userData: User | undefined;
+        if (authenticate) {
+          const { authorization } = req.headers;
+          if (!authorization)
+            throw new ResponseError(
+              badRequest,
+              "Attempting Unauthorized Access!"
+            );
+          const token = authorization.split(" ")[1];
+          const authData = tokenizer.verifyAccessTokenWithData(
+            token!,
+            UserSchema,
           );
-        const token = authorization.split(" ")[1];
-        const authData = tokenizer.verifyAccessTokenWithData(
-          token!,
-          UserSchema
-        );
-        if (authData) {
-          userData = authData;
-        } else throw new ResponseError(unauthorized, "Invalid access token!");
+          if (authData) {
+            userData = authData;
+          } else throw new ResponseError(unauthorized, "Invalid access token!");
+        }
+
+        // *** Step: 1. Calls the actual business logic!
+        const data = await businessLogic(req, res, next, userData);
+        if (res.headersSent) {
+          console.log(
+            `Response was already sent from (BusinessLogic) call. \n REQ: ${req}`
+          );
+          return;
+        }
+
+
+        // *** Step: 2. Parses the data and gives it the form of an [Response]!
+        const safeData = ResponseWrapperSchema(schema).safeParse({
+          data: data,
+          msg: successMsg,
+          status: successCode,
+        });
+
+
+        // *** Step: 3. Checks if the end result is a valid [Response], In case of [success] send the response else throw!
+        if (safeData.success) {
+          return res.status(success).json(safeData.data);
+        } else {
+          throw safeData.error;
+        }
+      } catch (error) {
+        console.log(error);
+        // *** ErrorStep: Actual [error] handling!
+        await handleErrors(error, errorMsg, res);
       }
-      const data = await businessLogic(req, res);
-      if (res.headersSent) {
+
+      if (!res.headersSent) {
         console.log(
-          `Response was already sent from (BusinessLogic) call. \n REQ: ${req}`
+          `#Response wasn't handled for this request. \n REQ: ${req.originalUrl}`
         );
         return;
       }
-      // *** Parses the data and gives it the form of an [Response]!
-      const safeData = ResponseWrapperSchema(schema).safeParse({
-        data: data,
-        msg: successMsg,
-        status: successCode,
-      });
-      // *** Checks if the end result is a valid [Response], In case of [success] send the response else throw!
-      if (safeData.success) {
-        return res.status(success).json(safeData.data);
-      } else {
-        throw safeData.error;
-      }
-    } catch (error) {
-      console.log(error);
-      // *** Actual [error] handling!
-      await handleErrors(error, errorMsg, res);
-    }
-
-    if (!res.headersSent) {
-      console.log(
-        `#Response wasn't handled for this request. \n REQ: ${req.originalUrl}`
-      );
-      return;
-    }
-  };
+    };
 
 // It has a lots of unnecessary double checks and overuse of [zod]!
 async function handleErrors(error: any, errorMsg: string, res: Response) {

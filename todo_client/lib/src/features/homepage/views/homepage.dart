@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
+import 'package:todo_client/src/system/themes/extensions/extension_themes.dart';
 
 import 'widgets/navbar.dart';
 
@@ -25,9 +25,7 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: const ValueKey("#ADD_BUTTON"),
-        onPressed: () {
-          context.push('/add_todo');
-        },
+        onPressed: () async => context.push('/add_todo'),
         backgroundColor: theme?.primary,
         elevation: 0,
         child: const Icon(Icons.add),

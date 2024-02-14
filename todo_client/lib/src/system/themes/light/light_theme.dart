@@ -13,6 +13,7 @@ const _secondaryAccent = Color(0xffA0ACF2);
 const _backgroundColor = Color(0xffF2F2F2);
 
 final lightTheme = ThemeData(
+  useMaterial3: false,
   brightness: Brightness.light,
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(),
@@ -25,9 +26,9 @@ final lightTheme = ThemeData(
       mainAccent: _mainAccent,
       primary: _primaryColor,
       primaryAccent: _primaryAccent,
-      extraText: _extraTextColor,
+      primaryText: _extraTextColor,
       secondaryAccent: _secondaryAccent,
-      background: _backgroundColor,
+      mainBackground: _backgroundColor,
     ),
   },
 );

@@ -24,7 +24,8 @@ dependencies:
   freezed_annotation: ^2.2.0
   # Helpers!
   lottie: ^2.3.1
-  # rive: ^0.11.14
+  rive: ^0.12.4
+  flutter_portal: ^1.1.4
 
 dev_dependencies:
   flutter_test:
@@ -41,7 +42,6 @@ dev_dependencies:
 dependency_overrides:
   analyzer: ^6.0.0 # Conflicted between (Envied) & (Freezed)!
   collection: ^1.18.0 # Conflicted with (flutter_test)!
-  
 
 flutter:
   uses-material-design: true

@@ -17,13 +17,12 @@ final goRouterProvider = Provider<GoRouter>(
   (ref) {
     final navProvider = ref.watch(navigationProvider);
 
-
     final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#root');
     final shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#shell');
 
     return GoRouter(
       debugLogDiagnostics: true,
-      initialLocation: AuthScreen.route,
+      initialLocation: '/allTodo',
       navigatorKey: rootNavigatorKey,
       redirect: (context, state) {
         log("Current Path : ${state.fullPath}");

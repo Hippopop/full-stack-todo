@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
 import 'package:todo_client/src/system/themes/app_theme.dart';
 
 import 'widgets/auth_lottie.dart';

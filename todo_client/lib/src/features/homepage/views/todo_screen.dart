@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:rive/rive.dart';
 import 'package:todo_client/src/features/homepage/controllers/todo_controller.dart';
-import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
+import 'package:todo_client/src/system/themes/app_theme.dart';
 
 import 'widgets/single_todo_widget.dart';
 
@@ -18,7 +19,7 @@ class AllTodoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorTheme = Theme.of(context).extension<ColorTheme>();
     return ColoredBox(
-      color: colorTheme?.background ?? Colors.white70,
+      color: colorTheme?.mainBackground ?? Colors.white70,
       child: SafeArea(
         child: Column(
           children: [
@@ -83,7 +84,9 @@ class TODOListView extends ConsumerWidget {
     final todos = ref.watch(todosController);
     return todos.when(
       loading: () => const Center(
-        child: LottieLoader(),
+        child: RiveAnimation.network(
+          'https://cdn.rive.app/animations/vehicles.riv',
+        ),
       ),
       error: (error, trace) {
         return Text(
@@ -198,7 +201,7 @@ class TodoScreenAppBar extends StatelessWidget {
                   Text(
                     'Hello,',
                     style: context.theme.textTheme.bodyLarge?.copyWith(
-                      color: colorTheme?.extraText,
+                      color: colorTheme?.primaryText,
                     ),
                   ),
                   Text(
@@ -281,5 +284,3 @@ class CountWidget extends StatelessWidget {
     );
   }
 }
-
-

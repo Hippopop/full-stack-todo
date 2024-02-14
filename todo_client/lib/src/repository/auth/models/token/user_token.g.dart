@@ -6,7 +6,8 @@ part of 'user_token.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UserToken _$$_UserTokenFromJson(Map<String, dynamic> json) => _$_UserToken(
+_$UserTokenImpl _$$UserTokenImplFromJson(Map<String, dynamic> json) =>
+    _$UserTokenImpl(
       uid: json['uid'] as int,
       uuid: json['uuid'] as String,
       email: json['email'] as String,
@@ -16,7 +17,7 @@ _$_UserToken _$$_UserTokenFromJson(Map<String, dynamic> json) => _$_UserToken(
       birthdate: json['birthdate'] as String?,
     );
 
-Map<String, dynamic> _$$_UserTokenToJson(_$_UserToken instance) =>
+Map<String, dynamic> _$$UserTokenImplToJson(_$UserTokenImpl instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'uuid': instance.uuid,

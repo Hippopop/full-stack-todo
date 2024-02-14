@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/constants/server/api/api_config.dart';
 import 'package:todo_client/src/repository/source/response_wrapper.dart';
-import 'package:todo_client/src/utilities/scaffold_utilities.dart';
+import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
 
 final requestHandlerProvider = Provider<RequestHandler>((ref) {
   return RequestHandler();
@@ -37,25 +37,25 @@ class RequestHandler {
         options: options,
       );
       return response;
-    } on DioException catch (error, stracktrace) {
+    } on DioException catch (error, stacktrace) {
       throw RequestException(
         method: "/POST",
         url: baseUrl ?? mainUrl + url,
         data: params,
         error: error,
         msg: errorMsg,
-        trace: stracktrace,
+        trace: stacktrace,
         res: error.response,
         statusCode: error.response?.statusCode,
       );
-    } catch (error, stracktrace) {
+    } catch (error, stacktrace) {
       throw RequestException(
         method: "/POST",
         url: baseUrl ?? mainUrl + url,
         msg: errorMsg,
         data: params,
         error: error,
-        trace: stracktrace,
+        trace: stacktrace,
       );
     }
   }
@@ -69,29 +69,31 @@ class RequestHandler {
     Map<String, dynamic>? queryParams,
   }) async {
     try {
+      final fullUrl = baseUrl ?? mainUrl + url;
+      log("Get : $fullUrl");
       final response = await dio.get(
-        baseUrl ?? mainUrl + url,
+        fullUrl,
         options: options,
         queryParameters: queryParams,
       );
       return response;
-    } on DioException catch (error, stracktrace) {
+    } on DioException catch (error, stacktrace) {
       throw RequestException(
         method: "/GET",
         url: baseUrl ?? mainUrl + url,
         error: error,
         msg: errorMsg,
-        trace: stracktrace,
+        trace: stacktrace,
         res: error.response,
         statusCode: error.response?.statusCode,
       );
-    } catch (error, stracktrace) {
+    } catch (error, stacktrace) {
       throw RequestException(
         method: "/GET",
         url: baseUrl ?? mainUrl + url,
         msg: errorMsg,
         error: error,
-        trace: stracktrace,
+        trace: stacktrace,
       );
     }
   }
@@ -114,25 +116,25 @@ class RequestHandler {
         options: options,
       );
       return response;
-    } on DioException catch (error, stracktrace) {
+    } on DioException catch (error, stacktrace) {
       throw RequestException(
         method: "/PUT",
         url: baseUrl ?? mainUrl + url,
         data: params,
         error: error,
         msg: errorMsg,
-        trace: stracktrace,
+        trace: stacktrace,
         res: error.response,
         statusCode: error.response?.statusCode,
       );
-    } catch (error, stracktrace) {
+    } catch (error, stacktrace) {
       throw RequestException(
         method: "/PUT",
         url: baseUrl ?? mainUrl + url,
         msg: errorMsg,
         data: params,
         error: error,
-        trace: stracktrace,
+        trace: stacktrace,
       );
     }
   }
@@ -155,25 +157,25 @@ class RequestHandler {
         options: options,
       );
       return response;
-    } on DioException catch (error, stracktrace) {
+    } on DioException catch (error, stacktrace) {
       throw RequestException(
         method: "/DELETE",
         url: baseUrl ?? mainUrl + url,
         data: params,
         error: error,
         msg: errorMsg,
-        trace: stracktrace,
+        trace: stacktrace,
         res: error.response,
         statusCode: error.response?.statusCode,
       );
-    } catch (error, stracktrace) {
+    } catch (error, stacktrace) {
       throw RequestException(
         method: "/DELETE",
         url: baseUrl ?? mainUrl + url,
         msg: errorMsg,
         data: params,
         error: error,
-        trace: stracktrace,
+        trace: stacktrace,
       );
     }
   }
@@ -199,25 +201,17 @@ class RequestException implements Exception {
     required this.error,
     required this.trace,
   }) {
-    final details = 
-"""
-\x1B[35m/*
-method: ($method)
-url: ($url)
-statusCode: ${statusCode ?? 0}
-errorMsg: "${msg ?? ''}"
-data: ${data ?? ''}
-res: ${res ?? ''}
-*/\x1B[0m
-""";
+    print("response: ${res}");
+    final details = "\x1B[35m/*\n"
+        "method: ($method)\n"
+        "url: ($url)\n"
+        "statusCode: ${statusCode ?? 0}\n"
+        "errorMsg: \"${msg ?? ''}\"\n"
+        "data: ${data ?? ''}\n"
+        "res: ${res ?? ''}\n"
+        "*/\x1B[0m\n";
 
-    log(
-      details,
-      name: "#RequestException",
-      time: DateTime.now(),
-      error: error,
-      stackTrace: trace,
-    );
+    log(details, name: "#RequestException", error: error, stackTrace: trace);
   }
 
   handleError({required String defaultMessage}) async {

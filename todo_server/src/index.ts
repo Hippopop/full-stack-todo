@@ -23,8 +23,16 @@ app.use("/token", tokenRoute);
 
 /* Rest of the handling! */
 app.get("/", async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await readFile("placeholder/placeholder.html", "utf8"));
+  const file = await readFile("placeholder/placeholder.html", "utf8");
+  res.send(file);
 });
+
+app.all("*", async function (req: Request, res: Response, next: NextFunction) {
+  const file = await readFile("placeholder/not-found.html", "utf8");
+  const formattedFile = file.replace("{%}", req.url);
+  res.send(formattedFile);
+});
+
 
 app.listen(port, () =>
   console.log(`Listening on port ${port} // http://localhost:${port}/`)

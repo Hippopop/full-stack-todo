@@ -1,12 +1,11 @@
 {
-    "dotenv.enableAutocloaking": false,
-    "editor.tokenColorCustomizations": {
-        "comments": "",
-        "textMateRules": []
+  "dotenv.enableAutocloaking": false,
+  "editor.tokenColorCustomizations": {
+    "comments": {
+      "fontStyle": "bold",
+      "foreground": "#484343"
     },
-    "cSpell.words": [
-        "birthdate",
-        "datetime",
-        "Todos"
-    ]
+    "textMateRules": []
+  },
+  "cSpell.words": ["birthdate", "datetime", "Todos"]
 }

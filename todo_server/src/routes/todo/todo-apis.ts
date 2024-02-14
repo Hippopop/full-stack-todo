@@ -65,6 +65,7 @@ todoRoute.delete(
     schema: z.object({
       deleted: z.number().or(z.array(z.number())),
     }),
+
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
       // *** This here will accept one single [TODO], or multiple [TODO]s to delete at once.
       const expectedSchema = z.object({

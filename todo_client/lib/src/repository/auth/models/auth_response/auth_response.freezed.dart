@@ -105,11 +105,11 @@ class _$AuthResponseCopyWithImpl<$Res, $Val extends AuthResponse>
 }
 
 /// @nodoc
-abstract class _$$_AuthResponseCopyWith<$Res>
+abstract class _$$AuthResponseImplCopyWith<$Res>
     implements $AuthResponseCopyWith<$Res> {
-  factory _$$_AuthResponseCopyWith(
-          _$_AuthResponse value, $Res Function(_$_AuthResponse) then) =
-      __$$_AuthResponseCopyWithImpl<$Res>;
+  factory _$$AuthResponseImplCopyWith(
+          _$AuthResponseImpl value, $Res Function(_$AuthResponseImpl) then) =
+      __$$AuthResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -123,11 +123,11 @@ abstract class _$$_AuthResponseCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AuthResponseCopyWithImpl<$Res>
-    extends _$AuthResponseCopyWithImpl<$Res, _$_AuthResponse>
-    implements _$$_AuthResponseCopyWith<$Res> {
-  __$$_AuthResponseCopyWithImpl(
-      _$_AuthResponse _value, $Res Function(_$_AuthResponse) _then)
+class __$$AuthResponseImplCopyWithImpl<$Res>
+    extends _$AuthResponseCopyWithImpl<$Res, _$AuthResponseImpl>
+    implements _$$AuthResponseImplCopyWith<$Res> {
+  __$$AuthResponseImplCopyWithImpl(
+      _$AuthResponseImpl _value, $Res Function(_$AuthResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -141,7 +141,7 @@ class __$$_AuthResponseCopyWithImpl<$Res>
     Object? photo = freezed,
     Object? birthdate = freezed,
   }) {
-    return _then(_$_AuthResponse(
+    return _then(_$AuthResponseImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -176,8 +176,8 @@ class __$$_AuthResponseCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AuthResponse with DiagnosticableTreeMixin implements _AuthResponse {
-  const _$_AuthResponse(
+class _$AuthResponseImpl with DiagnosticableTreeMixin implements _AuthResponse {
+  const _$AuthResponseImpl(
       {required this.uid,
       required this.uuid,
       required this.email,
@@ -186,8 +186,8 @@ class _$_AuthResponse with DiagnosticableTreeMixin implements _AuthResponse {
       this.photo,
       this.birthdate});
 
-  factory _$_AuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$$_AuthResponseFromJson(json);
+  factory _$AuthResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AuthResponseImplFromJson(json);
 
   @override
   final int uid;
@@ -224,10 +224,10 @@ class _$_AuthResponse with DiagnosticableTreeMixin implements _AuthResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthResponse &&
+            other is _$AuthResponseImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.email, email) || other.email == email) &&
@@ -246,12 +246,12 @@ class _$_AuthResponse with DiagnosticableTreeMixin implements _AuthResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthResponseCopyWith<_$_AuthResponse> get copyWith =>
-      __$$_AuthResponseCopyWithImpl<_$_AuthResponse>(this, _$identity);
+  _$$AuthResponseImplCopyWith<_$AuthResponseImpl> get copyWith =>
+      __$$AuthResponseImplCopyWithImpl<_$AuthResponseImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AuthResponseToJson(
+    return _$$AuthResponseImplToJson(
       this,
     );
   }
@@ -265,10 +265,10 @@ abstract class _AuthResponse implements AuthResponse {
       final String? name,
       final String? phone,
       final String? photo,
-      final String? birthdate}) = _$_AuthResponse;
+      final String? birthdate}) = _$AuthResponseImpl;
 
   factory _AuthResponse.fromJson(Map<String, dynamic> json) =
-      _$_AuthResponse.fromJson;
+      _$AuthResponseImpl.fromJson;
 
   @override
   int get uid;
@@ -286,6 +286,6 @@ abstract class _AuthResponse implements AuthResponse {
   String? get birthdate;
   @override
   @JsonKey(ignore: true)
-  _$$_AuthResponseCopyWith<_$_AuthResponse> get copyWith =>
+  _$$AuthResponseImplCopyWith<_$AuthResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

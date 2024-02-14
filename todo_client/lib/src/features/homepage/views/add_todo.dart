@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_client/src/features/homepage/controllers/homepage_controllers.dart';
 import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/utilities/extensions/string_extensions.dart';
-import 'package:todo_client/src/utilities/scaffold_utilities.dart';
+import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
 
 class AddTodoCard extends ConsumerStatefulWidget {
   const AddTodoCard({super.key});
