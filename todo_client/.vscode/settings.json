@@ -1,0 +1,13 @@
+{
+    "editor.tokenColorCustomizations": {
+        "comments": "",
+        "textMateRules": []
+    },
+    "cmake.sourceDirectory": "F:/BackendDev/NodeJs/PersonalProjects/FULL_stack_TODO/todo_client/windows",
+    "cSpell.words": [
+        "birthdate",
+        "riverpod",
+        "todos",
+        "vsync"
+    ]
+}

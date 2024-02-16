@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
+import 'package:todo_client/src/system/themes/extensions/extension_themes.dart';
 
 import 'widgets/navbar.dart';
 
@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<ColorsTheme>();
+    final theme = Theme.of(context).extension<ColorTheme>();
     return Scaffold(
       extendBody: true,
       body: currentChild,
@@ -25,10 +25,8 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: const ValueKey("#ADD_BUTTON"),
-        onPressed: () {
-          context.push('/outside');
-        },
-        backgroundColor: theme?.primaryColor,
+        onPressed: () async => context.push('/add_todo'),
+        backgroundColor: theme?.primary,
         elevation: 0,
         child: const Icon(Icons.add),
       ),

@@ -31,3 +31,17 @@ declare type TODO = z.infer<typeof TODOSchema>;
 export { TODOSchema, TODO }; */
 
 // ** Still not sure, How to use a `.d.ts` file. It keeps giving me some `MODULE ERROR`s. **
+
+// UPDATE: So basically, a `d.ts` file works as a type definition file.
+// For example if you have a `.js` file. That you want to use with your `.ts` files.
+// you can create a `d.ts` file to define the types for that file.
+/* 
+This is a type definition. That you can put in a `d.ts` file.
+export default interface ExampleType {
+  name: string;
+  age: number;
+} 
+
+export type FileType = "A-File" | "B-File" | "C-File";
+*/
+

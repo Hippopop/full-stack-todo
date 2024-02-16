@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_client/src/features/homepage/controllers/navbar_controller.dart';
-import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
+import 'package:todo_client/src/system/themes/extensions/extension_themes.dart';
 
 class NavigationBarWidget extends ConsumerWidget {
   const NavigationBarWidget({
@@ -15,7 +15,7 @@ class NavigationBarWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final navbarManager = ref.watch(navigationProvider);
-    final colorTheme = Theme.of(context).extension<ColorsTheme>();
+    final colorTheme = Theme.of(context).extension<ColorTheme>();
     return BottomAppBar(
       elevation: 0,
       notchMargin: 6,
@@ -23,20 +23,20 @@ class NavigationBarWidget extends ConsumerWidget {
       shape: const CircularNotchedRectangle(),
       child: BottomNavigationBar(
         showUnselectedLabels: false,
-        backgroundColor: colorTheme?.primaryColor,
-        selectedItemColor: colorTheme?.white,
+        backgroundColor: colorTheme?.primary,
+        selectedItemColor: colorTheme?.theme,
         currentIndex: navbarManager.index(currentPath),
-        unselectedItemColor: colorTheme?.white.withOpacity(0.5),
+        unselectedItemColor: colorTheme?.theme.withOpacity(0.5),
         onTap: (value) => context.go(navbarManager.path(value)),
         selectedLabelStyle: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w700,
-          color: colorTheme?.primaryColor,
+          color: colorTheme?.primary,
         ),
         unselectedLabelStyle: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
-          color: colorTheme?.extraTextColor,
+          color: colorTheme?.primaryText,
         ),
         items: const [
           BottomNavigationBarItem(

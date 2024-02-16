@@ -1,26 +1,47 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "RUN_SERVER",
-            "detail": "Run the server before starting the app.",
-            "type": "shell",
-            "command": "./tools/server.ps1",
-            "isBackground": true,
-            "problemMatcher": "$tsc",
-            "icon": {
-                "id": "server",
-                "color": "terminal.ansiRed",
-            },
-            "presentation": {
-                "panel": "new",
-                "echo": true,
-                "close": true,
-                "focus": false,
-                "clear": false,
-                "reveal": "always",
-                "showReuseMessage": false,
-            }
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "RUN_SERVER_WINDOWS",
+      "detail": "Run the server before starting the app.",
+      "type": "shell",
+      "command": "./tools/server.ps1",
+      "isBackground": true,
+      "problemMatcher": "$tsc",
+      "icon": {
+        "id": "server",
+        "color": "terminal.ansiRed"
+      },
+      "presentation": {
+        "panel": "new",
+        "echo": true,
+        "close": true,
+        "focus": false,
+        "clear": false,
+        "reveal": "always",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "RUN_SERVER_PYTHON",
+      "detail": "Run the server before starting the app. For any development environment.",
+      "type": "shell",
+      "command": "cd \"/Volumes/Development/NodeJs/Personal/full-stack-todo/tools\" && sudo python3 ./main.py todo_server",
+      "isBackground": true,
+      "problemMatcher": "$tsc",
+      "icon": {
+        "id": "server",
+        "color": "terminal.ansiRed"
+      },
+      "presentation": {
+        "panel": "new",
+        "echo": true,
+        "close": true,
+        "focus": false,
+        "clear": false,
+        "reveal": "always",
+        "showReuseMessage": false
+      }
+    }
+  ]
 }

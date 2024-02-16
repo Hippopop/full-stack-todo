@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
+import 'package:todo_client/src/system/themes/app_theme.dart';
 
 class FilterTodoScreen extends StatelessWidget {
   const FilterTodoScreen({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
@@ -22,7 +22,7 @@ class FilterTodoScreen extends StatelessWidget {
           ),
           Text(
             'UNDER DEVELOPMENT',
-            style: context.theme.textTheme.headlineMedium,
+            style: context.text.headlineMedium,
           ),
         ],
       ),

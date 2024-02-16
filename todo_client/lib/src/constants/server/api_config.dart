@@ -1,9 +1,10 @@
 //! This was an attempt of getting `Dart` environment variables from file!
 //! But for some weird reason, they don't seem to work inside a function!
-//! After struggling a lot I still couldn't found the actual isse.
+//! After struggling a lot I still couldn't found the actual issue.
 //! So started using `Envied` package.
 
-/* part of 'server_env_config.dart';
+/* 
+part of 'server_env_config.dart';
 
 class APIConfig {
   static String get baseUrl => _getEnvString(_baseUrlKey);

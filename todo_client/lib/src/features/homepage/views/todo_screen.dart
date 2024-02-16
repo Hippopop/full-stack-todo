@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:rive/rive.dart';
 import 'package:todo_client/src/features/homepage/controllers/todo_controller.dart';
-import 'package:todo_client/src/system/themes/extensions/theme_extensions.dart';
+import 'package:todo_client/src/system/themes/app_theme.dart';
 
 import 'widgets/single_todo_widget.dart';
 
@@ -18,9 +17,9 @@ class AllTodoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorTheme = Theme.of(context).extension<ColorsTheme>();
+    final colorTheme = Theme.of(context).extension<ColorTheme>();
     return ColoredBox(
-      color: colorTheme?.backgroundColor ?? Colors.white70,
+      color: colorTheme?.mainBackground ?? Colors.white70,
       child: SafeArea(
         child: Column(
           children: [
@@ -32,7 +31,7 @@ class AllTodoScreen extends StatelessWidget {
                     left: 16, right: 16, top: 0, bottom: 40),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: colorTheme?.white,
+                  color: colorTheme?.theme,
                   borderRadius: BorderRadius.circular(24),
                 ),
                 constraints: const BoxConstraints(
@@ -85,10 +84,11 @@ class TODOListView extends ConsumerWidget {
     final todos = ref.watch(todosController);
     return todos.when(
       loading: () => const Center(
-        child: LottieLoader(),
+        child: RiveAnimation.network(
+          'https://cdn.rive.app/animations/vehicles.riv',
+        ),
       ),
       error: (error, trace) {
-        log("#Error", error: error, stackTrace: trace);
         return Text(
           error.toString(),
         );
@@ -164,7 +164,7 @@ class TodoScreenAppBar extends StatelessWidget {
     required this.colorTheme,
   });
 
-  final ColorsTheme? colorTheme;
+  final ColorTheme? colorTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +178,7 @@ class TodoScreenAppBar extends StatelessWidget {
           children: [
             DecoratedBox(
               decoration: BoxDecoration(
-                color: colorTheme?.white,
+                color: colorTheme?.theme,
                 shape: BoxShape.circle,
               ),
               child: Padding(
@@ -201,7 +201,7 @@ class TodoScreenAppBar extends StatelessWidget {
                   Text(
                     'Hello,',
                     style: context.theme.textTheme.bodyLarge?.copyWith(
-                      color: colorTheme?.extraTextColor,
+                      color: colorTheme?.primaryText,
                     ),
                   ),
                   Text(
@@ -231,7 +231,7 @@ class TodoScreenAppBar extends StatelessWidget {
                       amount: 0,
                     ),
                     CountWidget(
-                      color: colorTheme?.secoderyAccent ?? Colors.purple,
+                      color: colorTheme?.secondaryAccent ?? Colors.purple,
                       amount: 0,
                     ),
                   ],
@@ -283,8 +283,4 @@ class CountWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-extension ThemeGetter on BuildContext {
-  ThemeData get theme => Theme.of(this);
 }

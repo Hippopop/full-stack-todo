@@ -2,23 +2,35 @@ import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
 import {
   ResponseWrapperSchema,
-  SimpleError,
   WrapperProps,
-} from "../types/response-z";
+} from "../types/response/response-z";
+import {
+  ResponseError,
+  SimpleError,
+  ZodErrorParser,
+} from "../types/response/errors/error-z";
+import {
+  badRequest,
+  server,
+  success,
+  unauthorized,
+} from "../Errors/error_codes";
+import { User, UserSchema } from "../types/user/user-z";
+import tokenizer from "../utils/token/jwt_token";
 
 /* 
 This is the wrapper function for handling all the requests. It takes the [schema] to assure the structure of 
-the returned data, [successMsg], [errorMsg], and the actual [buisnessLogic] as input.  
-This function will call the buisness logic and try to get the  data from it. If the data is successfully fetched,
+the returned data, [successMsg], [errorMsg], and the actual [businessLogic] as input.  
+This function will call the business logic and try to get the  data from it. If the data is successfully fetched,
 it will parse the data with the [schema]  and return the response. In case of *error*, it will take the error and 
-turn it into a readable format and again parse it with the actual [responseSchema] and return the response.chema]. 
+turn it into a readable format and again parse it with the actual [responseSchema] and return the response.schema]. 
 
 The response will be in the form of a [JSON] object with the following format: 
 * On success -> 
   {
     status: 200,
     msg: "Success Message",
-    data: "Data" // The data returned from the buisness logic with the given structure(*schema).
+    data: "Data" // The data returned from the business logic with the given structure(*schema).
   } 
 * On error -> 
   {
@@ -26,76 +38,135 @@ The response will be in the form of a [JSON] object with the following format:
     status: 400, // [400] for known logical errors. And [500] for unexpected errors.
     error: [
       {
-        code: [string], // A short indicaion for the point of error.
+        code: [string], // A short indication for the point of error.
         description: [string], // The description of the error.
       }
     ],
   }
 */
 
+// Over that rant! 🙂 Cz that system, even works with mine.
 export const wrapperFunction =
   <T>(wrapperProps: WrapperProps<T>) =>
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { schema, successMsg, errorMsg, buisnessLogic } = wrapperProps;
-    try {
-      // *** Calls the actual buisness logic!
-      const data = await buisnessLogic(req, res);
-      // *** Parses the data and gives it the form of an [Response]!
-      const safeData = ResponseWrapperSchema(schema).safeParse({
-        status: 200,
-        msg: successMsg,
-        data: data,
-      });
-      // *** Checks if the end result is a valid [Response], In case of [success] send the response else throw!
-      if (safeData.success) {
-        res.status(200).json(safeData.data);
-      } else {
-        throw safeData.error;
-      }
-    } catch (error) {
-      console.log(error);
-      // *** Actual [error] handling!
-      if (error instanceof ZodError) {
-        // *** If the error type is known, then parse it to a [SimpleError]!
-        const safeData = ResponseWrapperSchema().safeParse({
-          status: 400,
-          msg: errorMsg,
-          error: ZodErrorParser(error),
-        });
-        // *** Then send the response with the list of parsed errors!
-        if (safeData.success) {
-          res.status(400).json(safeData.data);
-        } else {
-          // TODO: Handle Unexpected Situations.
-        }
-      } else {
-        // *** In case of unknown [Errors], do a vague parsing, with the error code of [500].
-        const safeData = ResponseWrapperSchema().safeParse({
-          status: 500,
-          msg: errorMsg,
-          error: <SimpleError[]>[
-            {
-              code: [500],
-              description: `${error}`,
-            },
-          ],
-        });
-        // *** Then send the response with the list of parsed errors!
-        if (safeData.success) {
-          res.status(500).json(safeData.data);
-        } else {
-          // TODO: Handle Unexpected Situations.
-        }
-      }
-    }
-  };
+    async (req: Request, res: Response, next: NextFunction) => {
+      const {
+        authenticate,
+        successCode,
+        schema,
+        successMsg,
+        errorMsg,
+        businessLogic: businessLogic,
+      } = wrapperProps;
+      try {
 
-const ZodErrorParser = (error: ZodError): SimpleError[] => {
-  if (error.isEmpty) return [];
-  return error.issues.map((issue) => {
-    return {
-      code: issue.path,
-      description: issue.message,
+        // *** Step: 0. If this request needed authorization, this is where it's checked!
+        var userData: User | undefined;
+        if (authenticate) {
+          const { authorization } = req.headers;
+          if (!authorization)
+            throw new ResponseError(
+              badRequest,
+              "Attempting Unauthorized Access!"
+            );
+          const token = authorization.split(" ")[1];
+          const authData = tokenizer.verifyAccessTokenWithData(
+            token!,
+            UserSchema,
+          );
+          if (authData) {
+            userData = authData;
+          } else throw new ResponseError(unauthorized, "Invalid access token!");
+        }
+
+        // *** Step: 1. Calls the actual business logic!
+        const data = await businessLogic(req, res, next, userData);
+        if (res.headersSent) {
+          console.log(
+            `Response was already sent from (BusinessLogic) call. \n REQ: ${req}`
+          );
+          return;
+        }
+
+
+        // *** Step: 2. Parses the data and gives it the form of an [Response]!
+        const safeData = ResponseWrapperSchema(schema).safeParse({
+          data: data,
+          msg: successMsg,
+          status: successCode,
+        });
+
+
+        // *** Step: 3. Checks if the end result is a valid [Response], In case of [success] send the response else throw!
+        if (safeData.success) {
+          return res.status(success).json(safeData.data);
+        } else {
+          throw safeData.error;
+        }
+      } catch (error) {
+        console.log(error);
+        // *** ErrorStep: Actual [error] handling!
+        await handleErrors(error, errorMsg, res);
+      }
+
+      if (!res.headersSent) {
+        console.log(
+          `#Response wasn't handled for this request. \n REQ: ${req.originalUrl}`
+        );
+        return;
+      }
     };
-  });
-};
+
+// It has a lots of unnecessary double checks and overuse of [zod]!
+async function handleErrors(error: any, errorMsg: string, res: Response) {
+  if (error instanceof ResponseError) {
+    console.log("Found an ResponseError");
+    // *** If the error type is ResponseError, then parse it to a [SimpleError]!
+    const safeData = ResponseWrapperSchema().safeParse({
+      msg: errorMsg,
+      status: error.status,
+      error: error.serializeErrors(),
+    });
+    // *** Then send the response with the list of parsed errors!
+    if (safeData.success) {
+      return res.status(safeData.data.status).json(safeData.data);
+    } else {
+      console.log(`UnhandledError: ${safeData.error}`);
+      // TODO: Handle Unexpected Situations.
+      // TODO: Maybe Create a (log) file to store these errors.
+    }
+  } else if (error instanceof ZodError) {
+    // *** If the error type is ZodError, then parse it to a [SimpleError]!
+    const safeData = ResponseWrapperSchema().safeParse({
+      status: badRequest,
+      msg: errorMsg,
+      error: ZodErrorParser(error),
+    });
+    // *** Then send the response with the list of parsed errors!
+    if (safeData.success) {
+      return res.status(safeData.data.status).json(safeData.data);
+    } else {
+      console.log(`UnhandledError: ${safeData.error}`);
+      // TODO: Handle Unexpected Situations.
+      // TODO: Maybe Create a (log) file to store these errors.
+    }
+  } else {
+    // *** In case of unknown [Errors], do a vague parsing, with the error code of [500].
+    const safeData = ResponseWrapperSchema().safeParse({
+      status: server,
+      msg: errorMsg,
+      error: <SimpleError[]>[
+        {
+          codes: [server],
+          description: `${error}`,
+        },
+      ],
+    });
+    // *** Then send the response with the list of parsed errors!
+    if (safeData.success) {
+      return res.status(safeData.data.status).json(safeData.data);
+    } else {
+      console.log(`UnhandledError: ${safeData.error}`);
+      // TODO: Handle Unexpected Situations.
+    }
+  }
+}
