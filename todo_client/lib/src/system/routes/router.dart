@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +20,7 @@ final goRouterProvider = Provider<GoRouter>(
 
     return GoRouter(
       debugLogDiagnostics: true,
-      initialLocation: '/allTodo',
+      initialLocation: AuthScreen.route,
       navigatorKey: rootNavigatorKey,
       routes: [
         ShellRoute(

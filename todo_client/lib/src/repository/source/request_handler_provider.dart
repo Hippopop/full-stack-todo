@@ -2,6 +2,7 @@ import 'dart:developer' show log;
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_dio/fresh_dio.dart';
 import 'package:todo_client/src/constants/server/api/api_config.dart';
 import 'package:todo_client/src/repository/source/response_wrapper.dart';
 import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
@@ -10,12 +11,22 @@ final requestHandlerProvider = Provider<RequestHandler>((ref) {
   return RequestHandler();
 });
 
+final _fresh = Fresh.oAuth2(
+  tokenStorage: InMemoryTokenStorage(),
+  // Call refresh method!
+  refreshToken: (token, httpClient) => Future.value(
+    const OAuth2Token(accessToken: ""),
+  ),
+  // Check error response to confirm if it needs to call refresh.
+  shouldRefresh: (response) => false,
+);
+
 class RequestHandler {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: APIConfig.baseURl,
     ),
-  );
+  )..interceptors.add(_fresh);
 
   Dio get dio => _dio;
   String get mainUrl => APIConfig.baseURl;

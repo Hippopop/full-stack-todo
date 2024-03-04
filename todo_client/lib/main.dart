@@ -3,10 +3,4 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'src/my_app.dart';
 
-void main() {
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
-}
+void main() => runApp(const ProviderScope(child: MyApp()));

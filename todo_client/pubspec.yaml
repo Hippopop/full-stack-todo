@@ -26,6 +26,8 @@ dependencies:
   lottie: ^3.1.0
   rive: ^0.12.4
   flutter_portal: ^1.1.4
+  google_fonts: ^6.2.0
+  fresh_dio: ^0.4.1
 
 dev_dependencies:
   flutter_test:
@@ -47,5 +49,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/rive/
+    - assets/icons/
     - assets/lottie/
     - assets/images/
