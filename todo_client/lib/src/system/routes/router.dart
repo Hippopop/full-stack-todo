@@ -24,9 +24,6 @@ final goRouterProvider = Provider<GoRouter>(
       debugLogDiagnostics: true,
       initialLocation: '/allTodo',
       navigatorKey: rootNavigatorKey,
-      redirect: (context, state) {
-        log("Current Path : ${state.fullPath}");
-      },
       routes: [
         ShellRoute(
           navigatorKey: shellNavigatorKey,

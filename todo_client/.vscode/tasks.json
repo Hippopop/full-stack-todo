@@ -10,7 +10,7 @@
       "problemMatcher": "$tsc",
       "icon": {
         "id": "server",
-        "color": "terminal.ansiRed"
+        "color": "terminal.ansiGreen"
       },
       "presentation": {
         "panel": "new",
@@ -31,7 +31,7 @@
       "problemMatcher": "$tsc",
       "icon": {
         "id": "server",
-        "color": "terminal.ansiRed"
+        "color": "terminal.ansiGreen"
       },
       "presentation": {
         "panel": "new",
