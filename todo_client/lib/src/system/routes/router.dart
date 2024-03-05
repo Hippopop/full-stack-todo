@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_client/src/features/auth/views/auth_screen.dart';
+import 'package:todo_client/src/features/authentication/views/login_screen.dart';
+import 'package:todo_client/src/features/authentication/views/registration_screen.dart';
 
 import 'package:todo_client/src/features/homepage/controllers/navbar_controller.dart';
 import 'package:todo_client/src/features/homepage/views/add_todo.dart';
@@ -20,7 +21,7 @@ final goRouterProvider = Provider<GoRouter>(
 
     return GoRouter(
       debugLogDiagnostics: true,
-      initialLocation: AuthScreen.route,
+      initialLocation: LoginScreen.route,
       navigatorKey: rootNavigatorKey,
       routes: [
         ShellRoute(
@@ -50,11 +51,14 @@ final goRouterProvider = Provider<GoRouter>(
           ),
         ),
         GoRoute(
-          path: AuthScreen.route,
+          path: LoginScreen.route,
           parentNavigatorKey: rootNavigatorKey,
-          pageBuilder: (context, state) => const AnimatedDialogueBuilder(
-            child: AuthScreen(),
-          ),
+          builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: RegistrationScreen.route,
+          parentNavigatorKey: rootNavigatorKey,
+          builder: (context, state) => const RegistrationScreen(),
         ),
       ],
     );

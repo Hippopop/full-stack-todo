@@ -19,6 +19,8 @@ Validation tooShort8 = (value, name) =>
     (value.length < 8, "$name is too short! Minimum 8 characters.");
 Validation tooShort6 = (value, name) =>
     (value.length < 6, "$name is too short! Minimum 6 characters.");
+Validation tooShort11 = (value, name) =>
+    (value.length < 11, "$name is too short! Minimum 11 characters.");
 
 class FieldValidator {
   /// A function that returns the actual validator and and adds the mundane things we need to do everyday!

@@ -5,7 +5,6 @@ final defaultInputDecoration = InputDecorationTheme(
   isCollapsed: false,
   fillColor: _theme,
   hintStyle: _manropeLabelMidium.copyWith(color: _subtleText),
-  constraints: const BoxConstraints(maxHeight: 40),
   border: const OutlineInputBorder(
     borderRadius: br10,
     borderSide: BorderSide(
@@ -18,7 +17,7 @@ final defaultInputDecoration = InputDecorationTheme(
       color: Colors.red,
     ),
   ),
-  errorStyle: const TextStyle(fontStyle: FontStyle.italic),
+  errorStyle: GoogleFonts.manrope(),
   enabledBorder: const OutlineInputBorder(
     borderRadius: br10,
     borderSide: BorderSide(
@@ -39,5 +38,6 @@ final defaultInputDecoration = InputDecorationTheme(
   focusedErrorBorder: const OutlineInputBorder(
     borderRadius: br10,
   ),
-  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+  isDense: true,
+  contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
 );

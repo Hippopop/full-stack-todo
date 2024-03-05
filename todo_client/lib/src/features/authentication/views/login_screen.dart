@@ -1,25 +1,27 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_client/src/constants/assets/icons/icons.dart';
 import 'package:todo_client/src/constants/design/border_radius.dart';
 import 'package:todo_client/src/constants/design/paddings.dart';
+import 'package:todo_client/src/features/authentication/views/registration_screen.dart';
 import 'package:todo_client/src/global/widgets/custom_titled_textfield.dart';
 import 'package:todo_client/src/system/themes/app_theme.dart';
 import 'package:todo_client/src/utilities/extensions/size_utilities.dart';
 import 'package:todo_client/src/utilities/responsive/responsive_state_wrapper.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
-  static const route = "/auth";
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+  static const route = "/login";
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   bool _isRememberMe = false;
+
+  bool _showPassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +53,22 @@ class _AuthScreenState extends State<AuthScreen> {
                         hintText: "Please Enter Your Email Address",
                       ),
                       12.height,
-                      const CustomTitledTextFormField(
+                      CustomTitledTextFormField(
                         title: "Password",
                         hintText: "Please Enter Your Password",
+                        isObscured: _showPassword,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _showPassword = !_showPassword;
+                            });
+                          },
+                          icon: Icon(
+                            (_showPassword)
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                          ),
+                        ),
                       ),
                       12.height,
                       Row(
@@ -121,7 +136,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       18.height,
                       Row(
                         children: [
-                          Expanded(
+                          const Expanded(
                             child: Divider(),
                           ),
                           Padding(
@@ -151,7 +166,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   child: Image.asset(AssetIcons.facebookIcon),
                                 ),
                               ),
-                              label: Text("Facebook"),
+                              label: const Text("Facebook"),
                             ),
                           ),
                           24.width,
@@ -180,7 +195,9 @@ class _AuthScreenState extends State<AuthScreen> {
                               TextSpan(
                                 text: "Register.",
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () {},
+                                  ..onTap = () {
+                                    context.push(RegistrationScreen.route);
+                                  },
                                 style: TextStyle(
                                   color: context.color.mainSecondBatch,
                                   fontWeight: FontWeight.bold,

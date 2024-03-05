@@ -28,6 +28,8 @@ dependencies:
   flutter_portal: ^1.1.4
   google_fonts: ^6.2.0
   fresh_dio: ^0.4.1
+  country_picker: ^2.0.25
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:

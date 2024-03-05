@@ -36,6 +36,15 @@ final lightTheme = ThemeData(
     color: _borderGreyColor,
     thickness: 1,
   ),
+  iconButtonTheme: IconButtonThemeData(
+    style: IconButton.styleFrom(
+      visualDensity: VisualDensity.compact,
+      padding: emptyPadding,
+      minimumSize: Size.zero,
+      elevation: 3,
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    ),
+  ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: _opposite,
@@ -57,6 +66,7 @@ final lightTheme = ThemeData(
   ),
   inputDecorationTheme: defaultInputDecoration,
   checkboxTheme: tonedCheckboxTheme,
+  colorScheme: ColorScheme.fromSeed(seedColor: _primaryColor),
   extensions: {
     ColorTheme(
       theme: _theme,

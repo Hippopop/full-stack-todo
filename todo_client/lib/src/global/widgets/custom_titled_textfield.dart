@@ -75,7 +75,7 @@ class CustomTitledTextFormField extends StatelessWidget {
         Text(
           title,
           style: context.text.labelMedium?.copyWith(
-            color: context.color?.mainSecondBatch,
+            color: context.color.mainSecondBatch,
           ),
         ),
         8.height,
