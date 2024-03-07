@@ -11,8 +11,7 @@ import { success, successfullyCreated } from "../../Errors/error_codes";
 import multerConfig from "../../utils/file_management/multer_config";
 import { RegistrationUserSchema } from "./models/register";
 import { insertImage, getProfileImage } from "../../database/images";
-import { DateTime } from "luxon";
-import { createHash } from "node:crypto";
+
 
 const authRoute = Router();
 
@@ -34,6 +33,7 @@ authRoute.post(
             authData.password
           );
           if (!passMatched) throw wrongCredentialError;
+
           const userData = await getUserData(authData.email);
           const [accessToken, accessTokenExpire] = tokenizer.generateToken(userData!);
           const [refreshToken, refreshTokenExpire] = tokenizer.generateRefreshToken({ uuid: authData.uuid, email: authData.email, token: accessToken });
@@ -59,7 +59,6 @@ authRoute.post(
 authRoute.post(
   "/register",
   multerConfig.single("image"),
-
   wrapperFunction({
     successCode: successfullyCreated,
     schema: AuthResModel,
@@ -80,6 +79,8 @@ authRoute.post(
           });
           imagePath = `auth/user_image?type=profile&uuid=${authData.uuid}&name=${image.name}`;
         }
+
+
         const userData = await createUser({
           uid: 0,
           ...authData,
@@ -118,8 +119,7 @@ authRoute.get(
           req.query.name as string
         );
         if (image) {
-          res.writeHead(200, { "Content-Type": "image/jpeg" });
-          res.end(image.imageFile);
+          res.writeHead(200, { "Content-Type": "image/jpeg" }).end(image.imageFile);
         } else {
           throw userNotFoundError;
         }
@@ -129,5 +129,12 @@ authRoute.get(
     },
   })
 );
+
+// TODO: Update profile system!
+
+
+
+
+// TODO: Forget password system!
 
 export default authRoute;

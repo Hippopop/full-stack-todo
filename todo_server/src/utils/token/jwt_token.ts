@@ -3,9 +3,13 @@ import z from "zod";
 import { RefreshTokenModel, RefreshTokenSchema } from "./models/refresh_token";
 import { DateTime } from "luxon";
 import { createHash } from "node:crypto";
+import { AccessTokenModelSchema } from "./models/token";
 
 const accessTokenTime = "2h";
 const refreshTokenTime = "60 days";
+
+
+const _tokenSchema = AccessTokenModelSchema.omit({ expire: true, timestamp: true });
 
 function generateToken(data: string | object): [string, string] {
   const tokenSecret = process.env.ACCESS_TOKEN as string;
@@ -41,16 +45,6 @@ function generateRefreshToken(data: _generateRefreshTokenType): [string, String]
   return [refreshToken, expire];
 }
 
-/* function verifyAccessToken(token: string): boolean {
-  var verified = false;
-  const tokenSecret = process.env.ACCESS_TOKEN as string;
-  tokenizer.verify(token, tokenSecret, (err, data) => {
-    if (err) verified = false;
-    if (data) verified = true;
-  });
-  return verified;
-} */
-
 async function verifyRefreshTokenWithData<T>(
   token: string,
   schema: z.Schema<T>
@@ -71,34 +65,27 @@ async function verifyRefreshTokenWithData<T>(
 
 }
 
-function verifyAccessTokenWithData<T>(
+async function verifyAccessTokenWithData<T>(
   token: string,
   schema: z.Schema<T>
-): T | undefined {
-  var verified: T | undefined;
+): Promise<T | undefined> {
   const tokenSecret = process.env.ACCESS_TOKEN as string;
-  tokenizer.verify(token, tokenSecret, (err, data) => {
-    if (data) {
-      const purifiedData = schema.safeParse(data);
-      if (purifiedData.success) {
-        verified = purifiedData.data;
+  return new Promise<T | undefined>((resolve, reject) => {
+    tokenizer.verify(token, tokenSecret, (err, data) => {
+      if (data) {
+        const purifiedData = schema.safeParse(data);
+        if (purifiedData.success) {
+          resolve(purifiedData.data);
+        } else {
+          reject(purifiedData.error);
+        }
+      } else {
+        console.log(`Token isn't valid : ${err}`);
+        reject(err);
       }
-    } else {
-      console.log(`Token isn't valid : ${err}`);
-    }
+    })
   });
-  return verified;
 }
-
-/* function verifyRefreshToken(token: string): boolean {
-  var verified = false;
-  const tokenSecret = process.env.REFRESH_TOKEN as string;
-  tokenizer.verify(token, tokenSecret, (err, data) => {
-    if (err) verified = false;
-    if (data) verified = true;
-  });
-  return verified;
-} */
 
 export default {
   generateToken,

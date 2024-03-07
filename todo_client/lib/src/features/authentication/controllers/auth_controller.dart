@@ -49,6 +49,7 @@ class AuthenticationNotifier extends Notifier<AuthState> {
 
   Future<(bool status, String msg)> attemptLogin() async {
     try {
+      state = AsyncValue.loading<AuthState>();
       final res = await _provider.login(
         email: state.loginState.email,
         password: state.loginState.password,

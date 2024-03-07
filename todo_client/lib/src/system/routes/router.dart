@@ -15,13 +15,12 @@ import 'transitions/animated_dialogue_route.dart';
 final goRouterProvider = Provider<GoRouter>(
   (ref) {
     final navProvider = ref.watch(navigationProvider);
-
     final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#root');
     final shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#shell');
 
     return GoRouter(
       debugLogDiagnostics: true,
-      initialLocation: '/allTodo',
+      initialLocation: LoginScreen.route,
       navigatorKey: rootNavigatorKey,
       routes: [
         ShellRoute(

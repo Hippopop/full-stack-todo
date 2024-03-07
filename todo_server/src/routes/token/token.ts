@@ -1,16 +1,12 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { wrapperFunction } from "../request-handler";
-import z from "zod";
 import { badRequest, success, unauthorized } from "../../Errors/error_codes";
 import { AuthTokenSchema } from "../../types/auth/token-z";
 import tokenizer from "../../utils/token/jwt_token";
 import { getUserData } from "../../database/user";
 import { updateRefreshToken } from "../../database/authentication";
-import { ResponseError } from "../../types/response/errors/error-z";
 import { RefreshTokenSchema } from "../../utils/token/models/refresh_token";
-import { timeStamp } from "console";
-import { DateTime } from "luxon";
-import { createHash } from "node:crypto";
+import { faultyRefreshToken, noRefreshTokenError } from "./errors/refresh_token_errors";
 
 const tokenRoute = Router();
 
@@ -24,24 +20,19 @@ tokenRoute.post(
 
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
       const { token, refreshToken } = req.body;
-      if (!refreshToken) throw new ResponseError(
-        badRequest,
-        "Please provide the refresh token!"
-      );
+      if (!refreshToken) throw noRefreshTokenError;
       const refreshTokenData = await tokenizer.verifyRefreshTokenWithData(
         refreshToken,
         RefreshTokenSchema,
       );
-      if (refreshTokenData) {
+      if (!refreshTokenData) {
+        throw faultyRefreshToken;
+      } else {
         const userData = await getUserData(refreshTokenData.uuid);
-        if (!userData) throw new ResponseError(
-          unauthorized,
-          "Provided refresh token was faulty!",
-        );
+        if (!userData) throw faultyRefreshToken;
+
         const [newAccessToken, accessTokenExpire] = tokenizer.generateToken(userData);
-
-
-        const [newRefreshToken, refreshTokenExpire] = tokenizer.generateRefreshToken({ uuid: refreshTokenData.uuid, token: newAccessToken, email: userData.email, },);
+        const [newRefreshToken, refreshTokenExpire] = tokenizer.generateRefreshToken({ uuid: refreshTokenData.uuid, token: newAccessToken, email: userData.email });
         await updateRefreshToken(refreshTokenData.email, newRefreshToken, refreshToken);
         return {
           token: newAccessToken,
