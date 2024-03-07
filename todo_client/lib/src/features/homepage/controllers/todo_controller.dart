@@ -20,7 +20,7 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
       if (response.isSuccess) {
         return response.data!;
       } else {
-        showToastError(response.msg);
+        showToastError(response.msg!);
         throw response.msg;
       }
     } catch (e, s) {

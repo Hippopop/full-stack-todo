@@ -5,19 +5,19 @@ class TodoProvider extends TodoRepository {
   TodoProvider({required super.requestHandler});
 
   @override
-  Future<ResponseWrapper<Map, Todo>> addTodo({required Todo newTodo}) async {
+  Future<ResponseWrapper<Todo>> addTodo({required Todo newTodo}) async {
     final raw = await requestHandler.post(
       APIConfig.addTodo,
-      newTodo.toJson(),
+      {...newTodo.toJson(), "status": "B"},
     );
-    final data = ResponseWrapper<Map<String, dynamic>, Todo>.fromMap(raw.data);
-    await data.purseResponse((rawData) => Todo.fromJson(rawData!));
-    return data;
+    return ResponseWrapper<Todo>.fromMap(
+      rawResponse: raw,
+      purserFunction: (json) => Todo.fromJson(json),
+    );
   }
 
   @override
-  Future<ResponseWrapper<Map<String, List<int>>, List<int>>>
-      deleteMultipleTodo({
+  Future<ResponseWrapper<List<int>>> deleteMultipleTodo({
     required List<int> idList,
   }) {
     // TODO: implement deleteMultipleTodo!
@@ -25,37 +25,36 @@ class TodoProvider extends TodoRepository {
   }
 
   @override
-  Future<ResponseWrapper<Map<String, dynamic>, int>> deleteSingleTodo(
-      {required int id}) async {
+  Future<ResponseWrapper<int>> deleteSingleTodo({required int id}) async {
     final raw = await requestHandler.delete(
       APIConfig.deleteTodo,
       {"delete": id},
     );
-    final data = ResponseWrapper<Map<String, dynamic>, int>.fromMap(raw.data);
-    await data.purseResponse<int>((rawData) => rawData?['deleted'] ?? -1);
-    return data;
-  }
-
-  @override
-  Future<ResponseWrapper<List, List<Todo>>> getAllTodo() async {
-    final raw = await requestHandler.get(APIConfig.allTodo);
-    final data = ResponseWrapper<List, List<Todo>>.fromMap(raw.data, true);
-    await data.purseResponse<List<Todo>>(
-      (rawData) => rawData!.map((e) => Todo.fromJson(e)).toList(),
+    return ResponseWrapper<int>.fromMap(
+      rawResponse: raw,
+      purserFunction: (json) => (json['deleted'] ?? -1),
     );
-    return data;
   }
 
   @override
-  Future<ResponseWrapper<Map, Todo>> updateTodo({required Todo newTodo}) async {
+  Future<ResponseWrapper<List<Todo>>> getAllTodo() async {
+    final raw = await requestHandler.get(APIConfig.allTodo);
+    return ResponseWrapper<List<Todo>>.fromMap(
+      rawResponse: raw,
+      purserFunction: (json) =>
+          (json as List).map((e) => Todo.fromJson(e)).toList(),
+    );
+  }
+
+  @override
+  Future<ResponseWrapper<Todo>> updateTodo({required Todo newTodo}) async {
     final raw = await requestHandler.put(
       APIConfig.updateTodo,
       newTodo.toJson(),
     );
-    final data = ResponseWrapper<Map, Todo>.fromMap(raw.data);
-    await data.purseResponse<Todo>(
-      (rawData) => Todo.fromJson(rawData as Map<String, dynamic>),
+    return ResponseWrapper<Todo>.fromMap(
+      rawResponse: raw,
+      purserFunction: (json) => Todo.fromJson(json),
     );
-    return data;
   }
 }

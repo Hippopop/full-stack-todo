@@ -8,13 +8,11 @@ abstract class TodoRepository {
 
   final RequestHandler requestHandler;
 
-  Future<ResponseWrapper<List, List<Todo>>> getAllTodo();
-  Future<ResponseWrapper<Map, Todo>> addTodo({required Todo newTodo});
-  Future<ResponseWrapper<Map, Todo>> updateTodo({required Todo newTodo});
-  Future<ResponseWrapper<Map<String, dynamic>, int>> deleteSingleTodo(
-      {required int id});
-  Future<ResponseWrapper<Map<String, List<dynamic>>, List<int>>>
-      deleteMultipleTodo({
+  Future<ResponseWrapper<List<Todo>>> getAllTodo();
+  Future<ResponseWrapper<Todo>> addTodo({required Todo newTodo});
+  Future<ResponseWrapper<Todo>> updateTodo({required Todo newTodo});
+  Future<ResponseWrapper<int>> deleteSingleTodo({required int id});
+  Future<ResponseWrapper<List<int>>> deleteMultipleTodo({
     required List<int> idList,
   });
 }

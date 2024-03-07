@@ -21,7 +21,7 @@ final goRouterProvider = Provider<GoRouter>(
 
     return GoRouter(
       debugLogDiagnostics: true,
-      initialLocation: LoginScreen.route,
+      initialLocation: '/allTodo',
       navigatorKey: rootNavigatorKey,
       routes: [
         ShellRoute(

@@ -13,32 +13,52 @@ sealed class RequestError<T> {
 
   static RequestError fromMap(data) {
     try {
-      final pursedMap = Map<String, dynamic>.from(data);
-      return _serializedErrorFromMap(pursedMap);
+      const defaultError =
+          RequestErrorUnknown(codes: [], description: "Unknown Error!");
+      return switch (data) {
+        {"codes": List _, "description": String desc} => switch (data) {
+            {"codes": List<int> codes, "description": _} =>
+              RequestErrorWithCode(codes: codes, description: desc),
+            {"codes": List<String> codes, "description": _} =>
+              RequestErrorWithKeys(codes: codes, description: desc),
+            _ => defaultError,
+          },
+        {
+          "codes": String code,
+          "description": String desc,
+        } =>
+          RequestErrorWithKeys(codes: [code], description: desc),
+        {
+          "codes": int code,
+          "description": String desc,
+        } =>
+          RequestErrorWithCode(codes: [code], description: desc),
+        _ => defaultError,
+      } as RequestError;
     } catch (e, s) {
       log("#Pursing Error on (RequestError):", error: e, stackTrace: s);
       rethrow;
     }
   }
 
-  /// Actual purser! Not safe to use directly!
-  static RequestError _serializedErrorFromMap(Map<String, dynamic> errorMap) {
-    if (errorMap.containsKey('codes') && errorMap.containsKey('description')) {
-      final code = errorMap['codes'];
-      if (code is String ||
-          (code is List && code.every((element) => element is String))) {
-        return RequestErrorWithKeys.fromMap(errorMap);
-      }
-      if (code is int ||
-          (code is List && code.every((element) => element is int))) {
-        return RequestErrorWithCode.fromMap(errorMap);
-      }
-    }
-    return const RequestErrorUnknown(
-      codes: [500],
-      description: "Unknown server error!",
-    );
-  }
+  // /// Actual purser! Not safe to use directly!
+  // static RequestError _serializedErrorFromMap(Map<String, dynamic> errorMap) {
+  //   if (errorMap.containsKey('codes') && errorMap.containsKey('description')) {
+  //     final code = errorMap['codes'];
+  //     if (code is String ||
+  //         (code is List && code.every((element) => element is String))) {
+  //       return RequestErrorWithKeys.fromMap(errorMap);
+  //     }
+  //     if (code is int ||
+  //         (code is List && code.every((element) => element is int))) {
+  //       return RequestErrorWithCode.fromMap(errorMap);
+  //     }
+  //   }
+  //   return const RequestErrorUnknown(
+  //     codes: [500],
+  //     description: "Unknown server error!",
+  //   );
+  // }
 }
 
 ///Request came back with an error. Which is not any of the expected types.

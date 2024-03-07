@@ -8,17 +8,17 @@ abstract class AuthRepository {
     required this.requestHandler,
   });
 
-  Future<ResponseWrapper<Map, AuthResponse>> register({
+  Future<ResponseWrapper<AuthResponse>> register({
     required AppUser user,
     required String password,
   });
 
-  Future<ResponseWrapper<Map, AuthResponse>> login({
+  Future<ResponseWrapper<AuthResponse>> login({
     required String email,
     required String password,
   });
 
-  Future<ResponseWrapper<Map, UserToken>> refreshToken({
+  Future<ResponseWrapper<UserToken>> refreshToken({
     required String refreshToken,
   });
 }

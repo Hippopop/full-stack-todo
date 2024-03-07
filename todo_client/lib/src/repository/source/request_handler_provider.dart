@@ -25,6 +25,8 @@ class RequestHandler {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: APIConfig.baseURl,
+      receiveDataWhenStatusError: true,
+      validateStatus: (status) => true,
     ),
   )..interceptors.add(_fresh);
 
@@ -39,19 +41,18 @@ class RequestHandler {
     String? baseUrl,
     Options? options,
     Map<String, dynamic>? queryParams,
-  }) async {
+  }) {
     try {
-      final response = await dio.post(
-        baseUrl ?? mainUrl + url,
+      return dio.post(
+        (baseUrl ?? mainUrl) + url,
         data: params,
         queryParameters: queryParams,
         options: options,
       );
-      return response;
     } on DioException catch (error, stacktrace) {
       throw RequestException(
         method: "/POST",
-        url: baseUrl ?? mainUrl + url,
+        url: (baseUrl ?? mainUrl) + url,
         data: params,
         error: error,
         msg: errorMsg,
@@ -62,7 +63,7 @@ class RequestHandler {
     } catch (error, stacktrace) {
       throw RequestException(
         method: "/POST",
-        url: baseUrl ?? mainUrl + url,
+        url: (baseUrl ?? mainUrl) + url,
         msg: errorMsg,
         data: params,
         error: error,
@@ -78,20 +79,17 @@ class RequestHandler {
     String? baseUrl,
     Options? options,
     Map<String, dynamic>? queryParams,
-  }) async {
+  }) {
     try {
-      final fullUrl = baseUrl ?? mainUrl + url;
-      log("Get : $fullUrl");
-      final response = await dio.get(
-        fullUrl,
+      return dio.get(
+        (baseUrl ?? mainUrl) + url,
         options: options,
         queryParameters: queryParams,
       );
-      return response;
     } on DioException catch (error, stacktrace) {
       throw RequestException(
         method: "/GET",
-        url: baseUrl ?? mainUrl + url,
+        url: (baseUrl ?? mainUrl) + url,
         error: error,
         msg: errorMsg,
         trace: stacktrace,
@@ -101,7 +99,7 @@ class RequestHandler {
     } catch (error, stacktrace) {
       throw RequestException(
         method: "/GET",
-        url: baseUrl ?? mainUrl + url,
+        url: (baseUrl ?? mainUrl) + url,
         msg: errorMsg,
         error: error,
         trace: stacktrace,
@@ -117,20 +115,18 @@ class RequestHandler {
     String? baseUrl,
     Options? options,
     Map<String, dynamic>? queryParams,
-  }) async {
-    Response response;
+  }) {
     try {
-      response = await dio.put(
-        baseUrl ?? mainUrl + url,
+      return dio.put(
+        (baseUrl ?? mainUrl) + url,
         data: params,
         queryParameters: queryParams,
         options: options,
       );
-      return response;
     } on DioException catch (error, stacktrace) {
       throw RequestException(
         method: "/PUT",
-        url: baseUrl ?? mainUrl + url,
+        url: (baseUrl ?? mainUrl) + url,
         data: params,
         error: error,
         msg: errorMsg,
@@ -141,7 +137,7 @@ class RequestHandler {
     } catch (error, stacktrace) {
       throw RequestException(
         method: "/PUT",
-        url: baseUrl ?? mainUrl + url,
+        url: (baseUrl ?? mainUrl) + url,
         msg: errorMsg,
         data: params,
         error: error,
@@ -158,20 +154,18 @@ class RequestHandler {
     String? baseUrl,
     Options? options,
     Map<String, dynamic>? queryParams,
-  }) async {
-    Response response;
+  }) {
     try {
-      response = await dio.delete(
-        baseUrl ?? mainUrl + url,
+      return dio.delete(
+        (baseUrl ?? mainUrl) + url,
         data: params,
         queryParameters: queryParams,
         options: options,
       );
-      return response;
     } on DioException catch (error, stacktrace) {
       throw RequestException(
         method: "/DELETE",
-        url: baseUrl ?? mainUrl + url,
+        url: (baseUrl ?? mainUrl) + url,
         data: params,
         error: error,
         msg: errorMsg,
@@ -182,7 +176,7 @@ class RequestHandler {
     } catch (error, stacktrace) {
       throw RequestException(
         method: "/DELETE",
-        url: baseUrl ?? mainUrl + url,
+        url: (baseUrl ?? mainUrl) + url,
         msg: errorMsg,
         data: params,
         error: error,
@@ -191,6 +185,11 @@ class RequestHandler {
     }
   }
 }
+
+/// NOTE: JUST FOR TESTING & HANDLING RESPONSE!
+typedef EmptyType = String;
+// ignore: constant_identifier_names
+const EMPTY = "EMPTY";
 
 class RequestException implements Exception {
   String url;
@@ -212,7 +211,6 @@ class RequestException implements Exception {
     required this.error,
     required this.trace,
   }) {
-    print("response: ${res}");
     final details = "\x1B[35m/*\n"
         "method: ($method)\n"
         "url: ($url)\n"
@@ -227,22 +225,20 @@ class RequestException implements Exception {
 
   handleError({required String defaultMessage}) async {
     try {
-      final pursedData = ResponseWrapper<dynamic, dynamic>.fromMap(
-        Map<String, dynamic>.from(res?.data),
-      );
-
-      await pursedData.purseResponse(
-        (rawData) => res?.data['data'],
-      );
-
-      if (pursedData.isSuccess) {
-        /* Means Purser caused the error! */
-        showToastError(defaultMessage);
-      } else {
-        /* Means Server didn't sent any data! */
-        showToastError(
-          pursedData.error?.firstOrNull?.description ?? defaultMessage,
+      if (res != null) {
+        final pursedData = ResponseWrapper<EmptyType>.fromMap(
+          rawResponse: res!,
+          purserFunction: (rawData) => EMPTY,
         );
+        if (pursedData.isSuccess) {
+          /* Means Purser caused the error! */
+          showToastError(
+            pursedData.error?.firstOrNull?.description ?? pursedData.msg,
+          );
+        } else {
+          /* Means Server didn't sent valid data! */
+          showToastError(defaultMessage);
+        }
       }
     } catch (e) {
       showToastError(defaultMessage);
