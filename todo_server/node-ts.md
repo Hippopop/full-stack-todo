@@ -12,11 +12,11 @@
 
 There are two ways to configure **Nodemon** inside your project.
 
-- With a `nodemon.json` config file.</br>
+- With a command setup inside `package.json/.scripts`.</br>
 Run this command in one of your `scripts` *(most probably as `dev`)*</br>
 `nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node src/index.ts\"`
 
-- With a command setup inside `package.json/.scripts`.</br>
+- With a `nodemon.json` config file.</br>
 Or create a file named `nodemon.json` inside the root directory of your project. And set the same config in `.json` format.
 
 ```json

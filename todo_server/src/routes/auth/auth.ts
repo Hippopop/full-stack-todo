@@ -9,8 +9,10 @@ import { createUser, getUserData } from "../../database/user";
 import tokenizer from "../../utils/token/jwt_token";
 import { success, successfullyCreated } from "../../Errors/error_codes";
 import multerConfig from "../../utils/file_management/multer_config";
-import { RegisterUserSchema } from "./models/register";
+import { RegistrationUserSchema } from "./models/register";
 import { insertImage, getProfileImage } from "../../database/images";
+import { DateTime } from "luxon";
+import { createHash } from "node:crypto";
 
 const authRoute = Router();
 
@@ -22,6 +24,7 @@ authRoute.post(
     errorMsg: "Login Failed!",
     schema: AuthResModel,
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
+
       const loginData = LoginSchema.safeParse(req.body);
       if (loginData.success) {
         const authData = await auth.getAuthData(loginData.data.email);
@@ -32,13 +35,14 @@ authRoute.post(
           );
           if (!passMatched) throw wrongCredentialError;
           const userData = await getUserData(authData.email);
-          const accessToken = tokenizer.generateToken(userData!);
-          const refreshToken = tokenizer.generateRefreshToken(authData.uuid);
-          await auth.updateToken(authData.uuid, [refreshToken]);
+          const [accessToken, accessTokenExpire] = tokenizer.generateToken(userData!);
+          const [refreshToken, refreshTokenExpire] = tokenizer.generateRefreshToken({ uuid: authData.uuid, email: authData.email, token: accessToken });
+          await auth.updateRefreshToken(authData.uuid, refreshToken);
           return {
             token: {
               token: accessToken,
               refreshToken: refreshToken,
+              expiresAt: accessTokenExpire,
             },
             user: userData,
           };
@@ -55,13 +59,14 @@ authRoute.post(
 authRoute.post(
   "/register",
   multerConfig.single("image"),
+
   wrapperFunction({
     successCode: successfullyCreated,
     schema: AuthResModel,
     successMsg: "Registration Successfully Completed!",
     errorMsg: "Sorry! Couldn't register with the given data.",
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
-      const data = RegisterUserSchema.safeParse(req.body);
+      const data = RegistrationUserSchema.safeParse(req.body);
       if (data.success) {
         const authData = await auth.register(data.data);
         let imagePath: string | undefined;
@@ -81,16 +86,14 @@ authRoute.post(
           ...data.data,
           photo: imagePath,
         });
-        const accessToken = tokenizer.generateToken(userData);
-        const refreshToken = tokenizer.generateRefreshToken(authData.uuid);
-        await auth.updateToken(authData.uuid, [
-          refreshToken,
-          ...authData.token,
-        ]);
+        const [accessToken, accessTokenExpire] = tokenizer.generateToken(userData);
+        const [refreshToken, refreshExpire] = tokenizer.generateRefreshToken({ uuid: userData.uuid, email: userData.email, token: accessToken });
+        await auth.updateRefreshToken(authData.uuid, refreshToken);
         return {
           token: {
             token: accessToken,
             refreshToken: refreshToken,
+            expiresAt: accessTokenExpire,
           },
           user: userData,
         };

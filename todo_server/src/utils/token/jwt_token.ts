@@ -1,22 +1,44 @@
 import tokenizer from "jsonwebtoken";
 import z from "zod";
+import { RefreshTokenModel, RefreshTokenSchema } from "./models/refresh_token";
+import { DateTime } from "luxon";
+import { createHash } from "node:crypto";
 
 const accessTokenTime = "2h";
-const refreshTokenTime = "2h";
+const refreshTokenTime = "60 days";
 
-function generateToken(data: string | object): string {
+function generateToken(data: string | object): [string, string] {
   const tokenSecret = process.env.ACCESS_TOKEN as string;
-  return tokenizer.sign(data, tokenSecret, {
+  const expire = DateTime.now().plus({ hours: 2 }).toISO();
+  const token = tokenizer.sign(data, tokenSecret, {
     expiresIn: accessTokenTime,
   });
+  return [token, expire];
 }
 
-function generateRefreshToken(data: string): string {
+const _generateRefreshTokenSchema = RefreshTokenSchema.omit({ sha256: true, expire: true, timestamp: true });
+type _generateRefreshTokenType = z.infer<typeof _generateRefreshTokenSchema>;
+function generateRefreshToken(data: _generateRefreshTokenType): [string, String] {
   const tokenSecret = process.env.REFRESH_TOKEN as string;
-  return tokenizer.sign(data, tokenSecret, {
-    // expiresIn: refreshTokenTime,
+
+
+  const timeStamp = DateTime.now().toISO();
+  const expire = DateTime.now().plus({ hours: 2 }).toISO();
+  const newHash = createHash("sha256");
+  const hashString = newHash.digest("hex");
+  const signData = {
+    ...data,
+    expire: expire,
+    sha256: hashString,
+    timestamp: timeStamp,
+  } as RefreshTokenModel;
+
+  const refreshToken = tokenizer.sign(signData, tokenSecret, {
+    expiresIn: refreshTokenTime,
     //** You can set the [expiresIn] only for [Object] types!
   },);
+
+  return [refreshToken, expire];
 }
 
 /* function verifyAccessToken(token: string): boolean {
@@ -29,21 +51,24 @@ function generateRefreshToken(data: string): string {
   return verified;
 } */
 
-function verifyRefreshTokenWithData<T>(
+async function verifyRefreshTokenWithData<T>(
   token: string,
   schema: z.Schema<T>
-): T | undefined {
-  var verified: T | undefined;
+): Promise<T | undefined> {
   const tokenSecret = process.env.REFRESH_TOKEN as string;
-  tokenizer.verify(token, tokenSecret, (err, data) => {
-    if (data) {
-      const purifiedData = schema.safeParse(data);
-      if (purifiedData.success) {
-        verified = purifiedData.data;
-      }
-    }
+  return await new Promise<T | undefined>((resolve, reject) => {
+    tokenizer.verify(token, tokenSecret, async (err, data) => {
+      if (data) {
+        const purifiedData = schema.safeParse(data);
+        if (purifiedData.success) {
+          resolve(purifiedData.data);
+        } else {
+          reject(purifiedData.error);
+        }
+      } else reject(err);
+    })
   });
-  return verified;
+
 }
 
 function verifyAccessTokenWithData<T>(

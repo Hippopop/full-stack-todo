@@ -92,7 +92,7 @@ todoRoute.put(
     successMsg: "Request Successful! Updated the TODO.",
     schema: TODOSchema,
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
-      const todo = TODOSchema.required({ id: true }).safeParse(req.body);
+      const todo = TODOSchema.refine((val) => val.id, { message: "Please provide the (id) of the TODO, You want to update!", }).safeParse(req.body);
       if (todo.success) {
         return await updateTodo(todo.data);
       } else {

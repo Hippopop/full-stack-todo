@@ -1,17 +1,16 @@
 import connectionConfig from "./mysql-config";
 import { User, UserSchema } from "../types/user/user-z";
 import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import filesystem from "fs";
 
 const tableName = "users";
-const findUserQuery = `SELECT * FROM ${tableName} WHERE (email = ? OR uuid = ? OR phone = ?) LIMIT 1`;
-const findUserImageQuery = `SELECT photo FROM ${tableName} WHERE (email = ? OR uuid = ? OR phone = ?) LIMIT 1`;
-const createUserQuery = `INSERT INTO ${tableName}(uuid, email, phone, name, photo, birthdate) VALUES (?,?,?,?,?,?)`;
+const findUserQuery = `SELECT * FROM ${tableName} WHERE (email = ? OR uuid = ?) LIMIT 1`;
+const findUserImageQuery = `SELECT photo FROM ${tableName} WHERE (email = ? OR uuid = ?) LIMIT 1`;
+const createUserQuery = `INSERT INTO ${tableName}(uuid, email, name, photo, birthdate) VALUES (?,?,?,?,?)`;
 
 const createUser = async (data: User): Promise<User> => {
   const [headers] = await connectionConfig.query<ResultSetHeader>(
     createUserQuery,
-    [data.uuid, data.email, data.phone, data.name, data.photo, data.birthdate]
+    [data.uuid, data.email, data.name, data.photo, data.birthdate]
   );
 
   return { ...data, uid: headers.insertId };
