@@ -8,7 +8,7 @@ T __purseErrorCatcher<T>(RawToDataPurse<T> pursingFunction, data) {
   try {
     return pursingFunction(data);
   } catch (e, s) {
-    log("### PurseError ###", error: e, stackTrace: s);
+    log("### PurseError ### \n Data : $data", error: e, stackTrace: s);
     rethrow;
   }
 }

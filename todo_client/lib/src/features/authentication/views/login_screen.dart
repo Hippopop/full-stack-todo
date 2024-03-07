@@ -5,8 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_client/src/constants/assets/icons/icons.dart';
 import 'package:todo_client/src/constants/design/border_radius.dart';
 import 'package:todo_client/src/constants/design/paddings.dart';
-import 'package:todo_client/src/features/authentication/controllers/auth_controller.dart';
+import 'package:todo_client/src/features/authentication/controllers/login_controller.dart';
 import 'package:todo_client/src/features/authentication/views/registration_screen.dart';
+import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
 import 'package:todo_client/src/global/widgets/custom_titled_textfield.dart';
 import 'package:todo_client/src/system/themes/app_theme.dart';
 import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
@@ -37,7 +38,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = ref.watch(authControllerProvider);
+    ref.listen(loginControllerProvider, (previous, next) {
+      next.maybeWhen(
+        orElse: () {},
+        data: (data) {
+          if (data.responseMsg != null) {
+            switch (data.responseMsg!.level) {
+              case 1:
+                showToastSuccess(data.responseMsg!.msg);
+              default:
+                showToastError(data.responseMsg!.msg);
+            }
+            ref.read(loginControllerProvider.notifier).removeMessage();
+          }
+          if (data.authorized) {
+            context.go(AllTodoScreen.route);
+          }
+        },
+        error: (error, stackTrace) => showToastError(error.toString()),
+      );
+    });
+    final provider = ref.watch(loginControllerProvider);
+    final loginState = provider.requireValue;
     return Scaffold(
       body: ResponsiveParentWrapper(builder: (context, c) {
         return SafeArea(
@@ -68,7 +90,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           validators: [isRequired, isEmail],
                           onChange: (value) {
                             final controller = ref.read(
-                              authControllerProvider.notifier,
+                              loginControllerProvider.notifier,
                             );
                             controller.setLoginMail(value);
                           },
@@ -81,7 +103,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           validators: [isRequired, tooShort6],
                           onChange: (value) {
                             final controller = ref.read(
-                              authControllerProvider.notifier,
+                              loginControllerProvider.notifier,
                             );
                             controller.setLoginPassword(value);
                           },
@@ -105,13 +127,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               child: Row(
                                 children: [
                                   Checkbox(
-                                    value: provider.loginState.remember,
+                                    value: provider.requireValue.remember,
                                     materialTapTargetSize:
                                         MaterialTapTargetSize.shrinkWrap,
                                     visualDensity: VisualDensity.compact,
                                     onChanged: (value) {
                                       final controller = ref.read(
-                                        authControllerProvider.notifier,
+                                        loginControllerProvider.notifier,
                                       );
                                       controller.switchRememberMe();
                                     },
@@ -122,7 +144,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       child: InkWell(
                                         onTap: () {
                                           final controller = ref.read(
-                                            authControllerProvider.notifier,
+                                            loginControllerProvider.notifier,
                                           );
                                           controller.switchRememberMe();
                                         },
@@ -165,19 +187,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               final formState = Form.of(context).validate();
                               if (formState) {
                                 final controller = ref.read(
-                                  authControllerProvider.notifier,
+                                  loginControllerProvider.notifier,
                                 );
-                                final res = await controller.attemptLogin();
-                                if (res.$1) {
-                                  showToastSuccess(res.$2);
-                                } else {
-                                  showToastError(res.$2);
-                                }
+                                controller.attemptLogin();
                               }
                             },
-                            child: const Text(
-                              "Login",
-                            ),
+                            child: provider.isLoading
+                                ? const SizedBox.square(
+                                    dimension: 24,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Text(
+                                    "Login",
+                                  ),
                           );
                         }),
                         18.height,

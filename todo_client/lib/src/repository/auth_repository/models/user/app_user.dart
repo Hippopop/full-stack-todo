@@ -11,8 +11,8 @@ class AppUser with _$AppUser {
     required int uid,
     required String uuid,
     required String email,
-    String? name,
-    String? phone,
+    required String name,
+    required String phone,
     String? photo,
     String? birthdate,
   }) = _AppUser;

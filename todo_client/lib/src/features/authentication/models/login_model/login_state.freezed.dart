@@ -20,9 +20,13 @@ LoginState _$LoginStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LoginState {
+  String? get email => throw _privateConstructorUsedError;
+  String? get password => throw _privateConstructorUsedError;
   bool get remember => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
+  bool get authorized => throw _privateConstructorUsedError;
+  ({int level, String msg})? get responseMsg =>
+      throw _privateConstructorUsedError;
+  bool get passwordVisibility => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +40,13 @@ abstract class $LoginStateCopyWith<$Res> {
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res, LoginState>;
   @useResult
-  $Res call({bool remember, String email, String password});
+  $Res call(
+      {String? email,
+      String? password,
+      bool remember,
+      bool authorized,
+      ({int level, String msg})? responseMsg,
+      bool passwordVisibility});
 }
 
 /// @nodoc
@@ -52,23 +62,38 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? email = freezed,
+    Object? password = freezed,
     Object? remember = null,
-    Object? email = null,
-    Object? password = null,
+    Object? authorized = null,
+    Object? responseMsg = freezed,
+    Object? passwordVisibility = null,
   }) {
     return _then(_value.copyWith(
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String?,
       remember: null == remember
           ? _value.remember
           : remember // ignore: cast_nullable_to_non_nullable
               as bool,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
+      authorized: null == authorized
+          ? _value.authorized
+          : authorized // ignore: cast_nullable_to_non_nullable
+              as bool,
+      responseMsg: freezed == responseMsg
+          ? _value.responseMsg
+          : responseMsg // ignore: cast_nullable_to_non_nullable
+              as ({int level, String msg})?,
+      passwordVisibility: null == passwordVisibility
+          ? _value.passwordVisibility
+          : passwordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -81,7 +106,13 @@ abstract class _$$LoginStateImplCopyWith<$Res>
       __$$LoginStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool remember, String email, String password});
+  $Res call(
+      {String? email,
+      String? password,
+      bool remember,
+      bool authorized,
+      ({int level, String msg})? responseMsg,
+      bool passwordVisibility});
 }
 
 /// @nodoc
@@ -95,23 +126,38 @@ class __$$LoginStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? email = freezed,
+    Object? password = freezed,
     Object? remember = null,
-    Object? email = null,
-    Object? password = null,
+    Object? authorized = null,
+    Object? responseMsg = freezed,
+    Object? passwordVisibility = null,
   }) {
     return _then(_$LoginStateImpl(
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String?,
       remember: null == remember
           ? _value.remember
           : remember // ignore: cast_nullable_to_non_nullable
               as bool,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
+      authorized: null == authorized
+          ? _value.authorized
+          : authorized // ignore: cast_nullable_to_non_nullable
+              as bool,
+      responseMsg: freezed == responseMsg
+          ? _value.responseMsg
+          : responseMsg // ignore: cast_nullable_to_non_nullable
+              as ({int level, String msg})?,
+      passwordVisibility: null == passwordVisibility
+          ? _value.passwordVisibility
+          : passwordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -120,24 +166,35 @@ class __$$LoginStateImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
   const _$LoginStateImpl(
-      {this.remember = false, this.email = "", this.password = ""});
+      {this.email,
+      this.password,
+      this.remember = false,
+      this.authorized = false,
+      this.responseMsg,
+      this.passwordVisibility = false});
 
   factory _$LoginStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$LoginStateImplFromJson(json);
 
   @override
+  final String? email;
+  @override
+  final String? password;
+  @override
   @JsonKey()
   final bool remember;
   @override
   @JsonKey()
-  final String email;
+  final bool authorized;
+  @override
+  final ({int level, String msg})? responseMsg;
   @override
   @JsonKey()
-  final String password;
+  final bool passwordVisibility;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LoginState(remember: $remember, email: $email, password: $password)';
+    return 'LoginState(email: $email, password: $password, remember: $remember, authorized: $authorized, responseMsg: $responseMsg, passwordVisibility: $passwordVisibility)';
   }
 
   @override
@@ -145,9 +202,12 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'LoginState'))
-      ..add(DiagnosticsProperty('remember', remember))
       ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('password', password));
+      ..add(DiagnosticsProperty('password', password))
+      ..add(DiagnosticsProperty('remember', remember))
+      ..add(DiagnosticsProperty('authorized', authorized))
+      ..add(DiagnosticsProperty('responseMsg', responseMsg))
+      ..add(DiagnosticsProperty('passwordVisibility', passwordVisibility));
   }
 
   @override
@@ -155,16 +215,23 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoginStateImpl &&
-            (identical(other.remember, remember) ||
-                other.remember == remember) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
-                other.password == password));
+                other.password == password) &&
+            (identical(other.remember, remember) ||
+                other.remember == remember) &&
+            (identical(other.authorized, authorized) ||
+                other.authorized == authorized) &&
+            (identical(other.responseMsg, responseMsg) ||
+                other.responseMsg == responseMsg) &&
+            (identical(other.passwordVisibility, passwordVisibility) ||
+                other.passwordVisibility == passwordVisibility));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, remember, email, password);
+  int get hashCode => Object.hash(runtimeType, email, password, remember,
+      authorized, responseMsg, passwordVisibility);
 
   @JsonKey(ignore: true)
   @override
@@ -182,19 +249,28 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
 
 abstract class _LoginState implements LoginState {
   const factory _LoginState(
-      {final bool remember,
-      final String email,
-      final String password}) = _$LoginStateImpl;
+      {final String? email,
+      final String? password,
+      final bool remember,
+      final bool authorized,
+      final ({int level, String msg})? responseMsg,
+      final bool passwordVisibility}) = _$LoginStateImpl;
 
   factory _LoginState.fromJson(Map<String, dynamic> json) =
       _$LoginStateImpl.fromJson;
 
   @override
+  String? get email;
+  @override
+  String? get password;
+  @override
   bool get remember;
   @override
-  String get email;
+  bool get authorized;
   @override
-  String get password;
+  ({int level, String msg})? get responseMsg;
+  @override
+  bool get passwordVisibility;
   @override
   @JsonKey(ignore: true)
   _$$LoginStateImplCopyWith<_$LoginStateImpl> get copyWith =>

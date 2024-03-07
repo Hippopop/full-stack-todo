@@ -23,8 +23,8 @@ mixin _$AppUser {
   int get uid => throw _privateConstructorUsedError;
   String get uuid => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get phone => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get phone => throw _privateConstructorUsedError;
   String? get photo => throw _privateConstructorUsedError;
   String? get birthdate => throw _privateConstructorUsedError;
 
@@ -42,8 +42,8 @@ abstract class $AppUserCopyWith<$Res> {
       {int uid,
       String uuid,
       String email,
-      String? name,
-      String? phone,
+      String name,
+      String phone,
       String? photo,
       String? birthdate});
 }
@@ -64,8 +64,8 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? uid = null,
     Object? uuid = null,
     Object? email = null,
-    Object? name = freezed,
-    Object? phone = freezed,
+    Object? name = null,
+    Object? phone = null,
     Object? photo = freezed,
     Object? birthdate = freezed,
   }) {
@@ -82,14 +82,14 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: freezed == phone
+              as String,
+      phone: null == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       photo: freezed == photo
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       {int uid,
       String uuid,
       String email,
-      String? name,
-      String? phone,
+      String name,
+      String phone,
       String? photo,
       String? birthdate});
 }
@@ -133,8 +133,8 @@ class __$$AppUserImplCopyWithImpl<$Res>
     Object? uid = null,
     Object? uuid = null,
     Object? email = null,
-    Object? name = freezed,
-    Object? phone = freezed,
+    Object? name = null,
+    Object? phone = null,
     Object? photo = freezed,
     Object? birthdate = freezed,
   }) {
@@ -151,14 +151,14 @@ class __$$AppUserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: freezed == phone
+              as String,
+      phone: null == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       photo: freezed == photo
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
@@ -178,8 +178,8 @@ class _$AppUserImpl with DiagnosticableTreeMixin implements _AppUser {
       {required this.uid,
       required this.uuid,
       required this.email,
-      this.name,
-      this.phone,
+      required this.name,
+      required this.phone,
       this.photo,
       this.birthdate});
 
@@ -193,9 +193,9 @@ class _$AppUserImpl with DiagnosticableTreeMixin implements _AppUser {
   @override
   final String email;
   @override
-  final String? name;
+  final String name;
   @override
-  final String? phone;
+  final String phone;
   @override
   final String? photo;
   @override
@@ -259,8 +259,8 @@ abstract class _AppUser implements AppUser {
       {required final int uid,
       required final String uuid,
       required final String email,
-      final String? name,
-      final String? phone,
+      required final String name,
+      required final String phone,
       final String? photo,
       final String? birthdate}) = _$AppUserImpl;
 
@@ -273,9 +273,9 @@ abstract class _AppUser implements AppUser {
   @override
   String get email;
   @override
-  String? get name;
+  String get name;
   @override
-  String? get phone;
+  String get phone;
   @override
   String? get photo;
   @override

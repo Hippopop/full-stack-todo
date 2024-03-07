@@ -10,6 +10,8 @@ import 'widgets/single_todo_widget.dart';
 class AllTodoScreen extends StatelessWidget {
   const AllTodoScreen({super.key});
 
+  static const route = "/allTodo";
+
   final titleTextStyles = const TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,

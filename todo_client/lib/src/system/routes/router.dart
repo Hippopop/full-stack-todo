@@ -32,12 +32,12 @@ final goRouterProvider = Provider<GoRouter>(
           routes: [
             GoRoute(
               parentNavigatorKey: shellNavigatorKey,
-              path: navProvider.path(0),
+              path: AllTodoScreen.route,
               builder: (context, state) => const AllTodoScreen(),
             ),
             GoRoute(
               parentNavigatorKey: shellNavigatorKey,
-              path: navProvider.path(1),
+              path: FilterTodoScreen.route,
               builder: (context, state) => const FilterTodoScreen(),
             ),
           ],

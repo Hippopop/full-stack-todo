@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:todo_client/src/constants/server/api/api_config.dart';
 import 'package:todo_client/src/repository/repository.dart';
 
@@ -30,12 +31,29 @@ class AuthProvider extends AuthRepository {
   }
 
   @override
-  Future<ResponseWrapper<AuthResponse>> register(
-      {required AppUser user, required String password}) async {
+  Future<ResponseWrapper<AuthResponse>> register({
+    required String name,
+    required String email,
+    required String phone,
+    required String password,
+    required String? imagePath,
+  }) async {
+    final Map<String, dynamic> registrationData = {
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'password': password,
+      if (imagePath != null)
+        'image': await MultipartFile.fromFile(
+          imagePath,
+        ),
+    };
+
     final raw = await requestHandler.post(
       APIConfig.register,
-      {...user.toJson(), "password": password},
+      FormData.fromMap(registrationData),
     );
+
     return ResponseWrapper<AuthResponse>.fromMap(
       rawResponse: raw,
       purserFunction: (json) => AuthResponse.fromJson(json),

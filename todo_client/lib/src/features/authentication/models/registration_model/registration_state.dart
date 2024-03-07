@@ -8,11 +8,16 @@ part 'registration_state.g.dart';
 @freezed
 class RegistrationState with _$RegistrationState {
   const factory RegistrationState({
-    @Default("") String name,
-    @Default("") String email,
-    @Default("") String phone,
-    @Default("") String password,
-    @Default("") String confirmPassword,
+    String? name,
+    String? email,
+    String? password,
+    String? imagePath,
+    String? phoneNumber,
+    String? confirmPassword,
+    @Default(false) bool authorized,
+    @Default("+880") String phoneCode,
+    ({int level, String msg})? responseMsg,
+    @Default(false) bool passwordVisibility,
   }) = _RegistrationState;
 
   factory RegistrationState.fromJson(Map<String, Object?> json) =>

@@ -20,13 +20,8 @@ AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AuthResponse {
-  int get uid => throw _privateConstructorUsedError;
-  String get uuid => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get phone => throw _privateConstructorUsedError;
-  String? get photo => throw _privateConstructorUsedError;
-  String? get birthdate => throw _privateConstructorUsedError;
+  AppUser get user => throw _privateConstructorUsedError;
+  UserToken get token => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,14 +35,10 @@ abstract class $AuthResponseCopyWith<$Res> {
           AuthResponse value, $Res Function(AuthResponse) then) =
       _$AuthResponseCopyWithImpl<$Res, AuthResponse>;
   @useResult
-  $Res call(
-      {int uid,
-      String uuid,
-      String email,
-      String? name,
-      String? phone,
-      String? photo,
-      String? birthdate});
+  $Res call({AppUser user, UserToken token});
+
+  $AppUserCopyWith<$Res> get user;
+  $UserTokenCopyWith<$Res> get token;
 }
 
 /// @nodoc
@@ -63,44 +54,35 @@ class _$AuthResponseCopyWithImpl<$Res, $Val extends AuthResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = null,
-    Object? uuid = null,
-    Object? email = null,
-    Object? name = freezed,
-    Object? phone = freezed,
-    Object? photo = freezed,
-    Object? birthdate = freezed,
+    Object? user = null,
+    Object? token = null,
   }) {
     return _then(_value.copyWith(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-      uuid: null == uuid
-          ? _value.uuid
-          : uuid // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      photo: freezed == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
-              as String?,
-      birthdate: freezed == birthdate
-          ? _value.birthdate
-          : birthdate // ignore: cast_nullable_to_non_nullable
-              as String?,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AppUser,
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as UserToken,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AppUserCopyWith<$Res> get user {
+    return $AppUserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserTokenCopyWith<$Res> get token {
+    return $UserTokenCopyWith<$Res>(_value.token, (value) {
+      return _then(_value.copyWith(token: value) as $Val);
+    });
   }
 }
 
@@ -112,14 +94,12 @@ abstract class _$$AuthResponseImplCopyWith<$Res>
       __$$AuthResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int uid,
-      String uuid,
-      String email,
-      String? name,
-      String? phone,
-      String? photo,
-      String? birthdate});
+  $Res call({AppUser user, UserToken token});
+
+  @override
+  $AppUserCopyWith<$Res> get user;
+  @override
+  $UserTokenCopyWith<$Res> get token;
 }
 
 /// @nodoc
@@ -133,43 +113,18 @@ class __$$AuthResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = null,
-    Object? uuid = null,
-    Object? email = null,
-    Object? name = freezed,
-    Object? phone = freezed,
-    Object? photo = freezed,
-    Object? birthdate = freezed,
+    Object? user = null,
+    Object? token = null,
   }) {
     return _then(_$AuthResponseImpl(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as int,
-      uuid: null == uuid
-          ? _value.uuid
-          : uuid // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      photo: freezed == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
-              as String?,
-      birthdate: freezed == birthdate
-          ? _value.birthdate
-          : birthdate // ignore: cast_nullable_to_non_nullable
-              as String?,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AppUser,
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as UserToken,
     ));
   }
 }
@@ -177,36 +132,19 @@ class __$$AuthResponseImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AuthResponseImpl with DiagnosticableTreeMixin implements _AuthResponse {
-  const _$AuthResponseImpl(
-      {required this.uid,
-      required this.uuid,
-      required this.email,
-      this.name,
-      this.phone,
-      this.photo,
-      this.birthdate});
+  const _$AuthResponseImpl({required this.user, required this.token});
 
   factory _$AuthResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuthResponseImplFromJson(json);
 
   @override
-  final int uid;
+  final AppUser user;
   @override
-  final String uuid;
-  @override
-  final String email;
-  @override
-  final String? name;
-  @override
-  final String? phone;
-  @override
-  final String? photo;
-  @override
-  final String? birthdate;
+  final UserToken token;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthResponse(uid: $uid, uuid: $uuid, email: $email, name: $name, phone: $phone, photo: $photo, birthdate: $birthdate)';
+    return 'AuthResponse(user: $user, token: $token)';
   }
 
   @override
@@ -214,13 +152,8 @@ class _$AuthResponseImpl with DiagnosticableTreeMixin implements _AuthResponse {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'AuthResponse'))
-      ..add(DiagnosticsProperty('uid', uid))
-      ..add(DiagnosticsProperty('uuid', uuid))
-      ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('phone', phone))
-      ..add(DiagnosticsProperty('photo', photo))
-      ..add(DiagnosticsProperty('birthdate', birthdate));
+      ..add(DiagnosticsProperty('user', user))
+      ..add(DiagnosticsProperty('token', token));
   }
 
   @override
@@ -228,20 +161,13 @@ class _$AuthResponseImpl with DiagnosticableTreeMixin implements _AuthResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthResponseImpl &&
-            (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.uuid, uuid) || other.uuid == uuid) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.photo, photo) || other.photo == photo) &&
-            (identical(other.birthdate, birthdate) ||
-                other.birthdate == birthdate));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.token, token) || other.token == token));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, uid, uuid, email, name, phone, photo, birthdate);
+  int get hashCode => Object.hash(runtimeType, user, token);
 
   @JsonKey(ignore: true)
   @override
@@ -259,31 +185,16 @@ class _$AuthResponseImpl with DiagnosticableTreeMixin implements _AuthResponse {
 
 abstract class _AuthResponse implements AuthResponse {
   const factory _AuthResponse(
-      {required final int uid,
-      required final String uuid,
-      required final String email,
-      final String? name,
-      final String? phone,
-      final String? photo,
-      final String? birthdate}) = _$AuthResponseImpl;
+      {required final AppUser user,
+      required final UserToken token}) = _$AuthResponseImpl;
 
   factory _AuthResponse.fromJson(Map<String, dynamic> json) =
       _$AuthResponseImpl.fromJson;
 
   @override
-  int get uid;
+  AppUser get user;
   @override
-  String get uuid;
-  @override
-  String get email;
-  @override
-  String? get name;
-  @override
-  String? get phone;
-  @override
-  String? get photo;
-  @override
-  String? get birthdate;
+  UserToken get token;
   @override
   @JsonKey(ignore: true)
   _$$AuthResponseImplCopyWith<_$AuthResponseImpl> get copyWith =>

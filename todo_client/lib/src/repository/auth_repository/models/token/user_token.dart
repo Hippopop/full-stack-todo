@@ -11,6 +11,7 @@ class UserToken with _$UserToken {
   const factory UserToken({
     required String token,
     required String refreshToken,
+    required DateTime expiresAt,
   }) = _UserToken;
 
   const UserToken._();

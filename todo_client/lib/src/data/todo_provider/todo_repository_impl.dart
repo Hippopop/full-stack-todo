@@ -8,7 +8,7 @@ class TodoProvider extends TodoRepository {
   Future<ResponseWrapper<Todo>> addTodo({required Todo newTodo}) async {
     final raw = await requestHandler.post(
       APIConfig.addTodo,
-      {...newTodo.toJson(), "status": "B"},
+      newTodo.toJson(),
     );
     return ResponseWrapper<Todo>.fromMap(
       rawResponse: raw,

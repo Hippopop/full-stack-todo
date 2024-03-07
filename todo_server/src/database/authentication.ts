@@ -26,6 +26,7 @@ export const register = async (data: RegistrationUserModel): Promise<AuthType> =
     uuid: uuid,
     token: [],
     password: hash,
+    phone: data.phone,
     email: data.email,
     key: headers.insertId,
   });

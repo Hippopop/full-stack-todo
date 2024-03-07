@@ -66,6 +66,7 @@ final lightTheme = ThemeData(
   ),
   inputDecorationTheme: defaultInputDecoration,
   checkboxTheme: tonedCheckboxTheme,
+  progressIndicatorTheme: const ProgressIndicatorThemeData(color: _theme),
   colorScheme: ColorScheme.fromSeed(seedColor: _primaryColor),
   extensions: {
     ColorTheme(

@@ -22,6 +22,7 @@ UserToken _$UserTokenFromJson(Map<String, dynamic> json) {
 mixin _$UserToken {
   String get token => throw _privateConstructorUsedError;
   String get refreshToken => throw _privateConstructorUsedError;
+  DateTime get expiresAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $UserTokenCopyWith<$Res> {
   factory $UserTokenCopyWith(UserToken value, $Res Function(UserToken) then) =
       _$UserTokenCopyWithImpl<$Res, UserToken>;
   @useResult
-  $Res call({String token, String refreshToken});
+  $Res call({String token, String refreshToken, DateTime expiresAt});
 }
 
 /// @nodoc
@@ -52,6 +53,7 @@ class _$UserTokenCopyWithImpl<$Res, $Val extends UserToken>
   $Res call({
     Object? token = null,
     Object? refreshToken = null,
+    Object? expiresAt = null,
   }) {
     return _then(_value.copyWith(
       token: null == token
@@ -62,6 +64,10 @@ class _$UserTokenCopyWithImpl<$Res, $Val extends UserToken>
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
+      expiresAt: null == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -74,7 +80,7 @@ abstract class _$$UserTokenImplCopyWith<$Res>
       __$$UserTokenImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String token, String refreshToken});
+  $Res call({String token, String refreshToken, DateTime expiresAt});
 }
 
 /// @nodoc
@@ -90,6 +96,7 @@ class __$$UserTokenImplCopyWithImpl<$Res>
   $Res call({
     Object? token = null,
     Object? refreshToken = null,
+    Object? expiresAt = null,
   }) {
     return _then(_$UserTokenImpl(
       token: null == token
@@ -100,6 +107,10 @@ class __$$UserTokenImplCopyWithImpl<$Res>
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
+      expiresAt: null == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -107,7 +118,10 @@ class __$$UserTokenImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserTokenImpl extends _UserToken with DiagnosticableTreeMixin {
-  const _$UserTokenImpl({required this.token, required this.refreshToken})
+  const _$UserTokenImpl(
+      {required this.token,
+      required this.refreshToken,
+      required this.expiresAt})
       : super._();
 
   factory _$UserTokenImpl.fromJson(Map<String, dynamic> json) =>
@@ -117,10 +131,12 @@ class _$UserTokenImpl extends _UserToken with DiagnosticableTreeMixin {
   final String token;
   @override
   final String refreshToken;
+  @override
+  final DateTime expiresAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserToken(token: $token, refreshToken: $refreshToken)';
+    return 'UserToken(token: $token, refreshToken: $refreshToken, expiresAt: $expiresAt)';
   }
 
   @override
@@ -129,7 +145,8 @@ class _$UserTokenImpl extends _UserToken with DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'UserToken'))
       ..add(DiagnosticsProperty('token', token))
-      ..add(DiagnosticsProperty('refreshToken', refreshToken));
+      ..add(DiagnosticsProperty('refreshToken', refreshToken))
+      ..add(DiagnosticsProperty('expiresAt', expiresAt));
   }
 
   @override
@@ -139,12 +156,14 @@ class _$UserTokenImpl extends _UserToken with DiagnosticableTreeMixin {
             other is _$UserTokenImpl &&
             (identical(other.token, token) || other.token == token) &&
             (identical(other.refreshToken, refreshToken) ||
-                other.refreshToken == refreshToken));
+                other.refreshToken == refreshToken) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, token, refreshToken);
+  int get hashCode => Object.hash(runtimeType, token, refreshToken, expiresAt);
 
   @JsonKey(ignore: true)
   @override
@@ -163,7 +182,8 @@ class _$UserTokenImpl extends _UserToken with DiagnosticableTreeMixin {
 abstract class _UserToken extends UserToken {
   const factory _UserToken(
       {required final String token,
-      required final String refreshToken}) = _$UserTokenImpl;
+      required final String refreshToken,
+      required final DateTime expiresAt}) = _$UserTokenImpl;
   const _UserToken._() : super._();
 
   factory _UserToken.fromJson(Map<String, dynamic> json) =
@@ -173,6 +193,8 @@ abstract class _UserToken extends UserToken {
   String get token;
   @override
   String get refreshToken;
+  @override
+  DateTime get expiresAt;
   @override
   @JsonKey(ignore: true)
   _$$UserTokenImplCopyWith<_$UserTokenImpl> get copyWith =>

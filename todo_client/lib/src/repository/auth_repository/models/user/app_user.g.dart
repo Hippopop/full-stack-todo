@@ -11,8 +11,8 @@ _$AppUserImpl _$$AppUserImplFromJson(Map<String, dynamic> json) =>
       uid: json['uid'] as int,
       uuid: json['uuid'] as String,
       email: json['email'] as String,
-      name: json['name'] as String?,
-      phone: json['phone'] as String?,
+      name: json['name'] as String,
+      phone: json['phone'] as String,
       photo: json['photo'] as String?,
       birthdate: json['birthdate'] as String?,
     );

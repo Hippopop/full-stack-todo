@@ -9,8 +9,11 @@ abstract class AuthRepository {
   });
 
   Future<ResponseWrapper<AuthResponse>> register({
-    required AppUser user,
+    required String name,
+    required String email,
+    required String phone,
     required String password,
+    required String? imagePath,
   });
 
   Future<ResponseWrapper<AuthResponse>> login({

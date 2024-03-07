@@ -20,11 +20,17 @@ RegistrationState _$RegistrationStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RegistrationState {
-  String get name => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get phone => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
-  String get confirmPassword => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get password => throw _privateConstructorUsedError;
+  String? get imagePath => throw _privateConstructorUsedError;
+  String? get phoneNumber => throw _privateConstructorUsedError;
+  String? get confirmPassword => throw _privateConstructorUsedError;
+  bool get authorized => throw _privateConstructorUsedError;
+  String get phoneCode => throw _privateConstructorUsedError;
+  ({int level, String msg})? get responseMsg =>
+      throw _privateConstructorUsedError;
+  bool get passwordVisibility => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,11 +45,16 @@ abstract class $RegistrationStateCopyWith<$Res> {
       _$RegistrationStateCopyWithImpl<$Res, RegistrationState>;
   @useResult
   $Res call(
-      {String name,
-      String email,
-      String phone,
-      String password,
-      String confirmPassword});
+      {String? name,
+      String? email,
+      String? password,
+      String? imagePath,
+      String? phoneNumber,
+      String? confirmPassword,
+      bool authorized,
+      String phoneCode,
+      ({int level, String msg})? responseMsg,
+      bool passwordVisibility});
 }
 
 /// @nodoc
@@ -59,33 +70,58 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? email = null,
-    Object? phone = null,
-    Object? password = null,
-    Object? confirmPassword = null,
+    Object? name = freezed,
+    Object? email = freezed,
+    Object? password = freezed,
+    Object? imagePath = freezed,
+    Object? phoneNumber = freezed,
+    Object? confirmPassword = freezed,
+    Object? authorized = null,
+    Object? phoneCode = null,
+    Object? responseMsg = freezed,
+    Object? passwordVisibility = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: null == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
+              as String?,
+      password: freezed == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
-              as String,
-      confirmPassword: null == confirmPassword
+              as String?,
+      imagePath: freezed == imagePath
+          ? _value.imagePath
+          : imagePath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      confirmPassword: freezed == confirmPassword
           ? _value.confirmPassword
           : confirmPassword // ignore: cast_nullable_to_non_nullable
+              as String?,
+      authorized: null == authorized
+          ? _value.authorized
+          : authorized // ignore: cast_nullable_to_non_nullable
+              as bool,
+      phoneCode: null == phoneCode
+          ? _value.phoneCode
+          : phoneCode // ignore: cast_nullable_to_non_nullable
               as String,
+      responseMsg: freezed == responseMsg
+          ? _value.responseMsg
+          : responseMsg // ignore: cast_nullable_to_non_nullable
+              as ({int level, String msg})?,
+      passwordVisibility: null == passwordVisibility
+          ? _value.passwordVisibility
+          : passwordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -99,11 +135,16 @@ abstract class _$$RegistrationStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name,
-      String email,
-      String phone,
-      String password,
-      String confirmPassword});
+      {String? name,
+      String? email,
+      String? password,
+      String? imagePath,
+      String? phoneNumber,
+      String? confirmPassword,
+      bool authorized,
+      String phoneCode,
+      ({int level, String msg})? responseMsg,
+      bool passwordVisibility});
 }
 
 /// @nodoc
@@ -117,33 +158,58 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? email = null,
-    Object? phone = null,
-    Object? password = null,
-    Object? confirmPassword = null,
+    Object? name = freezed,
+    Object? email = freezed,
+    Object? password = freezed,
+    Object? imagePath = freezed,
+    Object? phoneNumber = freezed,
+    Object? confirmPassword = freezed,
+    Object? authorized = null,
+    Object? phoneCode = null,
+    Object? responseMsg = freezed,
+    Object? passwordVisibility = null,
   }) {
     return _then(_$RegistrationStateImpl(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: null == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
+              as String?,
+      password: freezed == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
-              as String,
-      confirmPassword: null == confirmPassword
+              as String?,
+      imagePath: freezed == imagePath
+          ? _value.imagePath
+          : imagePath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      confirmPassword: freezed == confirmPassword
           ? _value.confirmPassword
           : confirmPassword // ignore: cast_nullable_to_non_nullable
+              as String?,
+      authorized: null == authorized
+          ? _value.authorized
+          : authorized // ignore: cast_nullable_to_non_nullable
+              as bool,
+      phoneCode: null == phoneCode
+          ? _value.phoneCode
+          : phoneCode // ignore: cast_nullable_to_non_nullable
               as String,
+      responseMsg: freezed == responseMsg
+          ? _value.responseMsg
+          : responseMsg // ignore: cast_nullable_to_non_nullable
+              as ({int level, String msg})?,
+      passwordVisibility: null == passwordVisibility
+          ? _value.passwordVisibility
+          : passwordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -154,34 +220,47 @@ class _$RegistrationStateImpl
     with DiagnosticableTreeMixin
     implements _RegistrationState {
   const _$RegistrationStateImpl(
-      {this.name = "",
-      this.email = "",
-      this.phone = "",
-      this.password = "",
-      this.confirmPassword = ""});
+      {this.name,
+      this.email,
+      this.password,
+      this.imagePath,
+      this.phoneNumber,
+      this.confirmPassword,
+      this.authorized = false,
+      this.phoneCode = "+880",
+      this.responseMsg,
+      this.passwordVisibility = false});
 
   factory _$RegistrationStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$RegistrationStateImplFromJson(json);
 
   @override
-  @JsonKey()
-  final String name;
+  final String? name;
+  @override
+  final String? email;
+  @override
+  final String? password;
+  @override
+  final String? imagePath;
+  @override
+  final String? phoneNumber;
+  @override
+  final String? confirmPassword;
   @override
   @JsonKey()
-  final String email;
+  final bool authorized;
   @override
   @JsonKey()
-  final String phone;
+  final String phoneCode;
+  @override
+  final ({int level, String msg})? responseMsg;
   @override
   @JsonKey()
-  final String password;
-  @override
-  @JsonKey()
-  final String confirmPassword;
+  final bool passwordVisibility;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RegistrationState(name: $name, email: $email, phone: $phone, password: $password, confirmPassword: $confirmPassword)';
+    return 'RegistrationState(name: $name, email: $email, password: $password, imagePath: $imagePath, phoneNumber: $phoneNumber, confirmPassword: $confirmPassword, authorized: $authorized, phoneCode: $phoneCode, responseMsg: $responseMsg, passwordVisibility: $passwordVisibility)';
   }
 
   @override
@@ -191,9 +270,14 @@ class _$RegistrationStateImpl
       ..add(DiagnosticsProperty('type', 'RegistrationState'))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('phone', phone))
       ..add(DiagnosticsProperty('password', password))
-      ..add(DiagnosticsProperty('confirmPassword', confirmPassword));
+      ..add(DiagnosticsProperty('imagePath', imagePath))
+      ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
+      ..add(DiagnosticsProperty('confirmPassword', confirmPassword))
+      ..add(DiagnosticsProperty('authorized', authorized))
+      ..add(DiagnosticsProperty('phoneCode', phoneCode))
+      ..add(DiagnosticsProperty('responseMsg', responseMsg))
+      ..add(DiagnosticsProperty('passwordVisibility', passwordVisibility));
   }
 
   @override
@@ -203,17 +287,38 @@ class _$RegistrationStateImpl
             other is _$RegistrationStateImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.password, password) ||
                 other.password == password) &&
+            (identical(other.imagePath, imagePath) ||
+                other.imagePath == imagePath) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
             (identical(other.confirmPassword, confirmPassword) ||
-                other.confirmPassword == confirmPassword));
+                other.confirmPassword == confirmPassword) &&
+            (identical(other.authorized, authorized) ||
+                other.authorized == authorized) &&
+            (identical(other.phoneCode, phoneCode) ||
+                other.phoneCode == phoneCode) &&
+            (identical(other.responseMsg, responseMsg) ||
+                other.responseMsg == responseMsg) &&
+            (identical(other.passwordVisibility, passwordVisibility) ||
+                other.passwordVisibility == passwordVisibility));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, email, phone, password, confirmPassword);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      email,
+      password,
+      imagePath,
+      phoneNumber,
+      confirmPassword,
+      authorized,
+      phoneCode,
+      responseMsg,
+      passwordVisibility);
 
   @JsonKey(ignore: true)
   @override
@@ -232,25 +337,40 @@ class _$RegistrationStateImpl
 
 abstract class _RegistrationState implements RegistrationState {
   const factory _RegistrationState(
-      {final String name,
-      final String email,
-      final String phone,
-      final String password,
-      final String confirmPassword}) = _$RegistrationStateImpl;
+      {final String? name,
+      final String? email,
+      final String? password,
+      final String? imagePath,
+      final String? phoneNumber,
+      final String? confirmPassword,
+      final bool authorized,
+      final String phoneCode,
+      final ({int level, String msg})? responseMsg,
+      final bool passwordVisibility}) = _$RegistrationStateImpl;
 
   factory _RegistrationState.fromJson(Map<String, dynamic> json) =
       _$RegistrationStateImpl.fromJson;
 
   @override
-  String get name;
+  String? get name;
   @override
-  String get email;
+  String? get email;
   @override
-  String get phone;
+  String? get password;
   @override
-  String get password;
+  String? get imagePath;
   @override
-  String get confirmPassword;
+  String? get phoneNumber;
+  @override
+  String? get confirmPassword;
+  @override
+  bool get authorized;
+  @override
+  String get phoneCode;
+  @override
+  ({int level, String msg})? get responseMsg;
+  @override
+  bool get passwordVisibility;
   @override
   @JsonKey(ignore: true)
   _$$RegistrationStateImplCopyWith<_$RegistrationStateImpl> get copyWith =>
