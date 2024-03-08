@@ -69,7 +69,7 @@ export const wrapperFunction =
               "Attempting Unauthorized Access!"
             );
           const token = authorization.split(" ")[1];
-          const authData = tokenizer.verifyAccessTokenWithData(
+          const authData = await tokenizer.verifyAccessTokenWithData(
             token!,
             UserSchema,
           );
@@ -77,6 +77,9 @@ export const wrapperFunction =
             userData = authData;
           } else throw new ResponseError(unauthorized, "Invalid access token!");
         }
+
+
+
 
         // *** Step: 1. Calls the actual business logic!
         const data = await businessLogic(req, res, next, userData);
@@ -86,14 +89,15 @@ export const wrapperFunction =
           );
           return;
         }
-
-
         // *** Step: 2. Parses the data and gives it the form of an [Response]!
         const safeData = ResponseWrapperSchema(schema).safeParse({
           data: data,
           msg: successMsg,
           status: successCode,
         });
+
+
+
 
 
         // *** Step: 3. Checks if the end result is a valid [Response], In case of [success] send the response else throw!

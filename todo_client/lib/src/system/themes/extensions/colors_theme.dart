@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 extension ColorExtension on BuildContext {
-  ColorTheme? get color => Theme.of(this).extension<ColorTheme>();
+  ColorTheme get color =>
+      Theme.of(this).extension<ColorTheme>() ?? ColorTheme();
 }
 
 class ColorTheme extends ThemeExtension<ColorTheme> {
@@ -28,7 +29,7 @@ class ColorTheme extends ThemeExtension<ColorTheme> {
 
   final Color mainSupport;
   final Color primarySupport;
-  final Color secondarySupport;
+  final Color borderGreyColor;
 
   final Color mainAccent;
   final Color primaryAccent;
@@ -65,7 +66,7 @@ class ColorTheme extends ThemeExtension<ColorTheme> {
     this.secondary = Colors.blueGrey,
     this.mainSupport = Colors.blueGrey,
     this.primarySupport = Colors.blueGrey,
-    this.secondarySupport = Colors.blueGrey,
+    this.borderGreyColor = Colors.blueGrey,
     this.mainAccent = Colors.blueGrey,
     this.primaryAccent = Colors.blueGrey,
     this.secondaryAccent = Colors.blueGrey,
@@ -133,7 +134,7 @@ class ColorTheme extends ThemeExtension<ColorTheme> {
       secondary: secondaryColor ?? secondary,
       mainSupport: mainSupportColor ?? mainSupport,
       primarySupport: primarySupportColor ?? primarySupport,
-      secondarySupport: secondarySupportColor ?? secondarySupport,
+      borderGreyColor: secondarySupportColor ?? borderGreyColor,
       mainAccent: mainAccentColor ?? mainAccent,
       primaryAccent: primaryAccentColor ?? primaryAccent,
       secondaryAccent: secondaryAccentColor ?? secondaryAccent,
@@ -247,9 +248,9 @@ class ColorTheme extends ThemeExtension<ColorTheme> {
         other.primarySupport,
         t,
       )!,
-      secondarySupport: Color.lerp(
-        secondarySupport,
-        other.secondarySupport,
+      borderGreyColor: Color.lerp(
+        borderGreyColor,
+        other.borderGreyColor,
         t,
       )!,
       mainAccent: Color.lerp(

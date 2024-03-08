@@ -6,329 +6,354 @@ part of 'api_config.dart';
 // EnviedGenerator
 // **************************************************************************
 
-class _APIConfig {
-  static const List<int> _enviedkeylogin = [
-    1235899773,
-    767032733,
-    3393146684,
-    336587680,
-    151904174,
-    484243292,
-    1350653084,
-    2501228766,
-    207744707,
-    2529656113,
-    3140010805
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _APIConfig {
+  static const List<int> _enviedkeylogin = <int>[
+    291394847,
+    3604962983,
+    383942160,
+    1740526088,
+    1934507375,
+    1161028052,
+    2403153959,
+    2996131434,
+    2605808343,
+    3818310174,
+    4180082716,
   ];
-  static const List<int> _envieddatalogin = [
-    1235899730,
-    767032828,
-    3393146697,
-    336587732,
-    151904198,
-    484243315,
-    1350653168,
-    2501228721,
-    207744676,
-    2529656152,
-    3140010843
+
+  static const List<int> _envieddatalogin = <int>[
+    291394864,
+    3604963014,
+    383942245,
+    1740526204,
+    1934507271,
+    1161028091,
+    2403153995,
+    2996131333,
+    2605808304,
+    3818310263,
+    4180082802,
   ];
-  static final String login = String.fromCharCodes(
-    List.generate(_envieddatalogin.length, (i) => i, growable: false)
-        .map((i) => _envieddatalogin[i] ^ _enviedkeylogin[i])
-        .toList(growable: false),
-  );
-  static const List<int> _enviedkeyregister = [
-    373966726,
-    2282220061,
-    2626283790,
-    2897980605,
-    952845530,
-    63251118,
-    3054263599,
-    3109936411,
-    1106945073,
-    188045684,
-    1443994403,
-    1898191877,
-    1631198762,
-    28913627
+
+  static final String login = String.fromCharCodes(List<int>.generate(
+    _envieddatalogin.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatalogin[i] ^ _enviedkeylogin[i]));
+
+  static const List<int> _enviedkeyregister = <int>[
+    1752971550,
+    2280391691,
+    14751455,
+    809364374,
+    1492490952,
+    3080520829,
+    450913280,
+    3138593802,
+    567574279,
+    2831137101,
+    2908751514,
+    693133354,
+    4232740769,
+    4257836389,
   ];
-  static const List<int> _envieddataregister = [
-    373966761,
-    2282220156,
-    2626283899,
-    2897980617,
-    952845490,
-    63251073,
-    3054263645,
-    3109936510,
-    1106945110,
-    188045597,
-    1443994448,
-    1898191985,
-    1631198799,
-    28913577
+
+  static const List<int> _envieddataregister = <int>[
+    1752971569,
+    2280391786,
+    14751402,
+    809364450,
+    1492490912,
+    3080520786,
+    450913394,
+    3138593903,
+    567574368,
+    2831137060,
+    2908751593,
+    693133406,
+    4232740804,
+    4257836311,
   ];
-  static final String register = String.fromCharCodes(
-    List.generate(_envieddataregister.length, (i) => i, growable: false)
-        .map((i) => _envieddataregister[i] ^ _enviedkeyregister[i])
-        .toList(growable: false),
-  );
-  static const List<int> _enviedkeyrefresh = [
-    1810809004,
-    2087064299,
-    1484609023,
-    1328702968,
-    442686024,
-    2479978743,
-    199916312,
-    3770530942,
-    1119968672,
-    2268883217,
-    3713838268,
-    212467857,
-    979129810,
-    1635279055
+
+  static final String register = String.fromCharCodes(List<int>.generate(
+    _envieddataregister.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddataregister[i] ^ _enviedkeyregister[i]));
+
+  static const List<int> _enviedkeyrefresh = <int>[
+    2200323543,
+    3233774832,
+    4196325286,
+    2560456364,
+    1985228342,
+    2646887325,
+    3481336922,
+    3796578069,
+    3132457697,
+    3268740783,
+    1926114849,
+    1817739575,
+    3446985268,
+    1933164739,
   ];
-  static const List<int> _envieddatarefresh = [
-    1810808963,
-    2087064223,
-    1484608912,
-    1328702867,
-    442685997,
-    2479978649,
-    199916343,
-    3770530828,
-    1119968709,
-    2268883319,
-    3713838286,
-    212467956,
-    979129761,
-    1635279015
+
+  static const List<int> _envieddatarefresh = <int>[
+    2200323576,
+    3233774724,
+    4196325321,
+    2560456391,
+    1985228371,
+    2646887411,
+    3481336949,
+    3796578151,
+    3132457604,
+    3268740809,
+    1926114899,
+    1817739602,
+    3446985287,
+    1933164715,
   ];
-  static final String refresh = String.fromCharCodes(
-    List.generate(_envieddatarefresh.length, (i) => i, growable: false)
-        .map((i) => _envieddatarefresh[i] ^ _enviedkeyrefresh[i])
-        .toList(growable: false),
-  );
-  static const List<int> _enviedkeybaseURl = [
-    3981231665,
-    2171400648,
-    4199687239,
-    2096336480,
-    382289090,
-    3145311416,
-    2029707237,
-    623297627,
-    3683375135,
-    2045236349,
-    208082075,
-    3894750901,
-    1832191764,
-    3916876853,
-    3518003329,
-    4177222625,
-    3547215177,
-    471665804,
-    3236763835,
-    4223367025,
-    2657892857,
-    4064064105,
-    3808792848,
-    2328316139,
-    4093294315,
-    839175962,
-    3358317154,
-    3474111468,
-    2248963874,
-    2375103457,
-    654102360,
-    1766956303,
-    2609708143,
-    1759413985,
-    3621701118,
-    2825996826,
-    3136475064,
-    3241015700,
-    4240693761,
-    1626494518,
-    1647903318
+
+  static final String refresh = String.fromCharCodes(List<int>.generate(
+    _envieddatarefresh.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatarefresh[i] ^ _enviedkeyrefresh[i]));
+
+  static const List<int> _enviedkeybaseURl = <int>[
+    932365127,
+    2167331724,
+    1497985824,
+    349327731,
+    635427375,
+    2129771853,
+    1229927527,
+    2230890380,
+    1851766116,
+    2571870671,
+    2308375522,
+    4051395289,
+    1596912176,
+    2705748702,
+    1016196389,
+    4216730064,
+    2680713873,
+    1292483039,
+    1863511146,
+    2516833927,
+    3396045692,
+    3342591453,
+    3937606611,
+    4240804302,
+    1206380422,
+    3052037225,
+    1748110745,
+    648567393,
+    2859970796,
+    2237970941,
+    2583181410,
+    4110415656,
+    1220084691,
+    2089368081,
+    1786579425,
+    3482100348,
+    3874160597,
+    980867669,
+    3350787338,
+    958962588,
+    1958580523,
   ];
-  static const List<int> _envieddatabaseURl = [
-    3981231705,
-    2171400636,
-    4199687219,
-    2096336400,
-    382289073,
-    3145311362,
-    2029707210,
-    623297652,
-    3683375225,
-    2045236232,
-    208082167,
-    3894750937,
-    1832191801,
-    3916876870,
-    3518003445,
-    4177222528,
-    3547215146,
-    471665895,
-    3236763798,
-    4223366917,
-    2657892758,
-    4064064013,
-    3808792959,
-    2328316102,
-    4093294237,
-    839176034,
-    3358317056,
-    3474111444,
-    2248963852,
-    2375103374,
-    654102326,
-    1766956413,
-    2609708042,
-    1759413903,
-    3621701018,
-    2825996927,
-    3136475082,
-    3241015738,
-    4240693858,
-    1626494553,
-    1647903291
+
+  static const List<int> _envieddatabaseURl = <int>[
+    932365103,
+    2167331832,
+    1497985876,
+    349327619,
+    635427420,
+    2129771895,
+    1229927496,
+    2230890403,
+    1851766018,
+    2571870650,
+    2308375438,
+    4051395253,
+    1596912157,
+    2705748653,
+    1016196433,
+    4216730033,
+    2680713970,
+    1292482996,
+    1863511111,
+    2516834035,
+    3396045587,
+    3342591417,
+    3937606588,
+    4240804323,
+    1206380528,
+    3052037137,
+    1748110843,
+    648567385,
+    2859970754,
+    2237970834,
+    2583181324,
+    4110415706,
+    1220084662,
+    2089368191,
+    1786579333,
+    3482100249,
+    3874160551,
+    980867707,
+    3350787433,
+    958962675,
+    1958580550,
   ];
-  static final String baseURl = String.fromCharCodes(
-    List.generate(_envieddatabaseURl.length, (i) => i, growable: false)
-        .map((i) => _envieddatabaseURl[i] ^ _enviedkeybaseURl[i])
-        .toList(growable: false),
-  );
-  static const List<int> _enviedkeyaddTodo = [
-    2829686408,
-    799422512,
-    4006290947,
-    1842894634,
-    3485012708,
-    3352581623,
-    2558439480,
-    1270552454,
-    1724868122,
-    3358826840
+
+  static final String baseURl = String.fromCharCodes(List<int>.generate(
+    _envieddatabaseURl.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatabaseURl[i] ^ _enviedkeybaseURl[i]));
+
+  static const List<int> _enviedkeyaddTodo = <int>[
+    1197480826,
+    996074995,
+    4220330262,
+    935712331,
+    3818539861,
+    1766186701,
+    2360061569,
+    1211892907,
+    3484595261,
+    1395473962,
   ];
-  static const List<int> _envieddataaddTodo = [
-    2829686439,
-    799422532,
-    4006291052,
-    1842894670,
-    3485012619,
-    3352581508,
-    2558439447,
-    1270552551,
-    1724868222,
-    3358826812
+
+  static const List<int> _envieddataaddTodo = <int>[
+    1197480789,
+    996074887,
+    4220330361,
+    935712303,
+    3818539834,
+    1766186686,
+    2360061614,
+    1211892938,
+    3484595289,
+    1395473998,
   ];
-  static final String addTodo = String.fromCharCodes(
-    List.generate(_envieddataaddTodo.length, (i) => i, growable: false)
-        .map((i) => _envieddataaddTodo[i] ^ _enviedkeyaddTodo[i])
-        .toList(growable: false),
-  );
-  static const List<int> _enviedkeyallTodo = [
-    3889464617,
-    2326781609,
-    3973397958,
-    168432390,
-    3613203263,
-    4239897147,
-    297776082,
-    61973110,
-    2356489066,
-    2609572367
+
+  static final String addTodo = String.fromCharCodes(List<int>.generate(
+    _envieddataaddTodo.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddataaddTodo[i] ^ _enviedkeyaddTodo[i]));
+
+  static const List<int> _enviedkeyallTodo = <int>[
+    1280690817,
+    2781516565,
+    2138919329,
+    2683223169,
+    877248303,
+    216508525,
+    3866804914,
+    144998221,
+    2741202043,
+    4060347207,
   ];
-  static const List<int> _envieddataallTodo = [
-    3889464582,
-    2326781661,
-    3973397929,
-    168432482,
-    3613203280,
-    4239897160,
-    297776125,
-    61973015,
-    2356488966,
-    2609572451
+
+  static const List<int> _envieddataallTodo = <int>[
+    1280690862,
+    2781516641,
+    2138919374,
+    2683223269,
+    877248320,
+    216508446,
+    3866804893,
+    144998188,
+    2741201943,
+    4060347179,
   ];
-  static final String allTodo = String.fromCharCodes(
-    List.generate(_envieddataallTodo.length, (i) => i, growable: false)
-        .map((i) => _envieddataallTodo[i] ^ _enviedkeyallTodo[i])
-        .toList(growable: false),
-  );
-  static const List<int> _enviedkeyupdateTodo = [
-    1556948187,
-    1898007812,
-    1379536607,
-    350384439,
-    745055394,
-    874742260,
-    3395643374,
-    2303706466,
-    1627140378,
-    3792354336,
-    2326321791,
-    2385402718,
-    1653104897
+
+  static final String allTodo = String.fromCharCodes(List<int>.generate(
+    _envieddataallTodo.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddataallTodo[i] ^ _enviedkeyallTodo[i]));
+
+  static const List<int> _enviedkeyupdateTodo = <int>[
+    992539831,
+    2144633528,
+    3294458482,
+    4281504400,
+    2428328813,
+    2530350255,
+    540282022,
+    2646659971,
+    1584473504,
+    2660228631,
+    3827511751,
+    4175719909,
+    547932855,
   ];
-  static const List<int> _envieddataupdateTodo = [
-    1556948212,
-    1898007920,
-    1379536560,
-    350384467,
-    745055437,
-    874742151,
-    3395643329,
-    2303706391,
-    1627140458,
-    3792354372,
-    2326321694,
-    2385402666,
-    1653104996
+
+  static const List<int> _envieddataupdateTodo = <int>[
+    992539800,
+    2144633548,
+    3294458397,
+    4281504500,
+    2428328706,
+    2530350300,
+    540281993,
+    2646660086,
+    1584473552,
+    2660228723,
+    3827511718,
+    4175719825,
+    547932882,
   ];
-  static final String updateTodo = String.fromCharCodes(
-    List.generate(_envieddataupdateTodo.length, (i) => i, growable: false)
-        .map((i) => _envieddataupdateTodo[i] ^ _enviedkeyupdateTodo[i])
-        .toList(growable: false),
-  );
-  static const List<int> _enviedkeydeleteTodo = [
-    182817471,
-    2201731260,
-    449124914,
-    2326250029,
-    882151669,
-    95339366,
-    3659730749,
-    2872891390,
-    1635860944,
-    1991606540,
-    3739972416,
-    3837368362,
-    89529132
+
+  static final String updateTodo = String.fromCharCodes(List<int>.generate(
+    _envieddataupdateTodo.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddataupdateTodo[i] ^ _enviedkeyupdateTodo[i]));
+
+  static const List<int> _enviedkeydeleteTodo = <int>[
+    324192979,
+    3266586346,
+    3159624197,
+    1508874532,
+    2337643675,
+    2578835976,
+    482186182,
+    2540187279,
+    1923666769,
+    3138926095,
+    55594813,
+    3948342031,
+    3787008935,
   ];
-  static const List<int> _envieddatadeleteTodo = [
-    182817424,
-    2201731272,
-    449124957,
-    2326250057,
-    882151578,
-    95339285,
-    3659730706,
-    2872891290,
-    1635860917,
-    1991606624,
-    3739972389,
-    3837368414,
-    89529161
+
+  static const List<int> _envieddatadeleteTodo = <int>[
+    324193020,
+    3266586270,
+    3159624298,
+    1508874560,
+    2337643764,
+    2578836091,
+    482186217,
+    2540187371,
+    1923666740,
+    3138926179,
+    55594840,
+    3948342139,
+    3787008962,
   ];
-  static final String deleteTodo = String.fromCharCodes(
-    List.generate(_envieddatadeleteTodo.length, (i) => i, growable: false)
-        .map((i) => _envieddatadeleteTodo[i] ^ _enviedkeydeleteTodo[i])
-        .toList(growable: false),
-  );
+
+  static final String deleteTodo = String.fromCharCodes(List<int>.generate(
+    _envieddatadeleteTodo.length,
+    (int i) => i,
+    growable: false,
+  ).map((int i) => _envieddatadeleteTodo[i] ^ _enviedkeydeleteTodo[i]));
 }

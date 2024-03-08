@@ -26,7 +26,7 @@ export class ResponseError extends CustomErrorStructure {
   serializeErrors(): SimpleError[] {
     return [
       {
-        codes: this.code ?? "unknown",
+        codes: this.code ?? `unknown(${this.status})`,
         description: this.message,
       },
     ];

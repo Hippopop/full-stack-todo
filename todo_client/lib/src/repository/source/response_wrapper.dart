@@ -1,80 +1,79 @@
-import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
 import 'package:todo_client/src/repository/source/response_error.dart';
 
-typedef RawToDataPurse<Z, T> = FutureOr<Z> Function(T? rawData);
+typedef RawToDataPurse<T> = T Function(dynamic json);
 
-class ResponseWrapper<T, C> {
-  int status;
+T __purseErrorCatcher<T>(RawToDataPurse<T> pursingFunction, data) {
+  try {
+    return pursingFunction(data);
+  } catch (e, s) {
+    log("### PurseError ### \n Data : $data", error: e, stackTrace: s);
+    rethrow;
+  }
+}
+
+class ResponseWrapper<R> {
+  int? status;
   String msg;
-  T? rawResponse;
+  Response rawResponse;
   List<RequestError>? error;
 
   ResponseWrapper({
-    required this.status,
-    required this.msg,
-    this.rawResponse,
+    this.status,
+    this.data,
     this.error,
+    required this.msg,
+    required this.rawResponse,
   });
 
   /* Actual data pursing : Start*/
-
-  late final C? data;
-  bool get isError => error != null && data == null;
+  final R? data;
+  dynamic get rawData => rawResponse.data;
   bool get isSuccess => data != null && error == null;
+  bool get isError => !(isSuccess);
 
-  FutureOr<void> purseResponse<Z extends C>(
-    RawToDataPurse<Z, T> purserFunction,
-  ) async {
-    try {
-      data = await purserFunction(rawResponse);
-    } catch (e, s) {
-      log(
-        "Tried to purse **${rawResponse.runtimeType} (to) ${Z.runtimeType}! \n RawResponse => ${rawResponse.toString()}",
-        error: e,
-        stackTrace: s,
-        name: "#RES_PURSE_ERROR",
-      );
-      rethrow;
-    }
-  }
-
-  factory ResponseWrapper.fromMap(dynamic rawData, [bool print = false]) {
-    if (print) {
-      log(rawData.toString());
-    }
-    final map = Map<String, dynamic>.from(rawData as Map);
-    return ResponseWrapper<T, C>(
-      status: map['status'] as int,
-      msg: map['msg'] as String,
-      rawResponse: map['data'] != null ? map['data'] as T : null,
-      error: map['error'] != null
-          ? List<RequestError>.from(
-              (map['error'] as List).map<RequestError?>(
-                (x) => RequestError.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
-    );
-  }
-
-  /* Actual data pursing : End*/
-
-  ResponseWrapper<T, C> copyWith({
-    int? status,
-    String? msg,
-    T? rawResponse,
-    List<RequestError>? error,
+  factory ResponseWrapper.fromMap({
+    bool print = false,
+    required Response rawResponse,
+    required RawToDataPurse<R> purserFunction,
   }) {
-    return ResponseWrapper<T, C>(
-      status: status ?? this.status,
-      msg: msg ?? this.msg,
-      rawResponse: rawResponse ?? this.rawResponse,
-      error: error ?? this.error,
-    );
+    if (print) log(rawResponse.data.toString());
+    return switch (rawResponse.data) {
+      {
+        "status": int status,
+        "msg": String msg,
+        "error": List error,
+      } =>
+        ResponseWrapper<R>(
+          status: status,
+          msg: msg,
+          rawResponse: rawResponse,
+          error: List<RequestError>.from(
+            error.map<RequestError?>(
+              (x) => RequestError.fromMap(x as Map<String, dynamic>),
+            ),
+          ),
+        ),
+      {
+        "status": int status,
+        "msg": String msg,
+        "data": dynamic data,
+      } =>
+        ResponseWrapper<R>(
+          status: status,
+          msg: msg,
+          rawResponse: rawResponse,
+          data: __purseErrorCatcher(purserFunction, data),
+        ),
+      _ => ResponseWrapper(
+          rawResponse: rawResponse,
+          status: rawResponse.statusCode,
+          msg: "Response came back with a unknown data format!",
+        ),
+    };
   }
+  /* Actual data pursing : End*/
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -85,31 +84,8 @@ class ResponseWrapper<T, C> {
     };
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory ResponseWrapper.fromJson(String source) =>
-      ResponseWrapper.fromMap(json.decode(source) as Map<String, dynamic>);
-
   @override
   String toString() {
-    return 'ResponseWrapper(status: $status, msg: $msg, rawResponse: $rawResponse, error: $error)';
-  }
-
-  @override
-  bool operator ==(covariant ResponseWrapper<T, C> other) {
-    if (identical(this, other)) return true;
-
-    return other.status == status &&
-        other.msg == msg &&
-        other.rawResponse == rawResponse &&
-        listEquals(other.error, error);
-  }
-
-  @override
-  int get hashCode {
-    return status.hashCode ^
-        msg.hashCode ^
-        rawResponse.hashCode ^
-        error.hashCode;
+    return 'ResponseWrapper(\nstatus: $status,\n msg: $msg,\n rawData: ${rawResponse.data},\n error: $error,\n)';
   }
 }

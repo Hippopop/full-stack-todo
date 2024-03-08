@@ -9,8 +9,9 @@ import { createUser, getUserData } from "../../database/user";
 import tokenizer from "../../utils/token/jwt_token";
 import { success, successfullyCreated } from "../../Errors/error_codes";
 import multerConfig from "../../utils/file_management/multer_config";
-import { RegisterUserSchema } from "./models/register";
+import { RegistrationUserSchema } from "./models/register";
 import { insertImage, getProfileImage } from "../../database/images";
+
 
 const authRoute = Router();
 
@@ -22,6 +23,7 @@ authRoute.post(
     errorMsg: "Login Failed!",
     schema: AuthResModel,
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
+
       const loginData = LoginSchema.safeParse(req.body);
       if (loginData.success) {
         const authData = await auth.getAuthData(loginData.data.email);
@@ -31,16 +33,18 @@ authRoute.post(
             authData.password
           );
           if (!passMatched) throw wrongCredentialError;
+
           const userData = await getUserData(authData.email);
-          const accessToken = tokenizer.generateToken(userData!);
-          const refreshToken = tokenizer.generateRefreshToken(authData.uuid);
-          await auth.updateToken(authData.uuid, [refreshToken]);
+          const [accessToken, accessTokenExpire] = tokenizer.generateToken(userData!);
+          const [refreshToken, refreshTokenExpire] = tokenizer.generateRefreshToken({ uuid: authData.uuid, email: authData.email, token: accessToken });
+          await auth.updateRefreshToken(authData.uuid, refreshToken);
           return {
             token: {
               token: accessToken,
               refreshToken: refreshToken,
+              expiresAt: accessTokenExpire,
             },
-            user: userData,
+            user: { ...userData, phone: authData.phone },
           };
         } else {
           throw userNotFoundError;
@@ -61,7 +65,7 @@ authRoute.post(
     successMsg: "Registration Successfully Completed!",
     errorMsg: "Sorry! Couldn't register with the given data.",
     businessLogic: async (req: Request, res: Response, next?: NextFunction) => {
-      const data = RegisterUserSchema.safeParse(req.body);
+      const data = RegistrationUserSchema.safeParse(req.body);
       if (data.success) {
         const authData = await auth.register(data.data);
         let imagePath: string | undefined;
@@ -75,24 +79,24 @@ authRoute.post(
           });
           imagePath = `auth/user_image?type=profile&uuid=${authData.uuid}&name=${image.name}`;
         }
+
+
         const userData = await createUser({
           uid: 0,
           ...authData,
           ...data.data,
           photo: imagePath,
         });
-        const accessToken = tokenizer.generateToken(userData);
-        const refreshToken = tokenizer.generateRefreshToken(authData.uuid);
-        await auth.updateToken(authData.uuid, [
-          refreshToken,
-          ...authData.token,
-        ]);
+        const [accessToken, accessTokenExpire] = tokenizer.generateToken(userData);
+        const [refreshToken, refreshExpire] = tokenizer.generateRefreshToken({ uuid: userData.uuid, email: userData.email, token: accessToken });
+        await auth.updateRefreshToken(authData.uuid, refreshToken);
         return {
           token: {
             token: accessToken,
             refreshToken: refreshToken,
+            expiresAt: accessTokenExpire,
           },
-          user: userData,
+          user: { ...userData, phone: authData.phone },
         };
       } else {
         throw data.error;
@@ -115,8 +119,7 @@ authRoute.get(
           req.query.name as string
         );
         if (image) {
-          res.writeHead(200, { "Content-Type": "image/jpeg" });
-          res.end(image.imageFile);
+          res.writeHead(200, { "Content-Type": "image/jpeg" }).end(image.imageFile);
         } else {
           throw userNotFoundError;
         }
@@ -126,5 +129,12 @@ authRoute.get(
     },
   })
 );
+
+// TODO: Update profile system!
+
+
+
+
+// TODO: Forget password system!
 
 export default authRoute;

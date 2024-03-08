@@ -4,31 +4,33 @@ import connectionConfig from "./mysql-config";
 
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { AuthSchema, AuthType } from "../types/auth/auth-z";
-import { Login } from "../types/user/login-z";
+import { RegistrationUserModel } from "../routes/auth/models/register";
 
 const tableName = "authentication";
-const findAuth = `SELECT * FROM ${tableName} WHERE email = ?`;
+const findAuth = `SELECT * FROM ${tableName} WHERE (email = ? OR uuid = ?)`;
 const getToken = `SELECT token FROM ${tableName} WHERE (email = ? OR uuid = ?)`;
-const registerAuth = `INSERT INTO ${tableName}(uuid, email, password) VALUES (?,?,?)`;
+const registerAuth = `INSERT INTO ${tableName}(uuid, email, phone, password) VALUES (?,?,?,?)`;
 const updateTokenQuery = `UPDATE ${tableName} SET token = ? WHERE (uuid = ? OR email = ?)`;
 
-export const register = async (data: Login): Promise<AuthType> => {
+export const register = async (data: RegistrationUserModel): Promise<AuthType> => {
   const uuid = uuIdv4();
   const salt = await bcrypt.genSalt();
   const hash = await bcrypt.hash(data.password, salt);
 
   const [headers] = await connectionConfig.query<ResultSetHeader>(
     registerAuth,
-    [uuid, data.email, hash]
+    [uuid, data.email, data.phone, hash]
   );
 
   const auth = AuthSchema.safeParse({
     uuid: uuid,
     token: [],
     password: hash,
+    phone: data.phone,
     email: data.email,
     key: headers.insertId,
   });
+
   if (auth.success) {
     return auth.data;
   } else {
@@ -37,10 +39,10 @@ export const register = async (data: Login): Promise<AuthType> => {
 };
 
 export const getAuthData = async (
-  email: string
+  uniqueData: string
 ): Promise<AuthType | undefined> => {
   const [rows, _] = await connectionConfig.query<RowDataPacket[]>(findAuth, [
-    email,
+    uniqueData, uniqueData,
   ]);
 
   if (rows.length === 0 || !rows.at(0)) return undefined;
@@ -64,13 +66,33 @@ export const passwordMatches = async function (
   return await bcrypt.compare(input, hash);
 };
 
-export const updateToken = async function (
+export const updateRefreshToken = async function (
   uniqueData: string,
-  token: string[]
+  newToken: string,
+  oldToken: string | null = null,
 ) {
-  const [headers, _] = await connectionConfig.query<ResultSetHeader>(
+
+  let currentTokenList: string[] = [];
+  const [rows, _] = await connectionConfig.query<RowDataPacket[]>(getToken, [
+    uniqueData,
+    uniqueData,
+  ]);
+
+  const tokensEmpty = (rows.length === 0 || !(rows.at(0)?.token));
+  if (!tokensEmpty) {
+    const element = rows.at(0);
+    const tokenContainingEmptyString = (element!.token as string).split(",");
+    const token = tokenContainingEmptyString.filter((token) => token.length > 0);
+    currentTokenList.concat(token);
+  };
+
+  if (oldToken && currentTokenList.includes(oldToken)) {
+    currentTokenList = currentTokenList.filter((val) => val != oldToken);
+  }
+  currentTokenList.push(newToken);
+  const [headers, __] = await connectionConfig.query<ResultSetHeader>(
     updateTokenQuery,
-    [token.join(","), uniqueData, uniqueData]
+    [currentTokenList, uniqueData, uniqueData]
   );
 };
 
@@ -85,7 +107,7 @@ export const getRefreshToken = async function (
   const element = rows.at(0);
   console.log(`Found the token: ${element}`);
   const tokenContainingEmptyString = (element!.token as string).split(",");
-  const token = tokenContainingEmptyString.filter((token) => token.length > 0);
+  return tokenContainingEmptyString.filter((token) => token.length > 0);
 };
 
 export default {
@@ -93,5 +115,5 @@ export default {
   register,
   passwordMatches,
   getRefreshToken,
-  updateToken,
+  updateRefreshToken,
 };

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
-import 'package:todo_client/src/data/todo_provider/todo_provider.dart';
+import 'package:todo_client/src/data/todo_provider/todo_repository_provider.dart';
 import 'package:todo_client/src/data/todo_provider/todo_repository_impl.dart';
 
 final todosController = AsyncNotifierProvider<TodosNotifier, List<Todo>>(() {
