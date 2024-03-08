@@ -2,7 +2,7 @@ import 'package:envied/envied.dart';
 
 part 'api_config.g.dart';
 
-@Envied(path: './.env', obfuscate: true)
+@Envied(path: './.env.prod', obfuscate: true)
 abstract class APIConfig {
   @EnviedField(varName: 'LOGIN')
   static final String login = _APIConfig.login;
