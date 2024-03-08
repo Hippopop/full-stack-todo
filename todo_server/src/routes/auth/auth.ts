@@ -96,7 +96,7 @@ authRoute.post(
             refreshToken: refreshToken,
             expiresAt: accessTokenExpire,
           },
-          user: userData,
+          user: { ...userData, phone: authData.phone },
         };
       } else {
         throw data.error;
