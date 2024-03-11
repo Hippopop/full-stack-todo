@@ -1,4 +1,4 @@
-import 'package:todo_client/src/constants/server/api/api_config.dart';
+import 'package:todo_client/src/constants/server/api_config.dart';
 import 'package:todo_client/src/repository/repository.dart';
 
 class TodoProvider extends TodoRepository {

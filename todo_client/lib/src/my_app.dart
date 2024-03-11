@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_client/src/constants/server/api/api_config.dart';
+import 'package:todo_client/src/constants/server/api_config.dart';
 import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
 
 import 'system/routes/router.dart';

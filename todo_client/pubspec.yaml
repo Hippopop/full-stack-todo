@@ -30,6 +30,7 @@ dependencies:
   fresh_dio: ^0.4.1
   country_picker: ^2.0.25
   image_picker: ^1.0.7
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:
@@ -42,7 +43,6 @@ dev_dependencies:
   envied_generator: ^0.5.3
   custom_lint: ^0.6.2
   riverpod_lint: ^2.0.4
-  http_parser: ^4.0.2
 
 # dependency_overrides:
 #   analyzer: ^6.0.0 # Conflicted between (Envied) & (Freezed)!
