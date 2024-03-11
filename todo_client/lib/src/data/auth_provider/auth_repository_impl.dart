@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart' show MediaType;
 import 'package:todo_client/src/constants/server/api/api_config.dart';
 import 'package:todo_client/src/repository/repository.dart';
 
@@ -36,14 +37,19 @@ class AuthProvider extends AuthRepository {
     required String email,
     required String phone,
     required String password,
-    required List<int>? imageBytes,
+    required ({String imageName, List<int> imageData})? image,
   }) async {
     final Map<String, dynamic> registrationData = {
       'name': name,
       'email': email,
       'phone': phone,
       'password': password,
-      if (imageBytes != null) 'image': MultipartFile.fromBytes(imageBytes),
+      if (image != null)
+        'image': MultipartFile.fromBytes(
+          image.imageData,
+          filename: image.imageName,
+          contentType: MediaType.parse("image/jpeg"),
+        ),
     };
 
     final raw = await requestHandler.post(
