@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-LoginState _$LoginStateFromJson(Map<String, dynamic> json) {
-  return _LoginState.fromJson(json);
-}
-
 /// @nodoc
 mixin _$LoginState {
   String? get email => throw _privateConstructorUsedError;
@@ -28,7 +24,6 @@ mixin _$LoginState {
       throw _privateConstructorUsedError;
   bool get passwordVisibility => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $LoginStateCopyWith<LoginState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -163,7 +158,7 @@ class __$$LoginStateImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
   const _$LoginStateImpl(
       {this.email,
@@ -172,9 +167,6 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
       this.authorized = false,
       this.responseMsg,
       this.passwordVisibility = false});
-
-  factory _$LoginStateImpl.fromJson(Map<String, dynamic> json) =>
-      _$$LoginStateImplFromJson(json);
 
   @override
   final String? email;
@@ -228,7 +220,6 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
                 other.passwordVisibility == passwordVisibility));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, email, password, remember,
       authorized, responseMsg, passwordVisibility);
@@ -238,13 +229,6 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
   @pragma('vm:prefer-inline')
   _$$LoginStateImplCopyWith<_$LoginStateImpl> get copyWith =>
       __$$LoginStateImplCopyWithImpl<_$LoginStateImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$LoginStateImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _LoginState implements LoginState {
@@ -255,9 +239,6 @@ abstract class _LoginState implements LoginState {
       final bool authorized,
       final ({int level, String msg})? responseMsg,
       final bool passwordVisibility}) = _$LoginStateImpl;
-
-  factory _LoginState.fromJson(Map<String, dynamic> json) =
-      _$LoginStateImpl.fromJson;
 
   @override
   String? get email;

@@ -55,7 +55,7 @@ class RegistrationStateNotifier extends AsyncNotifier<RegistrationState> {
     ));
   }
 
-  void setImagePath(String newState) {
+  void setImagePath(List<int> newState) {
     final currentValue = state.requireValue;
     state = AsyncValue.data(currentValue.copyWith(
       imagePath: newState,
@@ -101,7 +101,7 @@ class RegistrationStateNotifier extends AsyncNotifier<RegistrationState> {
         name: currentValue.name!,
         email: currentValue.email!,
         password: currentValue.password!,
-        imagePath: currentValue.imagePath,
+        imageBytes: currentValue.imagePath,
       );
       if (res.isSuccess) {
         return currentValue.copyWith(
