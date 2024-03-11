@@ -3,7 +3,8 @@ import 'dart:developer' show log;
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_dio/fresh_dio.dart';
-import 'package:todo_client/src/constants/server/api/api_config.dart';
+import 'package:todo_client/src/constants/server/api_config.dart';
+
 import 'package:todo_client/src/repository/source/response_wrapper.dart';
 import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
 

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart' show MediaType;
-import 'package:todo_client/src/constants/server/api/api_config.dart';
+import 'package:todo_client/src/constants/server/api_config.dart';
 import 'package:todo_client/src/repository/repository.dart';
 
 class AuthProvider extends AuthRepository {
