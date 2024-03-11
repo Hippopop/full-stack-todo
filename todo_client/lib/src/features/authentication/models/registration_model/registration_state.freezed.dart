@@ -14,16 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-RegistrationState _$RegistrationStateFromJson(Map<String, dynamic> json) {
-  return _RegistrationState.fromJson(json);
-}
-
 /// @nodoc
 mixin _$RegistrationState {
   String? get name => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
-  String? get imagePath => throw _privateConstructorUsedError;
+  List<int>? get imagePath => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
   String? get confirmPassword => throw _privateConstructorUsedError;
   bool get authorized => throw _privateConstructorUsedError;
@@ -32,7 +28,6 @@ mixin _$RegistrationState {
       throw _privateConstructorUsedError;
   bool get passwordVisibility => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RegistrationStateCopyWith<RegistrationState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -48,7 +43,7 @@ abstract class $RegistrationStateCopyWith<$Res> {
       {String? name,
       String? email,
       String? password,
-      String? imagePath,
+      List<int>? imagePath,
       String? phoneNumber,
       String? confirmPassword,
       bool authorized,
@@ -97,7 +92,7 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
       imagePath: freezed == imagePath
           ? _value.imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<int>?,
       phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -138,7 +133,7 @@ abstract class _$$RegistrationStateImplCopyWith<$Res>
       {String? name,
       String? email,
       String? password,
-      String? imagePath,
+      List<int>? imagePath,
       String? phoneNumber,
       String? confirmPassword,
       bool authorized,
@@ -183,9 +178,9 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
       imagePath: freezed == imagePath
-          ? _value.imagePath
+          ? _value._imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<int>?,
       phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -215,7 +210,7 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$RegistrationStateImpl
     with DiagnosticableTreeMixin
     implements _RegistrationState {
@@ -223,16 +218,14 @@ class _$RegistrationStateImpl
       {this.name,
       this.email,
       this.password,
-      this.imagePath,
+      final List<int>? imagePath,
       this.phoneNumber,
       this.confirmPassword,
       this.authorized = false,
       this.phoneCode = "+880",
       this.responseMsg,
-      this.passwordVisibility = false});
-
-  factory _$RegistrationStateImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RegistrationStateImplFromJson(json);
+      this.passwordVisibility = false})
+      : _imagePath = imagePath;
 
   @override
   final String? name;
@@ -240,8 +233,16 @@ class _$RegistrationStateImpl
   final String? email;
   @override
   final String? password;
+  final List<int>? _imagePath;
   @override
-  final String? imagePath;
+  List<int>? get imagePath {
+    final value = _imagePath;
+    if (value == null) return null;
+    if (_imagePath is EqualUnmodifiableListView) return _imagePath;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? phoneNumber;
   @override
@@ -289,8 +290,8 @@ class _$RegistrationStateImpl
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.imagePath, imagePath) ||
-                other.imagePath == imagePath) &&
+            const DeepCollectionEquality()
+                .equals(other._imagePath, _imagePath) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
             (identical(other.confirmPassword, confirmPassword) ||
@@ -305,14 +306,13 @@ class _$RegistrationStateImpl
                 other.passwordVisibility == passwordVisibility));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       name,
       email,
       password,
-      imagePath,
+      const DeepCollectionEquality().hash(_imagePath),
       phoneNumber,
       confirmPassword,
       authorized,
@@ -326,13 +326,6 @@ class _$RegistrationStateImpl
   _$$RegistrationStateImplCopyWith<_$RegistrationStateImpl> get copyWith =>
       __$$RegistrationStateImplCopyWithImpl<_$RegistrationStateImpl>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$RegistrationStateImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _RegistrationState implements RegistrationState {
@@ -340,16 +333,13 @@ abstract class _RegistrationState implements RegistrationState {
       {final String? name,
       final String? email,
       final String? password,
-      final String? imagePath,
+      final List<int>? imagePath,
       final String? phoneNumber,
       final String? confirmPassword,
       final bool authorized,
       final String phoneCode,
       final ({int level, String msg})? responseMsg,
       final bool passwordVisibility}) = _$RegistrationStateImpl;
-
-  factory _RegistrationState.fromJson(Map<String, dynamic> json) =
-      _$RegistrationStateImpl.fromJson;
 
   @override
   String? get name;
@@ -358,7 +348,7 @@ abstract class _RegistrationState implements RegistrationState {
   @override
   String? get password;
   @override
-  String? get imagePath;
+  List<int>? get imagePath;
   @override
   String? get phoneNumber;
   @override

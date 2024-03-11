@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_client/src/constants/design/paddings.dart';
 import 'package:todo_client/src/system/themes/extensions/colors_theme.dart';
@@ -13,7 +12,7 @@ class ImageAvatarWithButton extends StatelessWidget {
     required this.onAddClick,
   });
 
-  final String? filePath;
+  final List<int>? filePath;
   final String assetPath;
   final String? networkPath;
   final VoidCallback onAddClick;
@@ -21,9 +20,7 @@ class ImageAvatarWithButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ImageProvider foregroundImage = switch (filePath) {
-      String() => FileImage(
-          File(filePath!),
-        ),
+      List<int>() => MemoryImage(Uint8List.fromList(filePath!)),
       _ => AssetImage(assetPath),
     } as ImageProvider;
     final ImageProvider backgroundImage = switch (networkPath) {

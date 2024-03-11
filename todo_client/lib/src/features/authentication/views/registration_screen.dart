@@ -150,11 +150,12 @@ class _VerticalRegistrationAreaState extends State<VerticalRegistrationArea> {
                             source: ImageSource.camera,
                           );
                           if (res != null) {
+                            final fileData = await res.readAsBytes();
                             ref
                                 .read(
                                   registrationControllerProvider.notifier,
                                 )
-                                .setImagePath(res.path);
+                                .setImagePath(fileData.toList());
                           }
                         },
                       ),

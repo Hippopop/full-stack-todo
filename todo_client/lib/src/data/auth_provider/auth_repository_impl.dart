@@ -36,17 +36,14 @@ class AuthProvider extends AuthRepository {
     required String email,
     required String phone,
     required String password,
-    required String? imagePath,
+    required List<int>? imageBytes,
   }) async {
     final Map<String, dynamic> registrationData = {
       'name': name,
       'email': email,
       'phone': phone,
       'password': password,
-      if (imagePath != null)
-        'image': await MultipartFile.fromFile(
-          imagePath,
-        ),
+      if (imageBytes != null) 'image': MultipartFile.fromBytes(imageBytes),
     };
 
     final raw = await requestHandler.post(

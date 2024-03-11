@@ -13,7 +13,7 @@ abstract class AuthRepository {
     required String email,
     required String phone,
     required String password,
-    required String? imagePath,
+    required List<int>? imageBytes,
   });
 
   Future<ResponseWrapper<AuthResponse>> login({
