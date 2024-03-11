@@ -19,7 +19,8 @@ mixin _$RegistrationState {
   String? get name => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
-  List<int>? get imagePath => throw _privateConstructorUsedError;
+  ({List<int> imageData, String imageName})? get imagePath =>
+      throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
   String? get confirmPassword => throw _privateConstructorUsedError;
   bool get authorized => throw _privateConstructorUsedError;
@@ -43,7 +44,7 @@ abstract class $RegistrationStateCopyWith<$Res> {
       {String? name,
       String? email,
       String? password,
-      List<int>? imagePath,
+      ({List<int> imageData, String imageName})? imagePath,
       String? phoneNumber,
       String? confirmPassword,
       bool authorized,
@@ -92,7 +93,7 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
       imagePath: freezed == imagePath
           ? _value.imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as ({List<int> imageData, String imageName})?,
       phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -133,7 +134,7 @@ abstract class _$$RegistrationStateImplCopyWith<$Res>
       {String? name,
       String? email,
       String? password,
-      List<int>? imagePath,
+      ({List<int> imageData, String imageName})? imagePath,
       String? phoneNumber,
       String? confirmPassword,
       bool authorized,
@@ -178,9 +179,9 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
       imagePath: freezed == imagePath
-          ? _value._imagePath
+          ? _value.imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
+              as ({List<int> imageData, String imageName})?,
       phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -218,14 +219,13 @@ class _$RegistrationStateImpl
       {this.name,
       this.email,
       this.password,
-      final List<int>? imagePath,
+      this.imagePath,
       this.phoneNumber,
       this.confirmPassword,
       this.authorized = false,
       this.phoneCode = "+880",
       this.responseMsg,
-      this.passwordVisibility = false})
-      : _imagePath = imagePath;
+      this.passwordVisibility = false});
 
   @override
   final String? name;
@@ -233,16 +233,8 @@ class _$RegistrationStateImpl
   final String? email;
   @override
   final String? password;
-  final List<int>? _imagePath;
   @override
-  List<int>? get imagePath {
-    final value = _imagePath;
-    if (value == null) return null;
-    if (_imagePath is EqualUnmodifiableListView) return _imagePath;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final ({List<int> imageData, String imageName})? imagePath;
   @override
   final String? phoneNumber;
   @override
@@ -290,8 +282,8 @@ class _$RegistrationStateImpl
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            const DeepCollectionEquality()
-                .equals(other._imagePath, _imagePath) &&
+            (identical(other.imagePath, imagePath) ||
+                other.imagePath == imagePath) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
             (identical(other.confirmPassword, confirmPassword) ||
@@ -312,7 +304,7 @@ class _$RegistrationStateImpl
       name,
       email,
       password,
-      const DeepCollectionEquality().hash(_imagePath),
+      imagePath,
       phoneNumber,
       confirmPassword,
       authorized,
@@ -333,7 +325,7 @@ abstract class _RegistrationState implements RegistrationState {
       {final String? name,
       final String? email,
       final String? password,
-      final List<int>? imagePath,
+      final ({List<int> imageData, String imageName})? imagePath,
       final String? phoneNumber,
       final String? confirmPassword,
       final bool authorized,
@@ -348,7 +340,7 @@ abstract class _RegistrationState implements RegistrationState {
   @override
   String? get password;
   @override
-  List<int>? get imagePath;
+  ({List<int> imageData, String imageName})? get imagePath;
   @override
   String? get phoneNumber;
   @override

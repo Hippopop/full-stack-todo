@@ -143,19 +143,20 @@ class _VerticalRegistrationAreaState extends State<VerticalRegistrationArea> {
                     Center(
                       child: ImageAvatarWithButton(
                         assetPath: AssetImages.boyProfile,
-                        filePath: registrationState.imagePath,
+                        filePath: registrationState.imagePath?.imageData,
                         onAddClick: () async {
                           final picker = ImagePicker();
                           final res = await picker.pickImage(
                             source: ImageSource.camera,
                           );
                           if (res != null) {
+                            final imageName = res.path.split("/").last;
                             final fileData = await res.readAsBytes();
                             ref
                                 .read(
                                   registrationControllerProvider.notifier,
                                 )
-                                .setImagePath(fileData.toList());
+                                .setImagePath(imageName, fileData.toList());
                           }
                         },
                       ),

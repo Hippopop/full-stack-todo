@@ -42,6 +42,7 @@ dev_dependencies:
   envied_generator: ^0.5.3
   custom_lint: ^0.6.2
   riverpod_lint: ^2.0.4
+  http_parser: ^4.0.2
 
 # dependency_overrides:
 #   analyzer: ^6.0.0 # Conflicted between (Envied) & (Freezed)!

@@ -9,7 +9,7 @@ class RegistrationState with _$RegistrationState {
     String? name,
     String? email,
     String? password,
-    List<int>? imagePath,
+    ({String imageName, List<int> imageData})? imagePath,
     String? phoneNumber,
     String? confirmPassword,
     @Default(false) bool authorized,
