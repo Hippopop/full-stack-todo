@@ -69,7 +69,9 @@ authRoute.post(
       if (data.success) {
         const authData = await auth.register(data.data);
         let imagePath: string | undefined;
+        console.log(req.file?.path, req.file?.mimetype, req.file?.filename, req.file?.size, req.file?.buffer, req.file?.originalname);
         if (req.file) {
+          console.log("Inserting file to DB!");
           const image = await insertImage({
             type: "profile",
             uuid: authData.uuid,
