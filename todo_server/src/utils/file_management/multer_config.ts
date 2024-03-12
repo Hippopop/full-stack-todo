@@ -12,6 +12,8 @@ function imageDestinationDefiner(req: Request): string | undefined {
   return path;
 }
 
+
+//NOTE: So far unused, bcz of the [Render] disk issue! 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     let path = "";
@@ -32,7 +34,8 @@ const storage = multer.diskStorage({
 });
 
 const multerConfig = multer({
-  storage: storage,
+  // NOTE: Using memory storage. Bcz, [Render] doesn't provide a disk storage, for free instances!
+  storage: multer.memoryStorage(),
   preservePath: true,
   fileFilter: (req, file, callback) => {
     let error: Error | null = null;

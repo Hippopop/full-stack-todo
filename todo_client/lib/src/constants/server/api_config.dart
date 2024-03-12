@@ -47,8 +47,8 @@ abstract class APIConfig {
 }
 
 String _getProperEnv(String droid, String dev, String prod) {
-  if (kDebugMode) {
-    return (kIsWeb || !Platform.isAndroid) ? dev : droid;
-  }
+  // if (kDebugMode) {
+  //   return (kIsWeb || !Platform.isAndroid) ? dev : droid;
+  // }
   return prod;
 }

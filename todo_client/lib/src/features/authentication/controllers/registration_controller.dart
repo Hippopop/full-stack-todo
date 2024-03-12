@@ -112,7 +112,8 @@ class RegistrationStateNotifier extends AsyncNotifier<RegistrationState> {
         return currentValue.copyWith(
           responseMsg: (
             level: res.status ?? 0,
-            msg: res.error!.first.description
+            msg: res.error?.first.description ??
+                "Response came with an unknown error!",
           ),
         );
       }
