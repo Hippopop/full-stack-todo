@@ -1,6 +1,5 @@
 .env
 .env.dev
 .env.prod
-uploads
 node_modules
 package-lock.json
