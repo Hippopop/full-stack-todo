@@ -2,15 +2,21 @@ name: TODO-Web-Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
+      - name: Clean the project directory and get deps!
+        if: github.ref == 'refs/heads/main'
+        run: flutter clean && flutter pub get
+      - name: Generate all the [build-runner] files!
+        if: github.ref == 'refs/heads/main'
+        run: dart run build_runner build --delete-conflicting-outputs
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
           workingDir: todo_client

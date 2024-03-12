@@ -37,9 +37,9 @@ const multerConfig = multer({
   fileFilter: (req, file, callback) => {
     let error: Error | null = null;
     // Decision.
-    if (!file.mimetype.startsWith("image") && !(file.mimetype == "application/octet-stream")) {
+    if (!file.mimetype.startsWith("image")) {
       console.log(`Found wrong mimetype : ${file.mimetype}`);
-      error = new Error("Invalid file type");
+      error = new Error("Invalid file/mime type! (@multerConfig)");
     }
     // Final Output.
     if (error) {
