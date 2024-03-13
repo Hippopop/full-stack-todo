@@ -76,8 +76,8 @@ authRoute.post(
             type: "profile",
             uuid: authData.uuid,
             extension: req.file.mimetype.split("/")[1] ?? "unknown",
-            name: req.file.filename,
-            imageFile: await fs.readFile(req.file.path),
+            name: (req.file.filename ?? req.file.originalname),
+            imageFile: (req.file.path) ? (await fs.readFile(req.file.path)) : req.file.buffer,
           });
           imagePath = `auth/user_image?type=profile&uuid=${authData.uuid}&name=${image.name}`;
         }
