@@ -45,7 +45,6 @@ The response will be in the form of a [JSON] object with the following format:
   }
 */
 
-// Over that rant! 🙂 Cz that system, even works with mine.
 export const wrapperFunction =
   <T>(wrapperProps: WrapperProps<T>) =>
     async (req: Request, res: Response, next: NextFunction) => {
@@ -69,6 +68,7 @@ export const wrapperFunction =
               "Attempting Unauthorized Access!"
             );
           const token = authorization.split(" ")[1];
+          console.log(`**${token}**`)
           const authData = await tokenizer.verifyAccessTokenWithData(
             token!,
             UserSchema,

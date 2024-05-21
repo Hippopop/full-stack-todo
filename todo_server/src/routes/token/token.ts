@@ -3,8 +3,8 @@ import { wrapperFunction } from "../request-handler";
 import { badRequest, success, unauthorized } from "../../Errors/error_codes";
 import { AuthTokenSchema } from "../../types/auth/token-z";
 import tokenizer from "../../utils/token/jwt_token";
-import { getUserData } from "../../database/user";
-import { updateRefreshToken } from "../../database/authentication";
+import { getUserData } from "../../database/users_service/user";
+import { updateRefreshToken } from "../../database/authentication_service/authentication";
 import { RefreshTokenSchema } from "../../utils/token/models/refresh_token";
 import { faultyRefreshToken, noRefreshTokenError } from "./errors/refresh_token_errors";
 
@@ -44,4 +44,4 @@ tokenRoute.post(
   })
 );
 
-export default tokenRoute;
+export { tokenRoute };

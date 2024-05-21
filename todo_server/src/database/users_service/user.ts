@@ -1,5 +1,5 @@
-import connectionConfig from "./mysql-config";
-import { User, UserSchema } from "../types/user/user-z";
+import connectionConfig from "../mysql-config";
+import { User, UserSchema } from "../../types/user/user-z";
 import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 
 const tableName = "users";

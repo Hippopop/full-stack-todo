@@ -1,6 +1,6 @@
-import connectionConfig from "./mysql-config";
+import connectionConfig from "../mysql-config";
 import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import Image from "../types/image/image";
+import Image from "../../types/image/image";
 
 const tableName = "images";
 const findProfileImageQuery = `SELECT * FROM ${tableName} WHERE (type = ? AND uuid = ? AND name = ?) LIMIT 1`;
