@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_client/src/repository/todo_repository/models/models.dart';
+import 'package:todo_client/src/repository/server/todo_repository/models/models.dart';
 import 'package:todo_client/src/features/homepage/controllers/homepage_controllers.dart';
 import 'package:todo_client/src/system/themes/extensions/extension_themes.dart';
 

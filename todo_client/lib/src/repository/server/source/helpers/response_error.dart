@@ -40,25 +40,6 @@ sealed class RequestError<T> {
       rethrow;
     }
   }
-
-  // /// Actual purser! Not safe to use directly!
-  // static RequestError _serializedErrorFromMap(Map<String, dynamic> errorMap) {
-  //   if (errorMap.containsKey('codes') && errorMap.containsKey('description')) {
-  //     final code = errorMap['codes'];
-  //     if (code is String ||
-  //         (code is List && code.every((element) => element is String))) {
-  //       return RequestErrorWithKeys.fromMap(errorMap);
-  //     }
-  //     if (code is int ||
-  //         (code is List && code.every((element) => element is int))) {
-  //       return RequestErrorWithCode.fromMap(errorMap);
-  //     }
-  //   }
-  //   return const RequestErrorUnknown(
-  //     codes: [500],
-  //     description: "Unknown server error!",
-  //   );
-  // }
 }
 
 ///Request came back with an error. Which is not any of the expected types.

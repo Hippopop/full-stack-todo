@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:todo_client/src/repository/auth_repository/auth_repository.dart';
+import 'package:todo_client/src/repository/server/auth_repository/auth_repository.dart';
 import 'package:todo_client/src/repository/repository.dart';
 
 part 'auth_response.freezed.dart';

@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:todo_client/src/repository/source/response_error.dart';
+import 'package:todo_client/src/repository/server/source/helpers/response_error.dart';
 
 typedef RawToDataPurse<T> = T Function(dynamic json);
 
