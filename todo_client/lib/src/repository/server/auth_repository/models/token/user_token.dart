@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fresh_dio/fresh_dio.dart';
 
 part 'user_token.freezed.dart';
-
 part 'user_token.g.dart';
 
 @freezed
@@ -15,6 +14,7 @@ class UserToken with _$UserToken {
   }) = _UserToken;
 
   const UserToken._();
+
   OAuth2Token get toOAuth2Token =>
       OAuth2Token(accessToken: token, refreshToken: refreshToken);
 

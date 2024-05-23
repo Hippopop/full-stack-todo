@@ -1,16 +1,16 @@
 import fs from "fs/promises";
-import auth from "../../database/authentication";
+import auth from "../../database/authentication_service/authentication";
 import { NextFunction, Request, Response, Router } from "express";
 import { wrapperFunction } from "../request-handler";
 import { AuthResModel } from "./models/auth_response";
 import { LoginSchema } from "../../types/user/login-z";
 import { userNotFoundError, wrongCredentialError } from "./errors/auth_errors";
-import { createUser, getUserData } from "../../database/user";
+import { createUser, getUserData } from "../../database/users_service/user";
 import tokenizer from "../../utils/token/jwt_token";
 import { success, successfullyCreated } from "../../Errors/error_codes";
 import multerConfig from "../../utils/file_management/multer_config";
 import { RegistrationUserSchema } from "./models/register";
-import { insertImage, getProfileImage } from "../../database/images";
+import { insertImage, getProfileImage } from "../../database/image_service/images";
 
 
 const authRoute = Router();

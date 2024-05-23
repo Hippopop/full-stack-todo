@@ -4,11 +4,11 @@ import { ResponseError } from "../../../types/response/errors/error-z";
 /* Errors for auth routes start: */
 export const userNotFoundError = new ResponseError(
   notFound,
-  "No records found with the provided credentials!"
+  "No user found with the given data!"
 );
 
 export const wrongCredentialError = new ResponseError(
   notMatched,
-  "Credentials didn't matched!"
+  "Invalid password!"
 );
 /* Errors for auth routes end! */

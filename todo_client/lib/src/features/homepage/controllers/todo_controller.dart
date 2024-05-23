@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/repository/repository.dart';
+import 'package:todo_client/src/repository/server/source/config_provider.dart';
 import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
 import 'package:todo_client/src/data/todo_provider/todo_repository_provider.dart';
 import 'package:todo_client/src/data/todo_provider/todo_repository_impl.dart';
@@ -11,8 +12,15 @@ final todosController = AsyncNotifierProvider<TodosNotifier, List<Todo>>(() {
 });
 
 class TodosNotifier extends AsyncNotifier<List<Todo>> {
-  RequestHandler get _handler => ref.watch(requestHandlerProvider);
-  TodoProvider get _provider => ref.watch(todoProvider(_handler));
+  late final RequestHandler _handler;
+  late final TodoProvider _provider;
+
+  @override
+  Future<List<Todo>> build() async {
+    _handler = ref.watch(requestHandlerProvider);
+    _provider = ref.watch(todoProvider(_handler));
+    return await getAllTodos();
+  }
 
   Future<List<Todo>> getAllTodos() async {
     try {
@@ -30,11 +38,6 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
       }
       rethrow;
     }
-  }
-
-  @override
-  Future<List<Todo>> build() async {
-    return await getAllTodos();
   }
 
   Future<void> addTodo(Todo todo) async {

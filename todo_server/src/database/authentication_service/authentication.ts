@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import { v4 as uuIdv4 } from "uuid";
-import connectionConfig from "./mysql-config";
+import connectionConfig from "../mysql-config";
 
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { AuthSchema, AuthType } from "../types/auth/auth-z";
-import { RegistrationUserModel } from "../routes/auth/models/register";
+import { AuthSchema, AuthType } from "../../types/auth/auth-z";
+import { RegistrationUserModel } from "../../routes/auth/models/register";
 
 const tableName = "authentication";
 const findAuth = `SELECT * FROM ${tableName} WHERE (email = ? OR uuid = ?)`;

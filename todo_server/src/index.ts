@@ -1,12 +1,12 @@
 import cors from "cors";
 import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
-import authRoute from "./routes/auth/auth";
+import authRoute from "./routes/auth/auth-apis";
 import todoRoute from "./routes/todo/todo-apis";
 
 import { readFile } from "fs/promises";
 import express, { NextFunction, Request, Response } from "express";
-import tokenRoute from "./routes/token/token";
+import { tokenRoute } from "./routes/token/token";
 
 dotenv.config();
 const app = express();

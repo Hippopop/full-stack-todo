@@ -24,7 +24,7 @@ Or create a file named `nodemon.json` inside the root directory of your project.
   "watch": ["src"], //Main directory to watch.
   "ext": "ts,json", //File extensions to watch.
   "ignore": ["src/**/*.spec.ts"], //File extensions to ignore.
-  "exec": "ts-node ./src/index.ts" // or "npx ts-node src/index.ts" to execute the convertion.
+  "exec": "ts-node ./src/index.ts" // or "npx ts-node src/index.ts" to execute the conversion.
 }
 ```
 

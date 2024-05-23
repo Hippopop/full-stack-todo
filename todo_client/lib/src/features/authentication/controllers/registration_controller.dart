@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/data/auth_provider/auth_repository_provider.dart';
+import 'package:todo_client/src/repository/server/source/config_provider.dart';
 
 import '../models/registration_model/registration_state.dart';
 

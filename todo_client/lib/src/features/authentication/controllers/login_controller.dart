@@ -1,21 +1,27 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/data/auth_provider/auth_repository_provider.dart';
+import 'package:todo_client/src/repository/server/source/config_provider.dart';
+import 'package:todo_client/src/repository/storage/auth_repository/token_storage.dart';
 
 import '../models/login_model/login_state.dart';
 
 final loginControllerProvider =
     AsyncNotifierProvider<LoginStateNotifier, LoginState>(
   LoginStateNotifier.new,
+  dependencies: const [],
 );
 
 class LoginStateNotifier extends AsyncNotifier<LoginState> {
-  late final RequestHandler _requestHandler = ref.read(requestHandlerProvider);
-  late final AuthRepository _repository =
-      ref.read(authRepositoryProvider(_requestHandler));
+  late final RequestHandler _requestHandler;
+  late final AuthRepository _repository;
 
   @override
-  LoginState build() => const LoginState();
+  LoginState build() {
+    _requestHandler = ref.watch(requestHandlerProvider);
+    _repository = ref.watch(authRepositoryProvider(_requestHandler));
+    return const LoginState();
+  }
 
   void removeMessage() {
     final currentState = state.requireValue;
@@ -61,6 +67,7 @@ class LoginStateNotifier extends AsyncNotifier<LoginState> {
         password: currentValue.password!,
       );
       if (res.isSuccess) {
+        ref.read(tokenStorageProvider).saveUserToken(res.data!.token);
         return currentValue.copyWith(
           authorized: true,
           responseMsg: (level: 1, msg: res.msg),
