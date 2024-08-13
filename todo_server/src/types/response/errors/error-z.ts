@@ -1,5 +1,5 @@
 import z, { ZodError, number } from "zod";
-import { CustomErrorStructure } from "../../../Errors/custom_error";
+import { CustomErrorStructure } from "../../../errors/custom_error";
 
 export const SimpleErrorSchema = z.object({
   codes: z.string().or(z.number()).or(z.string().or(z.number()).array()), // TODO: Needs more justifying!
