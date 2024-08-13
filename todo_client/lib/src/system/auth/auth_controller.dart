@@ -44,7 +44,6 @@ class AuthenticationStateNotifier extends Notifier<AuthenticationState>
 
   @override
   Future<OAuth2Token?> read() async {
-    print("Token Reading");
     final tokenSet = _storage.getUserToken();
     if (tokenSet == null) return null;
     return OAuth2Token(
@@ -53,7 +52,6 @@ class AuthenticationStateNotifier extends Notifier<AuthenticationState>
 
   @override
   Future<void> write(OAuth2Token token) async {
-    print("Token Writing");
     await _storage.saveUserToken(token.accessToken, token.refreshToken!);
     ref.invalidateSelf();
   }

@@ -74,7 +74,6 @@ class RequestHandler {
     Map<String, dynamic>? queryParams,
   }) {
     try {
-      print(dio.interceptors);
       return dio.get(
         (baseUrl ?? mainUrl) + url,
         options: options,
