@@ -95,9 +95,6 @@ class _VerticalLoginAreaState extends State<VerticalLoginArea> {
                 }
                 ref.read(loginControllerProvider.notifier).removeMessage();
               }
-              if (data.authorized) {
-                context.go(AllTodoScreen.route);
-              }
             },
             error: (error, stackTrace) => showToastError(error.toString()),
           );

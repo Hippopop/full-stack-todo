@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_dio/fresh_dio.dart';
 import 'package:todo_client/src/constants/server/api_config.dart';
 import 'package:todo_client/src/repository/repository.dart';
-import 'package:todo_client/src/repository/server/source/config_provider.dart';
-import 'package:todo_client/src/repository/storage/auth_repository/token_storage.dart';
+import 'package:todo_client/src/system/auth/auth_controller.dart';
 
 final tokenInterceptorProvider =
     NotifierProvider<TokenInterceptorNotifier, Interceptor>(
@@ -14,10 +13,18 @@ final tokenInterceptorProvider =
 class TokenInterceptorNotifier extends Notifier<Interceptor> {
   @override
   Interceptor build() {
-    final storage = ref.watch(tokenStorageProvider);
+    ref.watch(authStateNotifierProvider);
+    final storage = ref.watch(authStateNotifierProvider.notifier);
     return Fresh.oAuth2(
       tokenStorage: storage,
-      shouldRefresh: (response) => response?.statusCode == 400,
+      shouldRefresh: (response) => response?.statusCode == 401,
+      httpClient: Dio(
+        BaseOptions(
+          baseUrl: APIConfig.baseURl,
+          receiveDataWhenStatusError: true,
+          validateStatus: (status) => true,
+        ),
+      ),
       refreshToken: (token, httpClient) async {
         final res = await httpClient.post(APIConfig.refresh, data: {
           'token': token?.accessToken,
@@ -30,11 +37,5 @@ class TokenInterceptorNotifier extends Notifier<Interceptor> {
         return wrapper.data!.toOAuth2Token;
       },
     );
-  }
-
-  Future<void> saveNewUserToken(UserToken token) async {
-    final storage = ref.read(tokenStorageProvider);
-    await storage.saveUserToken(token);
-    ref.invalidate(requestHandlerProvider);
   }
 }

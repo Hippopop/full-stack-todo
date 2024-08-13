@@ -14,7 +14,7 @@ import {
   server,
   success,
   unauthorized,
-} from "../Errors/error_codes";
+} from "../errors/error_codes";
 import { User, UserSchema } from "../types/user/user-z";
 import tokenizer from "../utils/token/jwt_token";
 
@@ -62,6 +62,7 @@ export const wrapperFunction =
         var userData: User | undefined;
         if (authenticate) {
           const { authorization } = req.headers;
+          console.log(JSON.stringify(req.headers));
           if (!authorization)
             throw new ResponseError(
               badRequest,

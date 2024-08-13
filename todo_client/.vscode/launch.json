@@ -7,7 +7,7 @@
             "flutterMode": "debug",
             "name": "todo_client",
             "program": "lib/main.dart",
-            "preLaunchTask": "RUN_SERVER_PYTHON",
+            // "preLaunchTask": "RUN_SERVER_PYTHON",
             "args": [
                 "--dart-define-from-file",
                 "server/api_config.json",

@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import mysql from 'mysql2/promise'
+import mysql from 'mysql2/promise';
 /***  
 You can create a single connection, and use that for `query` data. 
 Or you can create a `[Pool]` configuration and use the `[Pool]` generated from that configuration.

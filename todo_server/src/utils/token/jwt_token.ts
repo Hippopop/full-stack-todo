@@ -4,6 +4,8 @@ import { RefreshTokenModel, RefreshTokenSchema } from "./models/refresh_token";
 import { DateTime } from "luxon";
 import { createHash } from "node:crypto";
 import { AccessTokenModelSchema } from "./models/token";
+import { ResponseError } from "../../types/response/errors/error-z";
+import { unauthorized } from "../../errors/error_codes";
 
 const accessTokenTime = "2h";
 const refreshTokenTime = "60 days";
@@ -81,7 +83,10 @@ async function verifyAccessTokenWithData<T>(
         }
       } else {
         console.log(`Token isn't valid : ${err}`);
-        reject(err);
+        reject(new ResponseError(
+          unauthorized,
+          "JWT token has been expired!",
+        ),);
       }
     })
   });

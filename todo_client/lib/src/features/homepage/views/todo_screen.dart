@@ -91,8 +91,13 @@ class TODOListView extends ConsumerWidget {
         ),
       ),
       error: (error, trace) {
-        return Text(
-          error.toString(),
+        return InkWell(
+          onTap: () {
+            ref.watch(todosController.notifier).getAllTodos();
+          },
+          child: Text(
+            error.toString(),
+          ),
         );
       },
       data: (todos) => todos.isEmpty

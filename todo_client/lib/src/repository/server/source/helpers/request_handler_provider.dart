@@ -14,13 +14,13 @@ class RequestHandler {
   RequestHandler({
     required this.baseURl,
     this.interceptor,
-  }) : _dio = Dio(
+  }) : _dio = (Dio(
           BaseOptions(
             baseUrl: APIConfig.baseURl,
             receiveDataWhenStatusError: true,
             validateStatus: (status) => true,
           ),
-        )..interceptors.addAll(interceptor ?? []);
+        )..interceptors.addAll(interceptor ?? []));
 
   Dio get dio => _dio;
   String get mainUrl => APIConfig.baseURl;

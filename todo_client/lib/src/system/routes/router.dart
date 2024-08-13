@@ -8,15 +8,25 @@ import 'package:todo_client/src/features/homepage/views/add_todo.dart';
 import 'package:todo_client/src/features/homepage/views/filter_screen.dart';
 import 'package:todo_client/src/features/homepage/views/homepage.dart';
 import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
+import 'package:todo_client/src/system/auth/auth_controller.dart';
 
 import 'transitions/animated_dialogue_route.dart';
 
 final goRouterProvider = Provider<GoRouter>(
   (ref) {
+    final authState = ref.watch(authStateNotifierProvider);
     final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#root');
     final shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: '#shell');
 
     return GoRouter(
+      redirect: (context, state) {
+        bool isAuthList = [LoginScreen.route, RegistrationScreen.route]
+            .contains(state.fullPath);
+        if (authState.isAuthenticated && isAuthList) {
+          return AllTodoScreen.route;
+        }
+        return state.fullPath;
+      },
       debugLogDiagnostics: true,
       initialLocation: LoginScreen.route,
       navigatorKey: rootNavigatorKey,

@@ -1,4 +1,4 @@
-import { badRequest, unauthorized } from "../../../Errors/error_codes";
+import { badRequest, unauthorized } from "../../../errors/error_codes";
 import { ResponseError } from "../../../types/response/errors/error-z";
 
 export const faultyRefreshToken = new ResponseError(

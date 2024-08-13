@@ -13,7 +13,7 @@ import {
   successfullyChanged,
   successfullyCreated,
   successfullyDeleted,
-} from "../../Errors/error_codes";
+} from "../../errors/error_codes";
 import { User } from "../../types/user/user-z";
 
 const todoRoute = Router();
