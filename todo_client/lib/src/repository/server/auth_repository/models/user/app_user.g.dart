@@ -8,7 +8,7 @@ part of 'app_user.dart';
 
 _$AppUserImpl _$$AppUserImplFromJson(Map<String, dynamic> json) =>
     _$AppUserImpl(
-      uid: json['uid'] as int,
+      uid: (json['uid'] as num).toInt(),
       uuid: json['uuid'] as String,
       email: json['email'] as String,
       name: json['name'] as String,

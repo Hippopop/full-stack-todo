@@ -7,7 +7,7 @@ import { LoginSchema } from "../../types/user/login-z";
 import { userNotFoundError, wrongCredentialError } from "./errors/auth_errors";
 import { createUser, getUserData } from "../../database/users_service/user";
 import tokenizer from "../../utils/token/jwt_token";
-import { success, successfullyCreated } from "../../Errors/error_codes";
+import { success, successfullyCreated } from "../../errors/error_codes";
 import multerConfig from "../../utils/file_management/multer_config";
 import { RegistrationUserSchema } from "./models/register";
 import { insertImage, getProfileImage } from "../../database/image_service/images";

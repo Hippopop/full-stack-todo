@@ -12,8 +12,8 @@ final todosController = AsyncNotifierProvider<TodosNotifier, List<Todo>>(() {
 });
 
 class TodosNotifier extends AsyncNotifier<List<Todo>> {
-  late final RequestHandler _handler;
-  late final TodoProvider _provider;
+  late RequestHandler _handler;
+  late TodoProvider _provider;
 
   @override
   Future<List<Todo>> build() async {

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { wrapperFunction } from "../request-handler";
-import { badRequest, success, unauthorized } from "../../Errors/error_codes";
+import { badRequest, success, unauthorized } from "../../errors/error_codes";
 import { AuthTokenSchema } from "../../types/auth/token-z";
 import tokenizer from "../../utils/token/jwt_token";
 import { getUserData } from "../../database/users_service/user";

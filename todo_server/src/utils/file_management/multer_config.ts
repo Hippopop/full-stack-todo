@@ -1,5 +1,6 @@
 import { Request } from "express";
 import multer from "multer";
+import fs from "node:fs";
 
 function imageDestinationDefiner(req: Request): string | undefined {
   const basePath = "uploads/";
@@ -20,6 +21,9 @@ const storage = multer.diskStorage({
     let error: Error | null = null;
     if (imageDestinationDefiner(req)) {
       path = imageDestinationDefiner(req)!;
+      if (!fs.existsSync(path)) {
+        fs.mkdirSync(path, { recursive: true });
+      }
     } else {
       error = Error("Unknown file was submitted!");
     }

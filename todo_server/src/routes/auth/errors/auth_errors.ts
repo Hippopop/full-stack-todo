@@ -1,4 +1,4 @@
-import { notFound, notMatched } from "../../../Errors/error_codes";
+import { notFound, notMatched } from "../../../errors/error_codes";
 import { ResponseError } from "../../../types/response/errors/error-z";
 
 /* Errors for auth routes start: */

@@ -6,7 +6,7 @@ import { User } from "../../types/user/user-z";
 
 const tableName = "todos";
 const getAllTodoQuery = `SELECT * FROM ${tableName} WHERE ${tableName}.uuid = ?`;
-const deleteTodoQuery = `DELETE FROM ${tableName} WHERE ${tableName}.id IN (?)`;
+const deleteTodoQuery = `DELETE FROM ${tableName} WHERE (${tableName}.id IN (?) AND ${tableName}.uuid = ?)`;
 const insertTodoQuery = `INSERT INTO ${tableName}(uuid, title, description, state, priority) VALUES (?,?,?,?,?)`;
 const updateTodoQuery = `UPDATE ${tableName} SET title = ?, description = ?, state = ?, priority = ? WHERE (${tableName}.id = ? AND ${tableName}.uuid = ?)`;
 
@@ -22,7 +22,7 @@ const insertTodo = async (todo: TODO, user: User): Promise<TODO> => {
 const deleteTodo = async (id: number | number[], user: User) => {
   const [headers] = await connectionConfig.query<ResultSetHeader>(
     deleteTodoQuery,
-    [id]
+    [id, user.uuid]
   );
   return id;
 };
