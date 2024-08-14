@@ -25,6 +25,9 @@ final goRouterProvider = Provider<GoRouter>(
         if (authState.isAuthenticated && isAuthList) {
           return AllTodoScreen.route;
         }
+        if (!authState.isAuthenticated && !isAuthList) {
+          return LoginScreen.route;
+        }
         return state.fullPath;
       },
       debugLogDiagnostics: true,

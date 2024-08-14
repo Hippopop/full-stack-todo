@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/data/auth_provider/auth_repository_provider.dart';
 import 'package:todo_client/src/repository/server/source/config_provider.dart';
+import 'package:todo_client/src/system/auth/auth_controller.dart';
 
 import '../models/registration_model/registration_state.dart';
 
@@ -105,6 +106,9 @@ class RegistrationStateNotifier extends AsyncNotifier<RegistrationState> {
         image: currentValue.imagePath,
       );
       if (res.isSuccess) {
+        final notifier = ref.read(authStateNotifierProvider.notifier);
+        await notifier.saveAppUser(res.data!.user);
+        await notifier.saveUserToken(res.data!.token);
         return currentValue.copyWith(
           authorized: true,
           responseMsg: (level: 1, msg: res.msg),

@@ -109,9 +109,6 @@ class _VerticalRegistrationAreaState extends State<VerticalRegistrationArea> {
                       .read(registrationControllerProvider.notifier)
                       .removeMessage();
                 }
-                if (data.authorized) {
-                  context.go(AllTodoScreen.route);
-                }
               },
               error: (error, stackTrace) => showToastError(error.toString()),
             );
