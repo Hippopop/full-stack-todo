@@ -1,7 +1,0 @@
-.env
-.env.dev
-.env.prod
-
-dist
-node_modules
-package-lock.json
