@@ -23,8 +23,8 @@ mixin _$Todo {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  String get state => throw _privateConstructorUsedError;
-  String get priority => throw _privateConstructorUsedError;
+  TodoState get state => throw _privateConstructorUsedError;
+  Priority get priority => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,8 +40,8 @@ abstract class $TodoCopyWith<$Res> {
       {int id,
       String title,
       String? description,
-      String state,
-      String priority});
+      TodoState state,
+      Priority priority});
 }
 
 /// @nodoc
@@ -79,11 +79,11 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as String,
+              as TodoState,
       priority: null == priority
           ? _value.priority
           : priority // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Priority,
     ) as $Val);
   }
 }
@@ -99,8 +99,8 @@ abstract class _$$TodoImplCopyWith<$Res> implements $TodoCopyWith<$Res> {
       {int id,
       String title,
       String? description,
-      String state,
-      String priority});
+      TodoState state,
+      Priority priority});
 }
 
 /// @nodoc
@@ -135,11 +135,11 @@ class __$$TodoImplCopyWithImpl<$Res>
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as String,
+              as TodoState,
       priority: null == priority
           ? _value.priority
           : priority // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Priority,
     ));
   }
 }
@@ -164,9 +164,9 @@ class _$TodoImpl with DiagnosticableTreeMixin implements _Todo {
   @override
   final String? description;
   @override
-  final String state;
+  final TodoState state;
   @override
-  final String priority;
+  final Priority priority;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -223,8 +223,8 @@ abstract class _Todo implements Todo {
       {required final int id,
       required final String title,
       final String? description,
-      required final String state,
-      required final String priority}) = _$TodoImpl;
+      required final TodoState state,
+      required final Priority priority}) = _$TodoImpl;
 
   factory _Todo.fromJson(Map<String, dynamic> json) = _$TodoImpl.fromJson;
 
@@ -235,9 +235,9 @@ abstract class _Todo implements Todo {
   @override
   String? get description;
   @override
-  String get state;
+  TodoState get state;
   @override
-  String get priority;
+  Priority get priority;
   @override
   @JsonKey(ignore: true)
   _$$TodoImplCopyWith<_$TodoImpl> get copyWith =>

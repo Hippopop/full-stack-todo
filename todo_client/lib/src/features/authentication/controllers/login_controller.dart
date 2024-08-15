@@ -64,6 +64,7 @@ class LoginStateNotifier extends AsyncNotifier<LoginState> {
         email: currentValue.email!,
         password: currentValue.password!,
       );
+      print(res.rawData);
       if (res.isSuccess) {
         final notifier = ref.read(authStateNotifierProvider.notifier);
         await notifier.saveAppUser(res.data!.user);

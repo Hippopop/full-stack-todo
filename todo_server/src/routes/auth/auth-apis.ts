@@ -11,6 +11,7 @@ import { success, successfullyCreated } from "../../errors/error_codes";
 import multerConfig from "../../utils/file_management/multer_config";
 import { RegistrationUserSchema } from "./models/register";
 import { insertImage, getProfileImage } from "../../database/image_service/images";
+import { compressImageBufferToWebp } from "../../utils/image/image_compressor";
 
 
 const authRoute = Router();
@@ -72,14 +73,18 @@ authRoute.post(
         console.log(req.file?.path, req.file?.mimetype, req.file?.filename, req.file?.size, req.file?.buffer, req.file?.originalname);
         if (req.file) {
           console.log("Inserting file to DB!");
+          const uniqueSuffix = Date.now() + "_" + Math.round(Math.random() * 1e9);
+          const defaultName = `$Image_${uniqueSuffix}.webp`;
+          const buffer = await compressImageBufferToWebp((req.file.filename ?? defaultName), req.file.buffer, 0.02);
           const image = await insertImage({
             type: "profile",
+            name: defaultName,
+            imageFile: buffer,
             uuid: authData.uuid,
             extension: req.file.mimetype.split("/")[1] ?? "unknown",
-            name: (req.file.filename ?? req.file.originalname),
-            imageFile: (req.file.path) ? (await fs.readFile(req.file.path)) : req.file.buffer,
+            // imageFile: (req.file.path) ? (await fs.readFile(req.file.path)) : req.file.buffer,
           });
-          imagePath = `auth/user_image?type=profile&uuid=${authData.uuid}&name=${image.name}`;
+          imagePath = `/auth/user_image?type=profile&uuid=${authData.uuid}&name=${image.name}`;
         }
 
 

@@ -62,7 +62,6 @@ export const wrapperFunction =
         var userData: User | undefined;
         if (authenticate) {
           const { authorization } = req.headers;
-          console.log(JSON.stringify(req.headers));
           if (!authorization)
             throw new ResponseError(
               badRequest,

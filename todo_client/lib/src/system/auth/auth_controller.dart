@@ -25,12 +25,12 @@ class AuthenticationStateNotifier extends Notifier<AuthenticationState>
   logout() async {
     await _storage.delete();
     ref.invalidateSelf();
+    showToastSuccess("User logged out successfully!");
   }
 
   Future<void> saveAppUser(AppUser newUser) async {
     await _storage.saveAppUser(newUser);
     ref.invalidateSelf();
-    showToastSuccess("User logged out successfully!");
   }
 
   Future<void> saveUserToken(UserToken userToken) async =>

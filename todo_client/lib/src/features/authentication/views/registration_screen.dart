@@ -9,7 +9,6 @@ import 'package:todo_client/src/constants/assets/images/images.dart';
 import 'package:todo_client/src/constants/design/paddings.dart';
 import 'package:todo_client/src/features/authentication/controllers/registration_controller.dart';
 import 'package:todo_client/src/features/authentication/views/login_screen.dart';
-import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
 import 'package:todo_client/src/global/widgets/custom_titled_textfield.dart';
 import 'package:todo_client/src/global/widgets/image_button_avatar.dart';
 import 'package:todo_client/src/global/widgets/responsive_two_sided_card.dart';

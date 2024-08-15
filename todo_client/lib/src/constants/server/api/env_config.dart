@@ -2,7 +2,7 @@ import 'package:envied/envied.dart';
 
 part 'env_config.g.dart';
 
-@Envied(path: './.env', obfuscate: true)
+@Envied(path: '.env', obfuscate: true)
 abstract class AndroidConfig {
   @EnviedField(varName: 'LOGIN')
   static final String login = _AndroidConfig.login;
@@ -22,7 +22,7 @@ abstract class AndroidConfig {
   static final String deleteTodo = _AndroidConfig.deleteTodo;
 }
 
-@Envied(path: './.env.dev', obfuscate: true)
+@Envied(path: '.env.dev', obfuscate: true)
 abstract class DevelopmentConfig {
   @EnviedField(varName: 'LOGIN')
   static final String login = _DevelopmentConfig.login;
@@ -42,7 +42,7 @@ abstract class DevelopmentConfig {
   static final String deleteTodo = _DevelopmentConfig.deleteTodo;
 }
 
-@Envied(path: './.env.prod', obfuscate: true)
+@Envied(path: '.env.prod', obfuscate: true)
 abstract class ProductionConfig {
   @EnviedField(varName: 'LOGIN')
   static final String login = _ProductionConfig.login;
