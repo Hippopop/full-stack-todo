@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/repository/server/todo_repository/models/models.dart';
 import 'package:todo_client/src/features/homepage/controllers/homepage_controllers.dart';
 import 'package:todo_client/src/system/themes/extensions/extension_themes.dart';
+
+extension PriorityColorSet on Priority {
+  Color get color => switch (this) {
+        Priority.high => Colors.purple,
+        Priority.medium => Colors.pink,
+        Priority.low => Colors.pink.shade100,
+      };
+}
 
 class TODOCardWidget extends ConsumerWidget {
   const TODOCardWidget({
@@ -24,7 +33,7 @@ class TODOCardWidget extends ConsumerWidget {
         child: Row(
           children: [
             ColoredBox(
-              color: colorTheme?.extra ?? Colors.black,
+              color: todo.priority.color,
               child: const SizedBox(
                 width: 12,
                 height: double.infinity,
@@ -73,7 +82,7 @@ class TODOCardWidget extends ConsumerWidget {
                             },
                             icon: Icon(
                               Icons.check_circle_outline,
-                              color: (todo.state == 'completed')
+                              color: (todo.state == TodoState.completed)
                                   ? colorTheme?.primary
                                   : Colors.grey,
                             ),

@@ -45,6 +45,6 @@ class AuthenticationStorage {
   }
 
   delete() async {
-    _myBox.clear();
+    await _myBox.clear();
   }
 }

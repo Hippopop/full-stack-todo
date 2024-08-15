@@ -14,17 +14,6 @@ class AddTodoCard extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _AddTodoCardState();
 }
 
-enum TodoPriority {
-  low,
-  medium,
-  high,
-}
-
-enum TodoStatus {
-  active,
-  completed,
-}
-
 class _AddTodoCardState extends ConsumerState<AddTodoCard> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController;
@@ -44,20 +33,20 @@ class _AddTodoCardState extends ConsumerState<AddTodoCard> {
     super.dispose();
   }
 
-  TodoStatus _status = TodoStatus.active;
-  TodoPriority _priority = TodoPriority.low;
+  TodoState _status = TodoState.active;
+  Priority _priority = Priority.low;
   Color get _bgColor => switch (_priority) {
-        TodoPriority.high => Colors.purple,
-        TodoPriority.medium => Colors.pink,
-        TodoPriority.low => Colors.pink.shade100,
+        Priority.high => Colors.purple,
+        Priority.medium => Colors.pink,
+        Priority.low => Colors.pink.shade100,
       };
 
   _submitTodoForm() async {
     if (_formKey.currentState?.validate() ?? false) {
       final todo = Todo(
         id: 0,
-        state: _status.name,
-        priority: _priority.name,
+        state: _status,
+        priority: _priority,
         title: _titleController.text,
         description: _descriptionController.text,
       );
@@ -134,11 +123,11 @@ class _AddTodoCardState extends ConsumerState<AddTodoCard> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                for (TodoPriority value in TodoPriority.values)
+                                for (Priority value in Priority.values)
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Radio<TodoPriority>(
+                                      Radio<Priority>(
                                         value: value,
                                         groupValue: _priority,
                                         onChanged: (value) {
@@ -168,11 +157,11 @@ class _AddTodoCardState extends ConsumerState<AddTodoCard> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                for (TodoStatus value in TodoStatus.values)
+                                for (TodoState value in TodoState.values)
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Radio<TodoStatus>(
+                                      Radio<TodoState>(
                                         value: value,
                                         groupValue: _status,
                                         onChanged: (value) {

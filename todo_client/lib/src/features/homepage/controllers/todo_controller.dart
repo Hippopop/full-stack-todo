@@ -69,7 +69,9 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
     state = await AsyncValue.guard(() async {
       final res = await _provider.updateTodo(
         newTodo: currentState!.copyWith(
-          state: currentState.state == "active" ? "completed" : "active",
+          state: currentState.state == TodoState.active
+              ? TodoState.completed
+              : TodoState.active,
         ),
       );
       if (res.isSuccess) {

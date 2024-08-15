@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';
+import 'package:todo_client/src/constants/assets/images/images.dart';
+import 'package:todo_client/src/constants/server/api_config.dart';
+import 'package:todo_client/src/constants/utils/date_formats.dart';
 import 'package:todo_client/src/features/homepage/controllers/todo_controller.dart';
+import 'package:todo_client/src/repository/repository.dart';
+import 'package:todo_client/src/system/auth/auth_controller.dart';
 import 'package:todo_client/src/system/themes/app_theme.dart';
 
 import 'widgets/single_todo_widget.dart';
@@ -181,72 +186,125 @@ class TodoScreenAppBar extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(32.0),
-        child: Row(
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: colorTheme?.theme,
-                shape: BoxShape.circle,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: CircleAvatar(
-                  maxRadius: 32,
-                  foregroundImage: const AssetImage(
-                    'assets/images/avatar.jpg',
-                  ),
-                  backgroundColor: colorTheme?.mainAccent,
+        child: Consumer(builder: (context, ref, child) {
+          final todoState = ref.watch(todosController);
+          final authenticationState = ref.watch(authStateNotifierProvider);
+          print(authenticationState.currentUser?.photo);
+          return Row(
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colorTheme?.theme,
+                  shape: BoxShape.circle,
                 ),
-              ),
-            ),
-            const SizedBox(width: 18),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Hello,',
-                    style: context.theme.textTheme.bodyLarge?.copyWith(
-                      color: colorTheme?.primaryText,
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: CircleAvatar(
+                    maxRadius: 32,
+                    backgroundImage: const AssetImage(
+                      AssetImages.boyProfile,
                     ),
+                    foregroundImage:
+                        (authenticationState.currentUser?.photo == null)
+                            ? null
+                            : NetworkImage(APIConfig.baseURl +
+                                authenticationState.currentUser!.photo!),
+                    backgroundColor: colorTheme?.mainAccent,
                   ),
-                  Text(
-                    'Mr Candyman.',
-                    style: context.theme.textTheme.titleLarge,
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'Thu, 12 March 2022',
-                  style: context.theme.textTheme.titleMedium,
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
+              ),
+              const SizedBox(width: 18),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CountWidget(
-                      color: colorTheme?.primaryAccent ?? Colors.green,
-                      amount: 0,
+                    Text(
+                      'Hello,',
+                      style: context.theme.textTheme.bodyLarge?.copyWith(
+                        color: colorTheme?.primaryText,
+                      ),
                     ),
-                    CountWidget(
-                      color: colorTheme?.mainAccent ?? Colors.yellow,
-                      amount: 0,
-                    ),
-                    CountWidget(
-                      color: colorTheme?.secondaryAccent ?? Colors.purple,
-                      amount: 0,
+                    Text(
+                      '${authenticationState.currentUser?.name}.',
+                      style: context.theme.textTheme.titleLarge,
                     ),
                   ],
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    dayDate.format(DateTime.now()),
+                    style: context.theme.textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  todoState.when(
+                    data: (data) => Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CountWidget(
+                          color: colorTheme?.primaryAccent ?? Colors.green,
+                          data: "${data.where(
+                                (element) => element.priority == Priority.low,
+                              ).length}",
+                        ),
+                        CountWidget(
+                          color: colorTheme?.mainAccent ?? Colors.yellow,
+                          data: "${data.where(
+                                (element) =>
+                                    element.priority == Priority.medium,
+                              ).length}",
+                        ),
+                        CountWidget(
+                          color: colorTheme?.secondaryAccent ?? Colors.purple,
+                          data: "${data.where(
+                                (element) => element.priority == Priority.high,
+                              ).length}",
+                        ),
+                      ],
+                    ),
+                    error: (error, stackTrace) => Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CountWidget(
+                          color: colorTheme?.primaryAccent ?? Colors.green,
+                          data: "??",
+                        ),
+                        CountWidget(
+                          color: colorTheme?.mainAccent ?? Colors.yellow,
+                          data: "??",
+                        ),
+                        CountWidget(
+                          color: colorTheme?.secondaryAccent ?? Colors.purple,
+                          data: "??",
+                        ),
+                      ],
+                    ),
+                    loading: () => Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CountWidget(
+                          color: colorTheme?.primaryAccent ?? Colors.green,
+                          data: "??",
+                        ),
+                        CountWidget(
+                          color: colorTheme?.mainAccent ?? Colors.yellow,
+                          data: "??",
+                        ),
+                        CountWidget(
+                          color: colorTheme?.secondaryAccent ?? Colors.purple,
+                          data: "??",
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
@@ -255,11 +313,11 @@ class TodoScreenAppBar extends StatelessWidget {
 class CountWidget extends StatelessWidget {
   const CountWidget({
     super.key,
-    required this.amount,
+    required this.data,
     required this.color,
   });
 
-  final int amount;
+  final String data;
   final Color color;
   @override
   Widget build(BuildContext context) {
@@ -280,7 +338,7 @@ class CountWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            '$amount',
+            data,
             style: context.theme.textTheme.bodyLarge?.copyWith(
               height: 1,
               fontSize: 14,
