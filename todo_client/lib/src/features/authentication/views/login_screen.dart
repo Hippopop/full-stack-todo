@@ -8,7 +8,6 @@ import 'package:todo_client/src/constants/design/border_radius.dart';
 import 'package:todo_client/src/constants/design/paddings.dart';
 import 'package:todo_client/src/features/authentication/controllers/login_controller.dart';
 import 'package:todo_client/src/features/authentication/views/registration_screen.dart';
-import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
 import 'package:todo_client/src/global/widgets/custom_titled_textfield.dart';
 import 'package:todo_client/src/global/widgets/responsive_two_sided_card.dart';
 import 'package:todo_client/src/system/themes/app_theme.dart';

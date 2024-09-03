@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_client/src/constants/design/paddings.dart';
-import 'package:todo_client/src/system/themes/extensions/colors_theme.dart';
+import 'package:todo_client/src/system/themes/app_theme.dart';
 
 class ImageAvatarWithButton extends StatelessWidget {
   const ImageAvatarWithButton({
