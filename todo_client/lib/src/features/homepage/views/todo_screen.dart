@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';
 import 'package:todo_client/src/constants/assets/images/images.dart';
 import 'package:todo_client/src/constants/server/api_config.dart';
 import 'package:todo_client/src/constants/utils/date_formats.dart';
 import 'package:todo_client/src/features/homepage/controllers/todo_controller.dart';
+import 'package:todo_client/src/features/homepage/views/update_todo.dart';
 import 'package:todo_client/src/repository/repository.dart';
-import 'package:todo_client/src/system/auth/auth_controller.dart';
-import 'package:todo_client/src/system/themes/app_theme.dart';
+import 'package:todo_client/src/services/auth/auth_controller.dart';
+import 'package:todo_client/src/services/themes/app_theme.dart';
 
 import 'widgets/single_todo_widget.dart';
 
@@ -112,6 +114,13 @@ class TODOListView extends ConsumerWidget {
               separatorBuilder: (_, __) => const SizedBox(height: 2),
               itemBuilder: (context, index) => TODOCardWidget(
                 todo: todos[index],
+                onTap: () {
+                  print("Tapped ${todos[index].id}");
+                  context.push(
+                    UpdateTodoCard.route,
+                    extra: todos[index].toJson(),
+                  );
+                },
               ),
             ),
     );

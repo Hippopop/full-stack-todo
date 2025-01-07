@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_dio/fresh_dio.dart';
 import 'package:todo_client/src/constants/server/api_config.dart';
 import 'package:todo_client/src/repository/repository.dart';
-import 'package:todo_client/src/system/auth/auth_controller.dart';
+import 'package:todo_client/src/services/auth/auth_controller.dart';
 
 final tokenInterceptorProvider =
     NotifierProvider<TokenInterceptorNotifier, Interceptor>(

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/repository/server/source/config_provider.dart';
-import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
+import 'package:todo_client/src/utilities/scaffold_utils/snackbar_util.dart';
 import 'package:todo_client/src/data/todo_provider/todo_repository_provider.dart';
 import 'package:todo_client/src/data/todo_provider/todo_repository_impl.dart';
 
@@ -44,6 +44,17 @@ class TodosNotifier extends AsyncNotifier<List<Todo>> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final res = await _provider.addTodo(newTodo: todo);
+      if (res.isSuccess) {
+        showToastSuccess("TODO Successfully Added!");
+      }
+      return getAllTodos();
+    });
+  }
+
+  Future<void> editTodo(Todo todo) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final res = await _provider.updateTodo(newTodo: todo);
       if (res.isSuccess) {
         showToastSuccess("TODO Successfully Added!");
       }

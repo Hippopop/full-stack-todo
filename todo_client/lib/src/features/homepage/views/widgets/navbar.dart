@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_client/src/features/homepage/controllers/navbar_controller.dart';
-import 'package:todo_client/src/system/themes/extensions/extension_themes.dart';
+import 'package:todo_client/src/services/themes/extensions/extension_themes.dart';
 
 class NavigationBarWidget extends ConsumerWidget {
   const NavigationBarWidget({

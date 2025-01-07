@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_dio/fresh_dio.dart';
 import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/repository/storage/auth_repository/authentication_storage.dart';
-import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
+import 'package:todo_client/src/utilities/scaffold_utils/snackbar_util.dart';
 
 import 'models/auth_state/app_authentication.dart';
 

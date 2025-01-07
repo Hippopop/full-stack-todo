@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/constants/server/api_config.dart';
-import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
+import 'package:todo_client/src/utilities/scaffold_utils/snackbar_util.dart';
 
-import 'system/routes/router.dart';
-import 'system/themes/app_theme.dart';
+import 'services/routes/router.dart';
+import 'services/themes/app_theme.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -17,7 +17,7 @@ class MyApp extends ConsumerWidget {
       theme: lightTheme,
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
-      scaffoldMessengerKey: ScaffoldUtilities.instance.key,
+      scaffoldMessengerKey: SnackbarUtil.instance.key,
     );
   }
 }

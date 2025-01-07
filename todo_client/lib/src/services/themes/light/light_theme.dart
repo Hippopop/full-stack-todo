@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_client/src/constants/design/border_radius.dart';
 import 'package:todo_client/src/constants/design/paddings.dart';
-import 'package:todo_client/src/system/themes/extensions/extension_themes.dart';
+import 'package:todo_client/src/services/themes/extensions/extension_themes.dart';
 
-part './default_input_decoration.dart';
-part './default_text_styles.dart';
-part './toned_checkbox.dart';
+part 'default_input_decoration.dart';
+part 'default_text_styles.dart';
+part 'toned_checkbox.dart';
 
 const _theme = Colors.white;
 const _opposite = Colors.black;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_client/src/system/themes/extensions/extension_themes.dart';
+import 'package:todo_client/src/services/themes/extensions/extension_themes.dart';
 
 import 'widgets/navbar.dart';
 

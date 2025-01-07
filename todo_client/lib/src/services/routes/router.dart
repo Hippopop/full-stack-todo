@@ -8,7 +8,7 @@ import 'package:todo_client/src/features/homepage/views/add_todo.dart';
 import 'package:todo_client/src/features/homepage/views/filter_screen.dart';
 import 'package:todo_client/src/features/homepage/views/homepage.dart';
 import 'package:todo_client/src/features/homepage/views/todo_screen.dart';
-import 'package:todo_client/src/system/auth/auth_controller.dart';
+import 'package:todo_client/src/services/auth/auth_controller.dart';
 
 import 'transitions/animated_dialogue_route.dart';
 
@@ -52,6 +52,13 @@ final goRouterProvider = Provider<GoRouter>(
               builder: (context, state) => const FilterTodoScreen(),
             ),
           ],
+        ),
+        GoRoute(
+          path: AddTodoCard.route,
+          parentNavigatorKey: rootNavigatorKey,
+          pageBuilder: (context, state) => const AnimatedDialogueBuilder(
+            child: AddTodoCard(),
+          ),
         ),
         GoRoute(
           path: AddTodoCard.route,

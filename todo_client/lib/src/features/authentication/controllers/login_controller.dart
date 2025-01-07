@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/data/auth_provider/auth_repository_provider.dart';
 import 'package:todo_client/src/repository/server/source/config_provider.dart';
-import 'package:todo_client/src/system/auth/auth_controller.dart';
+import 'package:todo_client/src/services/auth/auth_controller.dart';
 
 import '../models/login_model/login_state.dart';
 
@@ -58,29 +58,30 @@ class LoginStateNotifier extends AsyncNotifier<LoginState> {
 
   void attemptLogin() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final currentValue = state.requireValue;
-      final res = await _repository.login(
-        email: currentValue.email!,
-        password: currentValue.password!,
-      );
-      print(res.rawData);
-      if (res.isSuccess) {
-        final notifier = ref.read(authStateNotifierProvider.notifier);
-        await notifier.saveAppUser(res.data!.user);
-        await notifier.saveUserToken(res.data!.token);
-        return currentValue.copyWith(
-          authorized: true,
-          responseMsg: (level: 1, msg: res.msg),
+    state = await AsyncValue.guard(
+      () async {
+        final currentValue = state.requireValue;
+        final res = await _repository.login(
+          email: currentValue.email!,
+          password: currentValue.password!,
         );
-      } else {
-        return currentValue.copyWith(
-          responseMsg: (
-            level: res.status ?? 0,
-            msg: res.error!.first.description
-          ),
-        );
-      }
-    });
+        if (res.isSuccess) {
+          final notifier = ref.read(authStateNotifierProvider.notifier);
+          await notifier.saveAppUser(res.data!.user);
+          await notifier.saveUserToken(res.data!.token);
+          return currentValue.copyWith(
+            authorized: true,
+            responseMsg: (level: 1, msg: res.msg),
+          );
+        } else {
+          return currentValue.copyWith(
+            responseMsg: (
+              level: res.status ?? 0,
+              msg: res.error!.first.description
+            ),
+          );
+        }
+      },
+    );
   }
 }

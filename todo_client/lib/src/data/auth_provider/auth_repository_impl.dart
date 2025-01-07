@@ -7,8 +7,10 @@ class AuthProvider extends AuthRepository {
   AuthProvider({required super.requestHandler});
 
   @override
-  Future<ResponseWrapper<AuthResponse>> login(
-      {required String email, required String password}) async {
+  Future<ResponseWrapper<AuthResponse>> login({
+    required String email,
+    required String password,
+  }) async {
     final raw = await requestHandler.post(
       APIConfig.login,
       {"email": email, "password": password},
@@ -21,8 +23,9 @@ class AuthProvider extends AuthRepository {
   }
 
   @override
-  Future<ResponseWrapper<UserToken>> refreshToken(
-      {required String refreshToken}) async {
+  Future<ResponseWrapper<UserToken>> refreshToken({
+    required String refreshToken,
+  }) async {
     final raw = await requestHandler
         .post(APIConfig.refresh, {"refreshToken": refreshToken});
     return ResponseWrapper<UserToken>.fromMap(

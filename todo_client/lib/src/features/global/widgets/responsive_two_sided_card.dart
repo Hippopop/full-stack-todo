@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_client/src/constants/design/border_radius.dart';
 import 'package:todo_client/src/constants/design/paddings.dart';
-import 'package:todo_client/src/system/themes/app_theme.dart';
+import 'package:todo_client/src/services/themes/app_theme.dart';
 
 class ResponsiveTwoSidedCard extends StatelessWidget {
   const ResponsiveTwoSidedCard({

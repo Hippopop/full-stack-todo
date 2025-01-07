@@ -10,17 +10,17 @@ class AnimatedDialogueBuilder<T> extends Page<T> {
   final CapturedThemes? themes;
 
   const AnimatedDialogueBuilder({
-    required this.child,
-    this.anchorPoint,
-    this.barrierColor = Colors.black54,
-    this.barrierDismissible = true,
-    this.barrierLabel,
-    this.useSafeArea = true,
-    this.themes,
     super.key,
     super.name,
     super.arguments,
     super.restorationId,
+    this.themes,
+    this.anchorPoint,
+    this.barrierLabel,
+    required this.child,
+    this.useSafeArea = true,
+    this.barrierDismissible = true,
+    this.barrierColor = Colors.black54,
   });
 
   @override
@@ -34,8 +34,8 @@ class AnimatedDialogueBuilder<T> extends Page<T> {
         transitionDuration: const Duration(milliseconds: 350),
         transitionBuilder: (_, animation, __, child) => SlideTransition(
           position: Tween(
-            begin: const Offset(0, 1),
             end: const Offset(0, 0),
+            begin: const Offset(0, 1),
           ).animate(animation),
           child: ScaleTransition(
             scale: Tween<double>(begin: 0, end: 1.00).animate(

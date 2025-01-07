@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:todo_client/src/constants/design/paddings.dart';
-import 'package:todo_client/src/system/auth/auth_controller.dart';
-import 'package:todo_client/src/system/themes/app_theme.dart';
+import 'package:todo_client/src/services/auth/auth_controller.dart';
+import 'package:todo_client/src/services/themes/app_theme.dart';
 
 class FilterTodoScreen extends StatelessWidget {
   const FilterTodoScreen({super.key});

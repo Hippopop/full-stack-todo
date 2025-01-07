@@ -7,15 +7,19 @@ import 'package:todo_client/src/repository/repository.dart';
 import 'package:todo_client/src/utilities/extensions/string_extensions.dart';
 import 'package:todo_client/src/utilities/scaffold_utils/snackbar_util.dart';
 
-class AddTodoCard extends ConsumerStatefulWidget {
-  const AddTodoCard({super.key});
-  static const route = '/add_todo';
+class UpdateTodoCard extends ConsumerStatefulWidget {
+  const UpdateTodoCard({
+    super.key,
+    required this.selectedTodo,
+  });
+  final Todo selectedTodo;
+  static const route = '/update_todo';
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AddTodoCardState();
 }
 
-class _AddTodoCardState extends ConsumerState<AddTodoCard> {
+class _AddTodoCardState extends ConsumerState<UpdateTodoCard> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
@@ -23,8 +27,11 @@ class _AddTodoCardState extends ConsumerState<AddTodoCard> {
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController();
-    _descriptionController = TextEditingController();
+    _status = widget.selectedTodo.state;
+    _priority = widget.selectedTodo.priority;
+    _titleController = TextEditingController(text: widget.selectedTodo.title);
+    _descriptionController =
+        TextEditingController(text: widget.selectedTodo.description);
   }
 
   @override
@@ -45,17 +52,17 @@ class _AddTodoCardState extends ConsumerState<AddTodoCard> {
   _submitTodoForm() async {
     if (_formKey.currentState?.validate() ?? false) {
       final todo = Todo(
-        id: 0,
+        id: widget.selectedTodo.id,
         state: _status,
         priority: _priority,
         title: _titleController.text,
         description: _descriptionController.text,
       );
-      await ref
-          .read(todosController.notifier)
-          .addTodo(todo)
-          .then((value) => context.pop())
-          .catchError((e, s) {
+      await ref.read(todosController.notifier).editTodo(todo).then((value) {
+        if (context.mounted) {
+          context.pop();
+        }
+      }).catchError((e, s) {
         showToastError(e.toString());
       });
     }
@@ -89,7 +96,7 @@ class _AddTodoCardState extends ConsumerState<AddTodoCard> {
                           children: [
                             const SizedBox(height: 16),
                             const Text(
-                              'Create a new Todo',
+                              'Update Todo',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,

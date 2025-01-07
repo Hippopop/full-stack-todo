@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 import 'package:todo_client/src/constants/server/api_config.dart';
 import 'package:todo_client/src/repository/server/source/helpers/response_wrapper.dart';
-import 'package:todo_client/src/utilities/dribble_snackbar/scaffold_utilities.dart';
+import 'package:todo_client/src/utilities/scaffold_utils/snackbar_util.dart';
 
 class RequestHandler {
   final Dio _dio;
@@ -16,7 +16,7 @@ class RequestHandler {
     this.interceptor,
   }) : _dio = (Dio(
           BaseOptions(
-            baseUrl: APIConfig.baseURl,
+            baseUrl: baseURl,
             receiveDataWhenStatusError: true,
             validateStatus: (status) => true,
           ),
@@ -182,7 +182,7 @@ class RequestHandler {
 /// NOTE: JUST FOR TESTING & HANDLING RESPONSE!
 typedef EmptyType = String;
 // ignore: constant_identifier_names
-const EMPTY = "EMPTY";
+const sEMPTY = "EMPTY";
 
 class RequestException implements Exception {
   String url;
@@ -221,7 +221,7 @@ class RequestException implements Exception {
       if (res != null) {
         final pursedData = ResponseWrapper<EmptyType>.fromMap(
           rawResponse: res!,
-          purserFunction: (rawData) => EMPTY,
+          purserFunction: (rawData) => sEMPTY,
         );
         if (pursedData.isSuccess) {
           /* Means Purser caused the error! */

@@ -1,4 +1,4 @@
-part of 'package:todo_client/src/system/themes/light/light_theme.dart';
+part of 'package:todo_client/src/services/themes/light/light_theme.dart';
 
 final _manropeLabelMidium = GoogleFonts.manrope(
   fontSize: 14,
