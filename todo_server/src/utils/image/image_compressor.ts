@@ -46,7 +46,7 @@ const _getBufferSizeInMB = (buffer: Buffer) => {
     return outputPath;
 } */
 
-async function compressImageBufferToWebp(imageName: string, buffer: Buffer, targetSizeMB: number): Promise<Buffer> {
+async function compressImageBufferToWebp(buffer: Buffer, targetSizeMB: number): Promise<Buffer> {
     let finalBuffer = await sharp(buffer).metadata().then(({ width, height }) => {
         return sharp(buffer)
             .rotate()
@@ -69,9 +69,11 @@ async function compressImageBufferToWebp(imageName: string, buffer: Buffer, targ
         });
 
         bufferSize = _getBufferSizeInMB(finalBuffer);
-        console.log(`Buffer size: ${bufferSize.toFixed(2)} MB`);
         iteration++;
+
+        console.log(`Buffer size: ${bufferSize.toFixed(2)} MB`);
     };
+
     if (iteration === maxIterations) {
         console.log('Reached maximum iterations, the target size might not be met.');
         console.log(`Image compressed successfully to ${bufferSize.toFixed(2)} MB`);

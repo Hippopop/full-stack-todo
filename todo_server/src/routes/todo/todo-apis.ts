@@ -87,7 +87,6 @@ todoRoute.delete(
   })
 );
 
-/** Same Issue as [delete()] **/
 todoRoute.put(
   "/update",
   wrapperFunction({

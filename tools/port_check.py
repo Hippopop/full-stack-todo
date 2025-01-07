@@ -1,4 +1,5 @@
 """(#socket) Package that provides a socket to test connection with ports!"""
+
 import socket
 
 
@@ -9,5 +10,5 @@ def is_port_open(host, port):
             tester_socket.settimeout(5)
             tester_socket.connect((host, port))
             return True
-    except (ConnectionRefusedError, socket.timeout) as error:
+    except (ConnectionRefusedError, socket.timeout):
         return False

@@ -5,7 +5,7 @@
   "description": "A simple todo recording server.",
   "scripts": {
     "build": "npm i && tsc",
-    "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node src/index.ts\""
+    "dev": "nodemon src/index.ts"
   },
   "author": "Mostafijul Islam",
   "license": "ISC",

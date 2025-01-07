@@ -70,23 +70,23 @@ authRoute.post(
       if (data.success) {
         const authData = await auth.register(data.data);
         let imagePath: string | undefined;
-        console.log(req.file?.path, req.file?.mimetype, req.file?.filename, req.file?.size, req.file?.buffer, req.file?.originalname);
+
         if (req.file) {
-          console.log("Inserting file to DB!");
+          const extension = 'webp';
           const uniqueSuffix = Date.now() + "_" + Math.round(Math.random() * 1e9);
-          const defaultName = `$Image_${uniqueSuffix}.webp`;
-          const buffer = await compressImageBufferToWebp((req.file.filename ?? defaultName), req.file.buffer, 0.02);
+          const defaultName = `$Image_${uniqueSuffix}.${extension}`;
+
+          const buffer = await compressImageBufferToWebp(req.file.buffer, 0.02);
+          imagePath = `/auth/user_image?type=profile&uuid=${authData.uuid}&name=${defaultName}`;
+
           const image = await insertImage({
             type: "profile",
             name: defaultName,
             imageFile: buffer,
             uuid: authData.uuid,
-            extension: req.file.mimetype.split("/")[1] ?? "unknown",
-            // imageFile: (req.file.path) ? (await fs.readFile(req.file.path)) : req.file.buffer,
+            extension: extension,
           });
-          imagePath = `/auth/user_image?type=profile&uuid=${authData.uuid}&name=${image.name}`;
         }
-
 
         const userData = await createUser({
           uid: 0,
